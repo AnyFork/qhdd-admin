@@ -1,0 +1,26 @@
+[
+  { "name": "渐近", "alias": "back", "entrances": ["backInDown", "backInLeft", "backInRight", "backInUp"], "exits": ["backOutDown", "backOutLeft", "backOutRight", "backOutUp"] },
+  {
+    "name": "弹跳",
+    "alias": "bounce",
+    "entrances": ["bounceIn", "bounceInDown", "bounceInLeft", "bounceInRight", "bounceInUp"],
+    "exits": ["bounceOut", "bounceOutDown", "bounceOutLeft", "bounceOutRight", "bounceOutUp"]
+  },
+  {
+    "name": "淡化",
+    "alias": "fade",
+    "entrances": ["fadeInDownBig", "fadeInLeftBig", "fadeInRightBig", "fadeInUpBig", "fadeInTopLeft", "fadeInTopRight", "fadeInBottomLeft", "fadeInBottomRight"],
+    "exits": ["fadeOutDownBig", "fadeOutLeftBig", "fadeOutRightBig", "fadeOutUpBig", "fadeOutTopLeft", "fadeOutTopRight", "fadeOutBottomRight", "fadeOutBottomLeft"]
+  },
+  { "name": "翻转", "alias": "flip", "entrances": ["flipInX", "flipInY"], "exits": ["flipOutX", "flipOutY"] },
+  { "name": "光速", "alias": "lightSpeed", "entrances": ["lightSpeedInRight", "lightSpeedInLeft"], "exits": ["lightSpeedOutRight", "lightSpeedOutLeft"] },
+  {
+    "name": "旋转",
+    "alias": "rotate",
+    "entrances": ["rotateIn", "rotateInDownLeft", "rotateInDownRight", "rotateInUpLeft", "rotateInUpRight"],
+    "exits": ["rotateOut", "rotateOutDownLeft", "rotateOutDownRight", "rotateOutUpLeft", "rotateOutUpRight"]
+  },
+  { "name": "翻滚", "alias": "roll", "entrances": ["rollIn"], "exits": ["rollOut"] },
+  { "name": "缩放", "alias": "zoom", "entrances": ["zoomIn", "zoomInDown", "zoomInLeft", "zoomInRight", "zoomInUp"], "exits": ["zoomOut", "zoomOutDown", "zoomOutLeft", "zoomOutRight", "zoomOutUp"] },
+  { "name": "滑动", "alias": "slide", "entrances": ["slideInDown", "slideInLeft", "slideInRight", "slideInUp"], "exits": ["slideOutDown", "slideOutLeft", "slideOutRight", "slideOutUp"] }
+]
