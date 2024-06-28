@@ -1,8 +1,21 @@
-const dashboard = {
+/**
+ * 平台模块路由
+ */
+const platform = {
     name: 'platform',
     path: '/platform',
     component: 'basic',
     children: [
+        {
+            name: 'platform_picture',
+            path: '/platform/picture',
+            component: 'self',
+            meta: {
+                title: '图片管理',
+                requiresAuth: true,
+                icon: 'gravity-ui:picture'
+            }
+        },
         {
             name: 'platform_admin',
             path: '/platform/admin',
@@ -26,9 +39,9 @@ const dashboard = {
     ],
     meta: {
         title: '平台信息管理',
-        icon: 'icon-park-outline:workbench',
-        order: 2
+        icon: 'tdesign:control-platform',
+        order: 1
     }
 }
 
-export default dashboard
+export default platform

@@ -65,6 +65,7 @@ declare module '@vue/runtime-core' {
     MixMenuDetail: typeof import('./../layouts/components/GlobalSider/components/VerticalMixSider/components/MixMenuDetail.vue')['default']
     MixMenuDrawer: typeof import('./../layouts/components/GlobalSider/components/VerticalMixSider/components/MixMenuDrawer.vue')['default']
     ModifyAdminDialog: typeof import('./../components/business/platformManage/admin/ModifyAdminDialog.vue')['default']
+    ModifyPersonDialog: typeof import('./../components/business/platformManage/admin/ModifyPersonDialog.vue')['default']
     NAlert: typeof import('naive-ui')['NAlert']
     NAvatar: typeof import('naive-ui')['NAvatar']
     NBackTop: typeof import('naive-ui')['NBackTop']

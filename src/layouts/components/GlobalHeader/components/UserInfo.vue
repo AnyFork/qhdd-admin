@@ -1,21 +1,27 @@
 <template>
-    <n-space justify="space-around" align="center" style="gap:8px;margin-right: 20px;cursor: pointer;">
-        <n-avatar round v-if="user.avatar" size="small" :src="user.avatar"></n-avatar>
-        <n-el tag="span" v-text="user.name"></n-el>
+    <n-space justify="space-around" align="center" style="gap: 8px; margin-right: 20px; cursor: pointer">
+        <n-avatar round size="small" :src="userInfo?.avatar ?? userImg" class="mt-2"></n-avatar>
+        <n-dropdown trigger="hover" :options="options" @select="handleSelect">
+            <n-el tag="span" class="font-bold">{{ userInfo?.name }}</n-el>
+        </n-dropdown>
+        <ModifyPersonDialog v-if="modifyShow" v-model:open="modifyShow" :rowNode="userInfo"></ModifyPersonDialog>
     </n-space>
 </template>
 <script setup lang="ts">
 import { getUserInfo } from '@/utils'
 import userImg from '@/assets/images/user.png'
-const user = reactive({
-    avatar: userImg,
-    name: ""
-})
-onMounted(() => {
-    const data = getUserInfo() as any
-    if (data.avatar) {
-        user.avatar = data.avatar
+const modifyShow = ref(false)
+const userInfo = ref<system.adminInfo>()
+const options = [
+    {
+        label: '修改信息',
+        key: 'myBaseInfo'
     }
-    user.name = data.name
+]
+const handleSelect = (key: string | number) => {
+    modifyShow.value = true
+}
+onMounted(() => {
+    userInfo.value = getUserInfo() as system.adminInfo
 })
 </script>
