@@ -24,6 +24,8 @@
     <ModifyAdminDialog v-if="modifyShow" v-model:open="modifyShow" :roleList="rolesSelectOptions" :rowNode="rowNode" @refresh="adminList"></ModifyAdminDialog>
 </template>
 <script setup lang="ts">
+import { system } from '@/types/api';
+
 const size = ref<'small' | 'medium' | 'large'>('medium')
 const striped = ref(true)
 const { height } = useWindowSize()

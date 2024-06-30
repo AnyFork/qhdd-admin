@@ -8,7 +8,7 @@
                 <n-input v-model:value="moduleValue.phone" placeholder="输入手机号码" />
             </n-form-item>
             <n-form-item label="用户图像">
-                <upload v-model:url="moduleValue.avatar"></upload>
+                <UploadAvatar v-model:url="moduleValue.avatar"></UploadAvatar>
             </n-form-item>
             <n-form-item label="密码" path="password">
                 <n-input v-model:value="moduleValue.password" placeholder="输入密码" type="password" @input="handlePasswordInput" />

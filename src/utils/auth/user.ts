@@ -1,5 +1,6 @@
 import { EnumStorageKey } from '@/enum'
 import { setSession, getSession, removeSession } from '../storage'
+import { system } from '@/types/api'
 
 /**
  * 设置token

@@ -1,7 +1,7 @@
 <template>
-    <n-upload action="/apis/upload/file" :default-file-list="filePreview" :on-finish="finish" directory-dnd :on-before-upload="beforeUpload" :on-remove="remove" list-type="image-card" :max="1" :headers="{ satoken: token?.tokenValue }">
+    <n-upload action="/apis/upload/avatar" :default-file-list="filePreview" :on-finish="finish" directory-dnd :on-before-upload="beforeUpload" :on-remove="remove" list-type="image-card" :max="1" :headers="{ satoken: token?.tokenValue }">
         <n-upload-dragger class="flex-col-center">
-            <Icon icon="icons8:upload-2" width="30"/>
+            <Icon icon="icons8:upload-2" width="30" />
             <n-text style="font-size: 12px; color: #999">点击/拖拽</n-text>
         </n-upload-dragger>
     </n-upload>

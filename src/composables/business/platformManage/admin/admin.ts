@@ -1,3 +1,4 @@
+import { system } from '@/types/api'
 import { deleteAdmin, updateAdmin } from '@/utils'
 import { DataTableColumns, FormInst, FormItemRule, NAvatar, NButton, NPopconfirm, NPopover, NSwitch } from 'naive-ui'
 

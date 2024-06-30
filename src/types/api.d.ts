@@ -1,3 +1,4 @@
+import { attachmentGroupList } from './../utils/http/api';
 // 后端接口返回的数据类型
 
 /** 后端返回的用户权益相关类型 */
@@ -100,5 +101,105 @@ declare namespace system {
          * 角色名称
          */
         roleName: string
+    }
+}
+
+/**
+ * 商户模块命名空间
+ */
+declare namespace store {
+    /**
+     * 附件分组
+     */
+    interface attachmentGroup {
+        /**
+         * 分组id
+         */
+        id: number
+        /**
+        * 分组名称
+        */
+        name: string
+        /**
+          * 分组类型 0 平台 1 商户
+          */
+        type: 0 | 1
+        /**
+         * 所属用户id
+         */
+        uid: number
+        /**
+         * 平台id
+         */
+        uniacid: number
+    }
+    /**
+     * 附件类型
+     */
+    interface attachment {
+        /**
+         * 代理ID
+         */
+        agentid: number
+        /**
+         * 文件url
+         */
+        attachment: string
+        /**
+         * 创建时间
+         */
+        createtime: number
+        /**
+         * 顺序
+         */
+        displayorder: number
+        /**
+         * 文件名称
+         */
+        filename: string
+        /**
+         * 分组id
+         */
+        groupId: number
+        /**
+         * 附件id
+         */
+        id: number
+        /**
+         * 上传目录
+         */
+        moduleUploadDir: string
+        /**
+         * 角色名称
+         */
+        role: string
+        /**
+         * 角色id
+         */
+        roleid: number
+        /**
+         * 商户门店ID
+         */
+        sid: number
+        /**
+         * 类型 0 平台 1商户，2顾客，3骑手
+         */
+        type: 0 | 1 | 2 | 3
+        /**
+         * 用户id
+         */
+        uid: number
+        /**
+         * 平台id
+         */
+        uniacid: number
+        /**
+         * 附件完整地址
+         */
+        url: string,
+        /**
+         * 是否选中
+         */
+        checked: boolean
     }
 }

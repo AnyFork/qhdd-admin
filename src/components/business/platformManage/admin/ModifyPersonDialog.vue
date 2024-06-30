@@ -11,7 +11,7 @@
                 <n-input v-model:value="moduleValue.phone" placeholder="输入手机号码" />
             </n-form-item>
             <n-form-item label="用户图像">
-                <upload v-if="show" v-model:url="moduleValue.avatar"></upload>
+                <UploadAvatar v-if="show" v-model:url="moduleValue.avatar"></UploadAvatar>
             </n-form-item>
         </n-form>
         <template #action>
@@ -20,6 +20,7 @@
     </n-modal>
 </template>
 <script setup lang="ts">
+import { system } from '@/types/api';
 import { NButton } from 'naive-ui'
 const { formRef, rules, moduleValue, updateAdminInfo, loading, message } = useAdmin()
 const open = defineModel<boolean>('open')

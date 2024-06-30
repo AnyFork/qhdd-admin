@@ -2,17 +2,6 @@
 export const loginApi = '/AccAdmin/doLogin'
 // 用户注销
 export const logOutApi = '/AccAdmin/doExit'
-// 获取seo列表信息
-export const seoList = '/DSeoInfo/getList'
-// 根据module和symbol获取详情数据
-export const getByModuleAndSymbol = '/DSeoInfo/getByModuleAndSymbol'
-// 新增
-export const add = '/DSeoInfo/add'
-// 修改
-export const update = '/DSeoInfo/update'
-// 删除数据
-export const deleteApi = '/DSeoInfo/delete'
-
 // 用户登录日志
 export const loginLog = '/SpAdminLogin/getList'
 //用户列表
@@ -23,10 +12,30 @@ export const deleteUser = '/admin/deleteByIds'
 export const updatePassword = '/admin/updatePassword'
 // 获取角色列表
 export const roleList = '/role/getList'
-
 // 新增平台用户
 export const addUser = '/admin/add'
 // 修改平台用户
 export const updateAdmin = '/admin/update'
 // 删除平台用户
 export const deleteAdmin = '/admin/delete'
+
+// 图片分组列表
+export const attachmentGroupList = '/attachmentGroup/getList'
+// 添加附件分组
+export const addAttachmentGroup = '/attachmentGroup/add'
+// 删除分组
+export const deleteAttachmentGroup = '/attachmentGroup/delete'
+// 修改分组
+export const updateAttachmentGroup = '/attachmentGroup/update'
+
+
+// 获取附件列表
+export const attachmentList = '/attachment/getList'
+// 修改附件名称
+export const updateAttachmentInfo = '/attachment/update'
+// 删除图片
+export const deleteAttachmentInfo = '/attachment/removeGroup'
+// 批量删除图片
+export const deleteAttachmentBatch = '/attachment/removeGroupByIds'
+// 批量移动图片分组
+export const moveAttachmentGroup = '/attachment/setGroupByIds'

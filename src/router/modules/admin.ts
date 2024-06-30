@@ -11,7 +11,7 @@ const platform = {
             path: '/platform/picture',
             component: 'self',
             meta: {
-                title: '图片管理',
+                title: '图片资源管理',
                 requiresAuth: true,
                 icon: 'gravity-ui:picture'
             }

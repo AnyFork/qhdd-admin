@@ -31,6 +31,7 @@
 </template>
 <script setup lang="ts">
 import { useInstance } from '@/composables'
+import { system } from '@/types/api';
 import { loginLog } from '@/utils'
 import { DataTableColumns, NAvatar } from 'naive-ui'
 const size = ref<'small' | 'medium' | 'large'>('medium')
