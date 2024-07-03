@@ -4,7 +4,7 @@
     {{ JSON.stringify(node) }}
 </template>
 <script setup lang="ts">
-import { store } from '@/types/api'
+import { system } from '@/types/api'
 const open = ref(false)
-const node = ref<store.attachment>()
+const node = ref<system.attachment>()
 </script>

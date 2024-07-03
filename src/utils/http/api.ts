@@ -39,3 +39,12 @@ export const deleteAttachmentInfo = '/attachment/removeGroup'
 export const deleteAttachmentBatch = '/attachment/removeGroupByIds'
 // 批量移动图片分组
 export const moveAttachmentGroup = '/attachment/setGroupByIds'
+
+// 平台商品分类导航树型数据
+export const categoryTree = '/storeCategory/getTree'
+// 创建子分类
+export const addCategory = '/storeCategory/add'
+// 删除分类
+export const removeCategory = '/storeCategory/delete'
+// 修改分类
+export const updateCategory = '	/storeCategory/update'

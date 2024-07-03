@@ -7,6 +7,16 @@ const platform = {
     component: 'basic',
     children: [
         {
+            name: 'platform_category',
+            path: '/platform/category',
+            component: 'self',
+            meta: {
+                title: '平台分类导航',
+                requiresAuth: true,
+                icon: 'iconamoon:category'
+            }
+        },
+        {
             name: 'platform_picture',
             path: '/platform/picture',
             component: 'self',
@@ -33,7 +43,7 @@ const platform = {
             meta: {
                 title: '用户登录日志',
                 requiresAuth: true,
-                icon: 'tabler:logs' 
+                icon: 'tabler:logs'
             }
         }
     ],

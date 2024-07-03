@@ -1,8 +1,8 @@
 <template>
-    <n-modal v-model:show="open" preset="dialog" title="编辑分组" :close-on-esc="false">
+    <n-modal v-model:show="open" preset="dialog" title="编辑图片名称" :close-on-esc="false">
         <n-form ref="formRef" :show-label="false" :model="moduleValue" :rules="rules" size="medium" label-placement="left" style="margin-top: 20px">
-            <n-form-item path="name">
-                <n-input v-model:value="moduleValue.name" placeholder="请输入分组名称" />
+            <n-form-item path="filename">
+                <n-input v-model:value="moduleValue.filename" placeholder="请输入图片名称" />
             </n-form-item>
         </n-form>
         <template #action>
@@ -11,10 +11,10 @@
     </n-modal>
 </template>
 <script setup lang="ts">
-import { store } from '@/types/api'
-const { formRef, rules, moduleValue, updateGroupInfo, loading, message } = usePictureGroup()
+import { system } from '@/types/api'
+const { formRef, rules, moduleValue, updateAttachment, loading, message } = usePictureGroup()
 const open = defineModel<boolean>('open')
-const props = defineProps<{ node: store.attachmentGroup }>()
+const props = defineProps<{ node: system.attachment }>()
 const emit = defineEmits<{ refresh: [] }>()
 
 /**
@@ -25,7 +25,7 @@ const submitCallback = (e: MouseEvent) => {
     e.preventDefault
     formRef.value?.validate(async (errors) => {
         if (!errors) {
-            await updateGroupInfo(props.node.id, moduleValue.name)
+            await updateAttachment(props.node.id, moduleValue.filename)
             open.value = false
             emit('refresh')
             //清除表单数据
@@ -39,6 +39,6 @@ const submitCallback = (e: MouseEvent) => {
     })
 }
 onMounted(() => {
-    moduleValue.name = props.node.name
+    moduleValue.filename = props.node.filename
 })
 </script>

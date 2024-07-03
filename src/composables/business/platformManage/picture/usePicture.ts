@@ -1,6 +1,6 @@
-import { store } from "@/types/api"
+import { system } from "@/types/api"
 import { Icon } from "@iconify/vue"
-import { DropdownOption, FormInst, FormItemRule, NPopover, TreeOption } from "naive-ui"
+import { FormInst, FormItemRule, NPopover, TreeOption } from "naive-ui"
 import { SelectBaseOption } from "naive-ui/es/select/src/interface"
 import qs from "qs"
 
@@ -18,17 +18,17 @@ export const usePictureGroup = () => {
     const modifyGroup = ref(false)
     const modifyPicture = ref(false)
     // 编辑分组时选择的节点
-    const modifyGroupNode = ref<store.attachmentGroup>()
+    const modifyGroupNode = ref<system.attachmentGroup>()
     // 编辑图片时选择的节点
-    const modifyPictureNode = ref<store.attachment>()
-    const type = ref<store.attachment['type']>(0)
+    const modifyPictureNode = ref<system.attachment>()
+    const type = ref<system.attachment['type']>(0)
     // 选中的图片id集合
     const selectedPictureIds = ref<Array<number>>([])
     // 选中的图片节点信息
-    const selectedPictureNode = ref<store.attachment[]>([])
+    const selectedPictureNode = ref<system.attachment[]>([])
     const dialog = useDialog()
     const currentGroup = ref<undefined | number>(undefined)
-    const pictures = ref<store.attachment[]>([])
+    const pictures = ref<system.attachment[]>([])
     const groupArray = ref()
     // 移动下拉框
     const selectOption = ref()
@@ -103,7 +103,7 @@ export const usePictureGroup = () => {
      * @param item 
      * @returns 
      */
-    const options = (item: store.attachment) => {
+    const options = (item: system.attachment) => {
         if (item.groupId == 0) {
             return [
                 {
@@ -197,7 +197,7 @@ export const usePictureGroup = () => {
      * @param item 修改节点的数据
      * @returns 
      */
-    const editorIcon = (disabled: boolean = false, item: store.attachmentGroup) => {
+    const editorIcon = (disabled: boolean = false, item: system.attachmentGroup) => {
         if (userInfo?.roleName === '系统管理员' || !disabled) {
             return h(
                 NPopover,
@@ -247,7 +247,7 @@ export const usePictureGroup = () => {
             const { data } = await $axios.get(`${attachmentGroupList}?${qs.stringify({ pageNo: 1, pageSize: 500 })}`)
             loading.value = false
             if (data.code === 200) {
-                const treeData = data.data.map((item: store.attachmentGroup) => {
+                const treeData = data.data.map((item: system.attachmentGroup) => {
                     return {
                         label: item.name,
                         key: item.id,
@@ -556,7 +556,7 @@ export const usePictureGroup = () => {
      * 选中事件
      * @param item 
      */
-    const checkItem = (item: store.attachment) => {
+    const checkItem = (item: system.attachment) => {
         if (item?.checked) {
             item.checked = false
             selectedPictureIds.value = selectedPictureIds.value.filter((id: number) => id !== item.id)

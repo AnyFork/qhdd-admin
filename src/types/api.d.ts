@@ -102,15 +102,9 @@ declare namespace system {
          */
         roleName: string
     }
-}
-
-/**
- * 商户模块命名空间
- */
-declare namespace store {
     /**
-     * 附件分组
-     */
+    * 附件分组
+    */
     interface attachmentGroup {
         /**
          * 分组id
@@ -202,4 +196,58 @@ declare namespace store {
          */
         checked: boolean
     }
+    /**
+     * 平台导航分类
+     */
+    interface category {
+        /**
+         * 代理ID
+         */
+        agentid: number
+        /**
+         * 平台id
+         */
+        uniacid: number
+        /**
+         * 排序
+         */
+        displayorder: number
+        /**
+         * 分类id
+         */
+        id: number
+        /**
+         * 父分类id
+         */
+        parentid: number
+        /**
+         * 分类标题
+         */
+        title: string
+        /**
+         * 图标
+         */
+        thumb: string
+        /**
+         * 是否显示(1=显示,0=不显示) 
+         */
+        status: number
+        /**
+         * 类型(0=品类,1=区域,2=活动)
+         */
+        type: 0 | 1 | 2
+    }
+    /**
+     * 树形分类类型
+     */
+    interface rowData extends system.category {
+        children?: rowData[]
+    }
+}
+
+/**
+ * 商户模块命名空间
+ */
+declare namespace store {
+
 }

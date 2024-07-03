@@ -90,10 +90,10 @@
 </template>
 
 <script setup lang="ts">
-import { store } from '@/types/api'
+import { system } from '@/types/api'
 
 const open = defineModel<boolean>('open')
-const node = defineModel<store.attachment>('node')
+const node = defineModel<system.attachment>('node')
 const {
     loading,
     message,
