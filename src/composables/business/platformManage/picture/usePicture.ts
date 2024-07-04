@@ -568,6 +568,14 @@ export const usePictureGroup = () => {
         }
     }
     /**
+     * 清除选中
+     */
+    const removeChecked = () => {
+        pictures.value.forEach(item => item.checked = false);
+        selectedPictureIds.value = []
+        selectedPictureNode.value = []
+    }
+    /**
      * 移动分组选中
      * @param value 选中的值
      * @param option 选项
@@ -582,5 +590,5 @@ export const usePictureGroup = () => {
         }
     }
 
-    return { updateGroupInfo, pagination, loading, formRef, moduleValue, rules, addPicture, $axios, message, changePage, search, attachmentGroup, groupArray, attachmentInfoList, pictures, nodeProps, options, Icon, modifyGroupNode, createGroup, modifyGroup, updateAttachment, modifyPicture, modifyPictureNode, currentGroup, deleteBatch, checkItem, selectOption, moveGroup, selectChange, selectedPictureNode }
+    return { updateGroupInfo, pagination, removeChecked, loading, formRef, moduleValue, rules, addPicture, $axios, message, changePage, search, attachmentGroup, groupArray, attachmentInfoList, pictures, nodeProps, options, Icon, modifyGroupNode, createGroup, modifyGroup, updateAttachment, modifyPicture, modifyPictureNode, currentGroup, deleteBatch, checkItem, selectOption, moveGroup, selectChange, selectedPictureNode }
 }

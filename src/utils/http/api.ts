@@ -40,6 +40,7 @@ export const deleteAttachmentBatch = '/attachment/removeGroupByIds'
 // 批量移动图片分组
 export const moveAttachmentGroup = '/attachment/setGroupByIds'
 
+
 // 平台商品分类导航树型数据
 export const categoryTree = '/storeCategory/getTree'
 // 创建子分类
@@ -47,4 +48,31 @@ export const addCategory = '/storeCategory/add'
 // 删除分类
 export const removeCategory = '/storeCategory/delete'
 // 修改分类
-export const updateCategory = '	/storeCategory/update'
+export const updateCategory = '/storeCategory/update'
+// 平台分类列表
+export const storeCategory = '/storeCategory/getList'
+
+
+// 商户列表
+export const storeList = '/store/getList'
+// 删除商户
+export const removeStore = '/store/delete'
+// 修改商户
+export const updateStore = '/store/update'
+// 创建商户
+export const addStore = '/store/add'
+// 批量修改商户状态
+export const modifyStoreBatch = "/store/batchUpdate"
+
+
+// 标签列表
+export const categoryList = '/category/getList'
+// 删除标签
+export const deleteCategory = '/category/delete'
+// 创建标签
+export const createCategory = '	/category/add'
+// 修改标签
+export const modifyCategory = '/category/update'
+
+// 获取连锁店列表
+export const getChainList = '/chain/getList'

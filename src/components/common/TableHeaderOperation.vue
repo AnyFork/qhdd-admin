@@ -30,7 +30,7 @@
                     列设置
                 </NButton>
             </template>
-            <VueDraggable v-model="columns" :animation="150" filter=".none_draggable" class="w-[200px]">
+            <VueDraggable v-model="columns" :animation="150" filter=".none_draggable" class="w-[200px] max-h-400px overflow-y-scroll">
                 <n-space align="center" justify="space-between" class="h-36px border-b border-b-[#f5f5f5] border-b-solid">
                     <n-checkbox v-model:checked="checkValue" @click="checkAllOrNot"> 列展示 </n-checkbox>
                     <n-button size="small" text :bordered="false" @click="reset"> 重置 </n-button>

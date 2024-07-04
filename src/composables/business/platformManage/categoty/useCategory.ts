@@ -1,6 +1,5 @@
 import { system } from '@/types/api'
-import { deleteAdmin, updateAdmin } from '@/utils'
-import { DataTableColumns, FormInst, FormItemRule, NAvatar, NButton, NImage, NInput, NInputNumber, NPopconfirm, NPopover, NSwitch } from 'naive-ui'
+import { DataTableColumns, FormInst, FormItemRule, NButton, NImage, NPopconfirm, NPopover, NSwitch } from 'naive-ui'
 import qs from 'qs'
 const previewUrl = import.meta.env.VITE_PREVIEW_IMG_PREVIEW
 
@@ -88,14 +87,14 @@ export const useCategory = () => {
                         {
                             onPositiveClick: () => {
                                 if (rowData.status == 1) {
-                                    // updateAdminInfo({ id: rowData.id, status: 2 })
+                                    updateCategoryInfo({ id: rowData.id, status: 0 })
                                 } else {
-                                    // updateAdminInfo({ id: rowData.id, status: 1 })
+                                    updateCategoryInfo({ id: rowData.id, status: 1 })
                                 }
                             }
                         },
                         {
-                            default: () => (rowData.status == 1 ? '您确定禁用此分类吗,禁用后将无法在小程序展示' : '您确定启用此用户分类吗,启用后将正常显示在小程序'),
+                            default: () => (rowData.status == 1 ? '您确定禁用此分类吗,禁用后将无法在小程序展示' : '您确定启用此分类吗,启用后将正常显示在小程序'),
                             trigger: () => h(NSwitch, { checkedValue: 1, uncheckedValue: 0, value: rowData.status }, {})
                         }
                     )
@@ -237,7 +236,7 @@ export const useCategory = () => {
     ])
 
     /**
-     * 获取平台分类数据列表
+     * 获取平台分类数据列表(树形结构)
      */
     const storeCategoryListTree = async () => {
         try {
@@ -257,13 +256,32 @@ export const useCategory = () => {
     }
 
     /**
-     * 修改分类 
+     * 获取平台子分类数据列表
      */
-    const updateCategoryInfo = async () => {
+    const storeCategoryList = async (parentid: 1 | 2 | 3) => {
         try {
             loading.value = true
-            const { parentid, id, title, thumb, status, type, displayorder } = moduleValue
-            const { data } = await $axios.post(updateCategory, { parentid, id, title, thumb, status, type, displayorder }, {
+            const { data } = await $axios.get(`${storeCategory}?${qs.stringify({ pageNo: 1, pageSize: 100, sortType: 14, parentid })}`)
+            loading.value = false
+            if (data.code == 200) {
+                return data.data as system.category[]
+            } else {
+                message.error(data.msg)
+            }
+        } catch (e) {
+            loading.value = false
+            message.error(e as string)
+            console.log(e)
+        }
+    }
+
+    /**
+     * 修改分类 
+     */
+    const updateCategoryInfo = async (params: Partial<system.category>) => {
+        try {
+            loading.value = true
+            const { data } = await $axios.post(updateCategory, params, {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
@@ -342,5 +360,5 @@ export const useCategory = () => {
         }
     }
 
-    return { storeCategoryListTree, updateCategoryInfo, tableData, loading, columns, formRef, moduleValue, rules, addCateGoryInfo, $axios, message, rowNode, CreateShow, modifyShow, previewUrl }
+    return { storeCategoryListTree, storeCategoryList, updateCategoryInfo, tableData, loading, columns, formRef, moduleValue, rules, addCateGoryInfo, $axios, message, rowNode, CreateShow, modifyShow, previewUrl }
 }

@@ -34,6 +34,12 @@
                                 </template>
                             </n-button>
                         </n-popselect>
+                        <n-button type="error" @click="removeChecked">
+                            清除选中
+                            <template #icon>
+                                <Icon icon="ic:sharp-clear" />
+                            </template>
+                        </n-button>
                     </div>
                     <div class="flex items-center">
                         <n-input v-model:value="search" placeholder="输入图片名称" clearable class="!w-150px" />
@@ -95,6 +101,7 @@ import { system } from '@/types/api'
 const open = defineModel<boolean>('open')
 const node = defineModel<system.attachment>('node')
 const {
+    removeChecked,
     loading,
     message,
     attachmentGroup,

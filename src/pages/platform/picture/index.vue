@@ -33,6 +33,12 @@
                             </template>
                         </n-button>
                     </n-popselect>
+                    <n-button type="error" @click="removeChecked">
+                        清除选中
+                        <template #icon>
+                            <Icon icon="ic:sharp-clear" />
+                        </template>
+                    </n-button>
                 </div>
                 <div class="flex items-center">
                     <n-input v-model:value="search" placeholder="输入名称进行搜索" clearable />
@@ -81,8 +87,31 @@
     <ModifyPicture v-if="modifyPicture" v-model:open="modifyPicture" :node="modifyPictureNode" @refresh="attachmentInfoList"></ModifyPicture>
 </template>
 <script setup lang="ts">
-const { loading, attachmentGroup, groupArray, search, attachmentInfoList, pagination, changePage, pictures, nodeProps, options, Icon, modifyGroupNode, createGroup, modifyGroup, modifyPicture, modifyPictureNode, currentGroup, deleteBatch, checkItem, selectOption, moveGroup, selectChange } =
-    usePictureGroup()
+const {
+    loading,
+    attachmentGroup,
+    removeChecked,
+    groupArray,
+    search,
+    attachmentInfoList,
+    pagination,
+    changePage,
+    pictures,
+    nodeProps,
+    options,
+    Icon,
+    modifyGroupNode,
+    createGroup,
+    modifyGroup,
+    modifyPicture,
+    modifyPictureNode,
+    currentGroup,
+    deleteBatch,
+    checkItem,
+    selectOption,
+    moveGroup,
+    selectChange
+} = usePictureGroup()
 const { height } = useWindowSize()
 const boxHeight = computed(() => height.value - 200)
 const treeNode = ref(['all'])

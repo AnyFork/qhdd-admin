@@ -61,7 +61,8 @@ const submitCallback = (e: MouseEvent) => {
     e.preventDefault
     formRef.value?.validate(async (errors) => {
         if (!errors) {
-            await updateCategoryInfo()
+            const { parentid, id, title, thumb, status, type, displayorder } = moduleValue
+            await updateCategoryInfo({ parentid, id, title, thumb, status, type, displayorder })
             open.value = false
             emit('refresh')
             //清除表单数据

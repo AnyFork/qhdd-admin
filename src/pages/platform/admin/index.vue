@@ -13,7 +13,7 @@
         </n-form>
     </n-space>
     <n-space align="center" justify="space-between" class="mb-2">
-        <n-button type="info" @click="CreateShow = true">新增用户</n-button>
+        <n-button type="primary" @click="CreateShow = true">新增用户</n-button>
         <TableHeaderOperation v-model:columns="columns" v-model:size="size" v-model:striped="striped" :loading="loading" @refresh="adminList"></TableHeaderOperation>
     </n-space>
     <!--数据表格 -->

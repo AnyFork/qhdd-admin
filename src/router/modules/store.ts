@@ -35,6 +35,16 @@ const store = {
                         requiresAuth: true,
                         icon: 'hugeicons:user-account'
                     }
+                },
+                {
+                    name: 'store_manage_tag',
+                    path: '/store/manage/tag',
+                    component: 'self',
+                    meta: {
+                        title: '标签配置',
+                        requiresAuth: true,
+                        icon: 'fluent:tag-lock-20-regular'
+                    }
                 }
             ]
         },
