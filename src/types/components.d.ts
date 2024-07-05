@@ -11,6 +11,7 @@ declare module '@vue/runtime-core' {
     Adv: typeof import('./../components/business/Adv.vue')['default']
     BasicLayout: typeof import('./../layouts/BasicLayout/index.vue')['default']
     BetterScroll: typeof import('./../layouts/components/GlobalTab/components/BetterScroll/index.vue')['default']
+    BindStoreDialog: typeof import('./../components/business/platformManage/clerk/BindStoreDialog.vue')['default']
     BlankLayout: typeof import('./../layouts/blankLayout/index.vue')['default']
     ColorCheckbox: typeof import('./../layouts/components/GlobalDrawer/ThemeColorSelect/components/ColorCheckbox.vue')['default']
     ColorModal: typeof import('./../layouts/components/GlobalDrawer/ThemeColorSelect/components/ColorModal.vue')['default']

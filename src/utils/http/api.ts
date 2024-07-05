@@ -76,3 +76,19 @@ export const modifyCategory = '/category/update'
 
 // 获取连锁店列表
 export const getChainList = '/chain/getList'
+
+
+// 获取店员列表
+export const getClerk = '/clerk/getList'
+// 删除店员
+export const removeClerk = '/clerk/delete'
+// 修改店员
+export const updateClerk = '/clerk/update'
+
+
+// 绑定店员
+export const bindStoreClerk = '/storeClerk/add'
+// 修改绑定店员
+export const updateBindStoreClerk = '/storeClerk/update'
+// 解绑店员
+export const removeStoreClerk = '/storeClerk/delete'

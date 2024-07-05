@@ -692,6 +692,40 @@ export const useStore = () => {
     }
 
     /**
+     * 获取商户选择框数据
+     */
+    const storeSelectList = async () => {
+        try {
+            loading.value = true
+            const { data } = await $axios.post(
+                storeList,
+                { pageNo: 1, pageSize: 1000 },
+                {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }
+            )
+            loading.value = false
+            if (data.code == 200) {
+                return data.data?.map((item: store.storeData) => {
+                    return {
+                        label: item.title,
+                        value: item.id
+                    }
+                })
+
+            } else {
+                message.error(data.msg)
+            }
+        } catch (e: any) {
+            loading.value = false
+            message.error(e.message)
+            console.log(e)
+        }
+    }
+
+    /**
      * 修改商户信息
      * @param params 商户信息
      */
@@ -812,5 +846,5 @@ export const useStore = () => {
         checkedRowKeysRef.value = rowKeys
     }
 
-    return { storeListData, pagination, updateStoreStatusBatch, tableData, loading, columns, formRef, moduleValue, rules, addStoreInfo, $axios, message, CreateShow, searchForm, handleCheck, checkedRowKeysRef, shopOption, deliveryOption, serviceOption, categoryPageList }
+    return { storeListData, pagination, updateStoreStatusBatch, tableData, loading, columns, formRef, moduleValue, rules, addStoreInfo, $axios, message, CreateShow, searchForm, handleCheck, checkedRowKeysRef, shopOption, deliveryOption, serviceOption, categoryPageList, storeSelectList }
 }

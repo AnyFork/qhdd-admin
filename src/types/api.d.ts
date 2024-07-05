@@ -374,4 +374,88 @@ declare namespace store {
         displayorder: number
     }
 
+    /**
+     * 店员
+     */
+    interface clerk {
+        /**
+         * 店员id
+         */
+        id: number
+        /**
+         * 店员姓名
+         */
+        title: string
+        /**
+         * 微信昵称
+         */
+        nickname: string
+        /**
+         * 微信图像
+         */
+        avatar: string
+        /**
+         * 手机号码
+         */
+        mobile: string
+        /**
+         * 添加时间
+         */
+        addtime: long
+        /**
+         * 状态(0=禁用,1=启用) 
+         */
+        status: 0 | 1
+        /**
+         * 是否删除(0=未删除,1=已删除) 
+         */
+        isDelete: 0 | 1
+        /**
+         * 工作状态(1=工作中,0=休息中) 
+         */
+        workStatus: 0 | 1
+        /**
+         * 绑定店铺信息
+         */
+        store: storeData
+        /**
+         * 绑定关系关联表
+         */
+        storeClerk: storeClerk
+    }
+
+    /**
+     * 店员店铺绑定关系
+     */
+    interface storeClerk {
+        /**
+         * 绑定id
+         */
+        id: number
+        /**
+         * 商户ID
+         */
+        sid: number
+        /**
+         * 店员ID
+         */
+        clerkId: number
+        /**
+         * 角色(clerk=店员,manager=管理员) 
+         */
+        role: "clerk" | "manager"
+        /**
+         * 客服状态(1=在线,0=忙碌) 
+         */
+        kefuStatus: 0 | 1
+        /**
+         * 消息提醒、语音提醒设置{"accept_wechat_notice":1,"accept_voice_notice":1} 
+         */
+        extra: string
+        /**
+         * 状态(1=审核通过,2=审核中,3=审核未通过) 
+         */
+        status: 1 | 2 | 3
+    }
+
 }

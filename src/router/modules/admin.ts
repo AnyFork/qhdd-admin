@@ -7,6 +7,48 @@ const platform = {
     component: 'basic',
     children: [
         {
+            name: 'platform_clerk',
+            path: '/platform/clerk',
+            component: 'multi',
+            meta: {
+                title: '店员管理',
+                requiresAuth: true,
+                icon: 'tdesign:usergroup'
+            },
+            children: [
+                {
+                    name: 'platform_clerk_list',
+                    path: '/platform/clerk/list',
+                    component: 'self',
+                    meta: {
+                        title: '店员列表',
+                        requiresAuth: true,
+                        icon: 'tabler:logs'
+                    }
+                },
+                {
+                    name: 'platform_clerk_recycle',
+                    path: '/platform/clerk/recycle',
+                    component: 'self',
+                    meta: {
+                        title: '店员回收站',
+                        requiresAuth: true,
+                        icon: 'fluent:bin-recycle-24-regular'
+                    }
+                },
+                {
+                    name: 'platform_clerk_link',
+                    path: '/platform/clerk/link',
+                    component: 'self',
+                    meta: {
+                        title: '登录入口',
+                        requiresAuth: true,
+                        icon: 'solar:link-square-linear'
+                    }
+                }
+            ]
+        },
+        {
             name: 'platform_category',
             path: '/platform/category',
             component: 'self',

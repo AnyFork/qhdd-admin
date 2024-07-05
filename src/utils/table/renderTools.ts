@@ -1,5 +1,5 @@
 import { Icon } from "@iconify/vue"
-import { NTooltip } from "naive-ui"
+import { NPopconfirm, NTooltip } from "naive-ui"
 import { VNode } from "vue"
 
 /**
@@ -44,4 +44,22 @@ export const renderEditableTitle = (title: string, content: string) => {
             ]
         }
     ), content)
+}
+/**
+ * 动态渲染NPopconfirm
+ * @param trigger 触发节点
+ * @param content 提示内容
+ * @param fn 处理函数
+ * @returns 
+ */
+export const renderPopConfirm = (trigger: VNode, content: string, fn: Function) => {
+    return h(NPopconfirm, {
+        onPositiveClick: () => {
+            fn()
+        }
+    },
+        {
+            default: () => content,
+            trigger: () => trigger
+        })
 }
