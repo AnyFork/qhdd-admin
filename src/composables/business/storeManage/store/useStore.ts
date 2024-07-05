@@ -1,11 +1,9 @@
 import InputNumberColumn from '@/components/common/dynamic/InputNumberColumn.vue'
-import SelectOptionColumn from '@/components/common/dynamic/SelectOptionColumn.vue'
 import SelectTagColumn from '@/components/common/dynamic/SelectTagColumn.vue'
 import StoreLogo from '@/components/common/dynamic/StoreLogo.vue'
 import { store } from '@/types/api'
-import { Icon } from '@iconify/vue'
-import { DataTableColumns, DataTableRowKey, DataTableSortState, FormInst, FormItemRule, NButton, NImage, NInputNumber, NPopconfirm, NPopover, NSwitch, NTag, NTooltip } from 'naive-ui'
-const previewUrl = import.meta.env.VITE_PREVIEW_IMG_PREVIEW
+import { DataTableColumns, DataTableRowKey, FormInst, FormItemRule, NButton, NPopconfirm, NPopover, NSwitch, NTag } from 'naive-ui'
+
 
 export const useStore = () => {
     const { categoryPageList, tableData: selectData } = useTag()
@@ -16,6 +14,9 @@ export const useStore = () => {
     const loading = ref(false)
     const userInfo = getUserInfo()
     const checkedRowKeysRef = ref<DataTableRowKey[]>([])
+    /**
+     * 表格分页配置
+     */
     const pagination = reactive({
         page: 1,
         pageSize: 10,
@@ -36,8 +37,8 @@ export const useStore = () => {
         }
     })
     /**
- * 商户标签
- */
+     * 商户标签
+     */
     const shopOption = computed(() =>
         selectData.value
             .filter((item) => item.type === 'TY_store_label')
@@ -69,6 +70,7 @@ export const useStore = () => {
                 value: item.id!
             }))
     )
+
     /**
      * 查询条件
      */
@@ -160,7 +162,8 @@ export const useStore = () => {
             className: 'flex-row-center',
             key: 'logo',
             render: (rowData, index: number) => {
-                return h(StoreLogo, {src: previewUrl + rowData.logo}, {})
+                const node = rowData.categoryList?.find(item => item?.type == "TY_store_label")
+                return h(StoreLogo, { src: previewUrl + rowData.logo, tag: node ? { color: node.textColor, text: node.title, bgColor: node.color } : undefined, business: rowData.businessStatus == 2 }, {})
 
             }
         },
@@ -200,7 +203,9 @@ export const useStore = () => {
             }
         },
         {
-            title: '营业状态',
+            title() {
+                return renderEditableTitle("应用状态", "可编辑列")
+            },
             width: 120,
             align: 'center',
             key: 'businessStatus',
@@ -231,7 +236,9 @@ export const useStore = () => {
             }
         },
         {
-            title: '是否显示',
+            title() {
+                return renderEditableTitle("是否显示", "可编辑列")
+            },
             width: 120,
             align: 'center',
             key: 'status',
@@ -262,7 +269,9 @@ export const useStore = () => {
             }
         },
         {
-            title: '是否推荐',
+            title() {
+                return renderEditableTitle("是否推荐", "可编辑列")
+            },
             width: 120,
             align: 'center',
             key: 'isRecommend',
@@ -293,7 +302,9 @@ export const useStore = () => {
             }
         },
         {
-            title: '是否置顶',
+            title() {
+                return renderEditableTitle("是否置顶", "可编辑列")
+            },
             width: 120,
             align: 'center',
             key: 'isStick',
@@ -324,7 +335,9 @@ export const useStore = () => {
             }
         },
         {
-            title: '销量',
+            title() {
+                return renderEditableTitle("销量", "可编辑列")
+            },
             width: 120,
             align: 'center',
             key: 'sailed',
@@ -345,7 +358,9 @@ export const useStore = () => {
             }
         },
         {
-            title: '热度',
+            title() {
+                return renderEditableTitle("热度", "可编辑列")
+            },
             width: 120,
             align: 'center',
             key: 'click',
@@ -366,7 +381,9 @@ export const useStore = () => {
             }
         },
         {
-            title: '排序',
+            title() {
+                return renderEditableTitle("排序", "可编辑列")
+            },
             width: 120,
             align: 'center',
             key: 'displayorder',
@@ -405,12 +422,14 @@ export const useStore = () => {
             }
         },
         {
-            title: '商户标签',
+            title() {
+                return renderEditableTitle("商户标签", "可编辑列")
+            },
             width: 100,
             align: 'center',
             key: 'shopTag',
             render: (rowData, index: number) => {
-                const tmp = rowData.serviceLabel?.split(",")
+                const tmp = rowData.serviceLabel ? rowData.serviceLabel.split(",") : []
                 const tag = rowData.categoryList?.find(item => item?.type == "TY_store_label")
                 return h(SelectTagColumn, {
                     value: tag?.id,
@@ -434,7 +453,7 @@ export const useStore = () => {
                                         }
                                     } else {
                                         if (tag?.id !== value) {
-                                            tmp.push(value + "")
+                                            tmp.push(String(value))
                                             const index = tmp?.findIndex(item => Number(item) == tag?.id);
                                             if (index !== -1) {
                                                 tmp.splice(index, 1)
@@ -452,12 +471,14 @@ export const useStore = () => {
             }
         },
         {
-            title: '配送标签',
+            title() {
+                return renderEditableTitle("配送标签", "可编辑列")
+            },
             width: 100,
             align: 'center',
             key: 'delivery_tag',
             render: (rowData, index: number) => {
-                const tmp = rowData.serviceLabel?.split(",")
+                const tmp = rowData.serviceLabel ? rowData.serviceLabel.split(",") : []
                 const tag = rowData.categoryList?.find(item => item?.type == "TY_delivery_label")
                 return h(SelectTagColumn, {
                     value: tag?.id,
@@ -481,7 +502,7 @@ export const useStore = () => {
                                         }
                                     } else {
                                         if (tag?.id !== value) {
-                                            tmp.push(value + "")
+                                            tmp.push(String(value))
                                             const index = tmp?.findIndex(item => Number(item) == tag?.id);
                                             if (index !== -1) {
                                                 tmp.splice(index, 1)
@@ -499,12 +520,14 @@ export const useStore = () => {
             }
         },
         {
-            title: '服务标签',
+            title() {
+                return renderEditableTitle("服务标签", "可编辑列")
+            },
             width: 100,
             align: 'center',
             key: 'service_tag',
             render: (rowData, index: number) => {
-                const tmp = rowData.serviceLabel?.split(",")
+                const tmp = rowData.serviceLabel ? rowData.serviceLabel.split(",") : []
                 const tag = rowData.categoryList?.find(item => item?.type == "TY_service_label")
                 return h(SelectTagColumn, {
                     value: tag?.id,
@@ -528,7 +551,7 @@ export const useStore = () => {
                                         }
                                     } else {
                                         if (tag?.id !== value) {
-                                            tmp.push(value + "")
+                                            tmp.push(String(value))
                                             const index = tmp?.findIndex(item => Number(item) == tag?.id);
                                             if (index !== -1) {
                                                 tmp.splice(index, 1)

@@ -1,7 +1,7 @@
 <template>
     <div @click="show" class="flex-row-center">
         <n-select v-if="isEdit" ref="selectRef" v-model:value="selectValue" :options="option" placeholder="请选择分类" :on-update:value="changeValue" :on-blur="() => (isEdit = false)" />
-        <n-tag v-else type="primary" round class="w-100px flex-row-center">{{ label }}</n-tag>
+        <n-tag v-else round :color="{ color: bgColor, textColor: textColor, borderColor: bgColor }" class="w-100px flex-row-center cursor-pointer">{{ label }}</n-tag>
     </div>
 </template>
 
@@ -9,6 +9,8 @@
 import { store } from '@/types/api'
 const props = defineProps<{
     value: store.category['type']
+    bgColor: string
+    textColor: string
     editable: boolean
     onUpdateValue: (value: store.category['type']) => void
 }>()

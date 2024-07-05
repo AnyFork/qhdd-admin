@@ -40,7 +40,9 @@ export const useTag = () => {
             }
         },
         {
-            title: '标签名称',
+            title() {
+                return renderEditableTitle("标签名称", "可编辑列")
+            },
             width: 200,
             align: 'center',
             key: 'title',
@@ -58,7 +60,9 @@ export const useTag = () => {
             }
         },
         {
-            title: '排序',
+            title() {
+                return renderEditableTitle("排序", "可编辑列")
+            },
             width: 150,
             key: 'displayorder',
             align: 'center',
@@ -73,7 +77,9 @@ export const useTag = () => {
             }
         },
         {
-            title: '背景颜色',
+            title() {
+                return renderEditableTitle("背景颜色", "可编辑列")
+            },
             align: 'center',
             key: 'color',
             render: (rowData, index: number) => {
@@ -86,7 +92,9 @@ export const useTag = () => {
             }
         },
         {
-            title: '文字颜色',
+            title() {
+                return renderEditableTitle("文字颜色", "可编辑列")
+            },
             align: 'center',
             key: 'textColor',
             render: (rowData, index: number) => {
@@ -99,13 +107,17 @@ export const useTag = () => {
             }
         },
         {
-            title: '账号状态',
+            title() {
+                return renderEditableTitle("标签类型", "可编辑列")
+            },
             width: 200,
             key: 'type',
             align: 'center',
             render: (rowData, index: number) => {
                 return h(SelectOptionColumn, {
                     value: rowData.type,
+                    bgColor: rowData.type === "TY_delivery_label" ? "#1890ff" : rowData.type === "TY_service_label" ? "#f5222d" : "#ffa60b",
+                    textColor: "#FFFFFF",
                     editable: rowData.id == undefined,
                     onUpdateValue: (value: store.category['type']) => {
                         rowData.type = value
