@@ -36,16 +36,6 @@ const platform = {
                         icon: 'fluent:bin-recycle-24-regular'
                     }
                 },
-                {
-                    name: 'platform_clerk_link',
-                    path: '/platform/clerk/link',
-                    component: 'self',
-                    meta: {
-                        title: '登录入口',
-                        requiresAuth: true,
-                        icon: 'solar:link-square-linear'
-                    }
-                }
             ]
         },
         {

@@ -295,11 +295,7 @@ export const useClerk = () => {
     const updateClerkInfo = async (params: Partial<store.clerk>) => {
         try {
             loading.value = true
-            const { data } = await $axios.post(updateClerk, params, {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
-            })
+            const { data } = await $axios.post(updateClerk, params)
             loading.value = false
             if (data.code == 200) {
                 message.success('修改成功!', {
@@ -324,15 +320,7 @@ export const useClerk = () => {
     const deleteClerkInfo = async (id: number) => {
         try {
             loading.value = true
-            const { data } = await $axios.post(
-                removeClerk,
-                { id },
-                {
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    }
-                }
-            )
+            const { data } = await $axios.get(`${removeClerk}?id=${id}`)
             loading.value = false
             if (data.code == 200) {
                 message.success('删除成功!', {

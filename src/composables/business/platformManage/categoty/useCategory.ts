@@ -281,11 +281,7 @@ export const useCategory = () => {
     const updateCategoryInfo = async (params: Partial<system.category>) => {
         try {
             loading.value = true
-            const { data } = await $axios.post(updateCategory, params, {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
-            })
+            const { data } = await $axios.post(updateCategory, params)
             loading.value = false
             if (data.code == 200) {
                 message.success('修改成功!')
@@ -341,12 +337,7 @@ export const useCategory = () => {
             const { parentid, thumb, displayorder, type, status, title } = moduleValue
             const { data } = await $axios.post(
                 addCategory,
-                { parentid, thumb, displayorder, type, status, title },
-                {
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    }
-                }
+                { parentid, thumb, displayorder, type, status, title }
             )
             loading.value = false
             if (data.code == 200) {

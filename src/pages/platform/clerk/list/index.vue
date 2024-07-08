@@ -54,6 +54,7 @@ const bindOptions = [
 const changeValue = (value: number | null) => {
     searchForm.bindStoreStatus = value == null ? undefined : value
 }
+
 onMounted(async () => {
     clerkList()
     storeOptions.value = await storeSelectList()
