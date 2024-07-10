@@ -1,5 +1,5 @@
 <template>
-  <div class="blankLayout h-screen">
+  <div class="h-screen">
     <RouterView></RouterView>
   </div>
 </template>

@@ -30,12 +30,11 @@
   </n-layout-content>
 </template>
 <script setup lang="ts">
-import { useAppStore, useRouteStore, useAnimate } from '@/store';
 import { useWindowSize, useCssVar  } from '@vueuse/core'
 defineOptions({ name: 'GlobalContent' });
 const app = useAppStore();
 const routeStore = useRouteStore();
-const animateStore = useAnimate();
+const animateStore = useAnimates();
 const { height } = useWindowSize();
 const spinTop=computed(()=> height.value/3+'px')
 const elv = ref(null)

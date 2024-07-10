@@ -1,4 +1,3 @@
-import { encrypto, decrypto } from '../crypto'
 
 interface StorageData {
   value: unknown
@@ -17,7 +16,7 @@ const DEFAULT_CACHE_TIME = 60 * 60 * 24 * 7
  */
 export function setLocal(key: string, value: unknown, expire: number | null = DEFAULT_CACHE_TIME) {
   const storageData: StorageData = { value, expire: expire !== null ? new Date().getTime() + expire * 1000 : null }
-  const json = encrypto(storageData)
+  const json = encrypt(storageData)
   window.localStorage.setItem(key, json)
 }
 
@@ -31,7 +30,7 @@ export function getLocal<T>(key: string) {
   if (json) {
     let storageData: StorageData | null = null
     try {
-      storageData = decrypto(json)
+      storageData = decrypt(json)
     } catch (e) {
       // 防止解析失败
       console.log(e)

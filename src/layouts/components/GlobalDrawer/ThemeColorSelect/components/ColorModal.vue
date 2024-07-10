@@ -17,9 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import { traditionColors } from '@/settings'
-import { useThemeStore } from '@/store'
-
+import { traditionColors } from '@/utils/settings/index'
 interface Props {
   visible: boolean;
 }
@@ -27,11 +25,8 @@ interface Emits {
   (e: 'close'): void;
 }
 defineProps<Props>();
-
 const emit = defineEmits<Emits>();
-
 const theme = useThemeStore();
-
 const handleClose=()=>{
   emit('close');
 }

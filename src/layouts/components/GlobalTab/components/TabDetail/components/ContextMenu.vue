@@ -5,8 +5,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import type { DropdownOption } from 'naive-ui';
-import { useAppStore, useTabStore } from '@/store';
-import { iconifyRender } from '@/utils';
 
 interface Props {
   /** 右键菜单可见性 */

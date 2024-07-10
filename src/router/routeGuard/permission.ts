@@ -1,56 +1,32 @@
 import type { RouteLocationNormalized, NavigationGuardNext } from 'vue-router'
-import { routeName } from '@/router'
-import { exeStrategyActions, getToken } from '@/utils'
-import { createDynamicRouteGuard } from './dynamic'
+// import { createDynamicRouteGuard } from './dynamic'
 
-/** 处理路由页面的权限 */
-export async function createPermissionGuard(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) {
-  // 动态路由
-  const permission = await createDynamicRouteGuard(to, from, next)
-  if (!permission) return
-
-  const isLogin = Boolean(getToken())
-  const needLogin = false
-  const hasPermission = true
-
-  const actions: Common.StrategyAction[] = [
-    // 已登录状态跳转登录页，跳转至首页
-    [
-      isLogin && to.name === routeName('login'),
-      () => {
-        next({ name: routeName('root') })
-      }
-    ],
-    // 不需要登录权限的页面直接通行
-    [
-      !needLogin,
-      () => {
-        next()
-      }
-    ],
-    // 未登录状态进入需要登录权限的页面
-    [
-      !isLogin && needLogin,
-      () => {
-        const redirect = to.fullPath
-        next({ name: routeName('login'), query: { redirect } })
-      }
-    ],
-    // 登录状态进入需要登录权限的页面，有权限直接通行
-    [
-      isLogin && needLogin && hasPermission,
-      () => {
-        next()
-      }
-    ],
-    [
-      // 登录状态进入需要登录权限的页面，无权限，重定向到无权限页面
-      isLogin && needLogin && !hasPermission,
-      () => {
-        next({ name: routeName('no-permission') })
-      }
-    ]
-  ]
-
-  exeStrategyActions(actions)
+/** 
+ * 处理路由页面的权限
+ */
+export const createPermissionGuard = async (to: RouteLocationNormalized, _from: RouteLocationNormalized, next: NavigationGuardNext) => {
+  const route = useRouteStore()
+  /**
+   * 获取当前用户的token，判断当前用户是否登录
+   */
+  const isLogin = Boolean(getPlatformToken())
+  // 首次进入路由，获取初始权限路由
+  if (!route.isInitAuthRoute) {
+    //初始化权限路由
+    route.initAuthRoute()
+  }
+  /**
+     * 未登录情况下直接回到登录页，登录成功后再加载权限路由
+     */
+  if (!isLogin) {
+    if (to.name === 'login-platform' || to.name === 'login-store') {
+      next()
+    } else {
+      const redirect = to.fullPath
+      next({ name: 'login-platform', query: { redirect } })
+    }
+    return false
+  } else {
+    next()
+  }
 }

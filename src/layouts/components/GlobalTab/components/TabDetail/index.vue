@@ -17,7 +17,6 @@
 <script setup lang="ts">
 import { PageTab } from "@soybeanjs/vue-materials";
 import { Icon } from "@iconify/vue";
-import { useThemeStore, useTabStore } from "@/store";
 import "@soybeanjs/vue-materials/dist/style.css";
 
 interface Emits {

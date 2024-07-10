@@ -73,8 +73,8 @@
                 </n-spin>
             </div>
             <div class="p-2 flex items-center justify-end">
-                <n-pagination v-model:page="pagination.page" v-model:page-size="pagination.pageSize" :item-count="pagination.itemsCount" :on-update:page="changePage">
-                    <template #prefix="{ itemCount, startIndex }"> 共 {{ itemCount }} 项 </template>
+                <n-pagination v-model:page="pagination.page" v-model:page-size="pagination.pageSize" :item-count="pagination.itemCount" :on-update:page="changePage">
+                    <template #prefix="{ itemCount }"> 共 {{ itemCount }} 项 </template>
                 </n-pagination>
             </div>
         </n-grid-item>
@@ -82,9 +82,9 @@
     <!-- 创建分组 -->
     <CreateGroup v-if="createGroup" v-model:open="createGroup" @refresh="attachmentGroup"></CreateGroup>
     <!-- 修改分组 -->
-    <ModifyGroup v-if="modifyGroup" v-model:open="modifyGroup" :node="modifyGroupNode" @refresh="attachmentGroup"></ModifyGroup>
+    <ModifyGroup v-if="modifyGroup" v-model:open="modifyGroup" :node="modifyGroupNode!" @refresh="attachmentGroup"></ModifyGroup>
     <!-- 修改图片 -->
-    <ModifyPicture v-if="modifyPicture" v-model:open="modifyPicture" :node="modifyPictureNode" @refresh="attachmentInfoList"></ModifyPicture>
+    <ModifyPicture v-if="modifyPicture" v-model:open="modifyPicture" :node="modifyPictureNode!" @refresh="attachmentInfoList"></ModifyPicture>
 </template>
 <script setup lang="ts">
 const {
@@ -92,10 +92,10 @@ const {
     attachmentGroup,
     removeChecked,
     groupArray,
+    changePage,
     search,
     attachmentInfoList,
     pagination,
-    changePage,
     pictures,
     nodeProps,
     options,
@@ -111,7 +111,7 @@ const {
     selectOption,
     moveGroup,
     selectChange
-} = usePictureGroup()
+} = usePlatformPictureGroup()
 const { height } = useWindowSize()
 const boxHeight = computed(() => height.value - 200)
 const treeNode = ref(['all'])

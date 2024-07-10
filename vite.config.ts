@@ -2,7 +2,6 @@ import { defineConfig, loadEnv } from 'vite'
 import type { ConfigEnv } from 'vite'
 import path from 'path'
 import vue from '@vitejs/plugin-vue'
-import DefineOptions from 'unplugin-vue-define-options/vite'
 //https://github.com/antfu/unplugin-auto-import
 import AutoImport from 'unplugin-auto-import/vite'
 //https://github.com/antfu/unplugin-vue-components
@@ -11,10 +10,10 @@ import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
 import { FileSystemIconLoader } from 'unplugin-icons/loaders'
-import windicss from 'vite-plugin-windicss'
 import { createHtmlPlugin } from 'vite-plugin-html'
 //使用 gzip 或者 brotli 来压缩资源.
 import viteCompression from 'vite-plugin-compression'
+import UnoCSS from 'unocss/vite'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }: ConfigEnv) => {
@@ -28,12 +27,19 @@ export default defineConfig(({ mode }: ConfigEnv) => {
           defineModel: true,
           //启用props属性结构
           propsDestructure: true
+        },
+        template: {
+          //设置vue模板中组件中无法自动加载assets资源问题,组件名称：加载assets资源key属性名称
+          transformAssetUrls: {
+            'el-avatar': ['src'],
+            'el-image': ['src']
+          }
         }
       }),
-      DefineOptions(),
+      UnoCSS(),
       //官网配置地址:https://github.com/antfu/unplugin-auto-import
       AutoImport({
-        dirs:['./src/composables/**/*','./src/utils/**/*'],
+        dirs: ['./src/composables/**/*', './src/utils/**/*', './src/store/**/*'],
         imports: ['vue', 'vue-router', { 'naive-ui': ['useDialog', 'useMessage', 'useNotification', 'useLoadingBar'] }, '@vueuse/core', 'pinia'],
         dts: 'src/types/auto-import.d.ts'
       }),
@@ -54,7 +60,6 @@ export default defineConfig(({ mode }: ConfigEnv) => {
         scale: 1,
         defaultClass: 'inline-block'
       }),
-      windicss(),
       // 官网地址：https://github.com/vbenjs/vite-plugin-html/blob/main/README.zh_CN.md
       createHtmlPlugin({
         minify: true,

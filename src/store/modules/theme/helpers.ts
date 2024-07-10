@@ -1,10 +1,7 @@
 import { watch, onUnmounted } from 'vue'
 import { GlobalThemeOverrides, useOsTheme } from 'naive-ui'
 import { cloneDeep, kebabCase } from 'lodash-es'
-import { themeSetting } from '@/settings'
-import { getColorPalette, addColorAlpha } from '@/utils'
 import { useElementSize } from '@vueuse/core'
-import { EnumStorageKey } from '@/enum'
 
 type ColorType = 'primary' | 'info' | 'success' | 'warning' | 'error'
 type ColorScene = '' | 'Suppl' | 'Hover' | 'Pressed' | 'Active'

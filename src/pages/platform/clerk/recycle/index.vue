@@ -20,11 +20,10 @@
     <n-data-table :striped="striped" :single-line="false" :bordered="false" remote :size="size" :columns="columns" :data="tableData" :pagination="pagination" :row-key="(rowData:store.clerk) => `${rowData.id}`" :loading="loading" :min-height="tableHeight" :max-height="tableHeight" />
 </template>
 <script setup lang="ts">
-import { store } from '@/types/api'
 const size = ref<'small' | 'medium' | 'large'>('medium')
 const striped = ref(true)
 const { height } = useWindowSize()
-const { clerkList, pagination, tableData, loading, columns, searchForm } = useClerk()
+const { clerkList, pagination, tableData, loading, columns, searchForm } = usePlatformClerk()
 // 表格高度
 const tableHeight = computed(() => height.value - 330)
 onMounted(async () => {

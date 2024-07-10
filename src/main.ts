@@ -1,13 +1,11 @@
 import { createApp } from 'vue'
-import './style/index.css'
-import 'virtual:windi.css'
+import 'virtual:uno.css'
+import '@/assets/styles/index.css'
 import 'animate.css'
 import App from './App.vue'
+import pinia from './store'
 import router from './router'
-import { axios} from './utils'
-import pinia from '@/store'
 
 const app = createApp(App)
-//全局绑定axios
-app.config.globalProperties.$axios = axios
-app.use(router).use(pinia).mount('#app')
+app.use(pinia).use(router)
+app.mount('#app')

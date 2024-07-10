@@ -1,12 +1,18 @@
+import { RouteRecordRaw } from 'vue-router'
 import { iconifyRender } from '../common'
+import { AuthRoute } from '@/types/route'
 
-/** 路由不转换菜单 */
-function hideInMenu(route: AuthRoute.Route) {
-  return Boolean(route.meta.hide)
+/** 
+ * 路由不转换菜单
+ */
+function hideInMenu(route: RouteRecordRaw) {
+  return Boolean(route.meta?.hide)
 }
 
-/** 给菜单添加可选属性 */
-function addPartialProps(menuItem: GlobalMenuOption, icon?: string, children?: GlobalMenuOption[]) {
+/** 
+ * 给菜单添加可选属性
+ */
+const addPartialProps = (menuItem: GlobalMenuOption, icon?: string, children?: GlobalMenuOption[]) => {
   const item = { ...menuItem }
   if (icon) {
     Object.assign(item, { icon: iconifyRender(icon) })
@@ -21,7 +27,7 @@ function addPartialProps(menuItem: GlobalMenuOption, icon?: string, children?: G
  * 将权限路由转换成菜单
  * @param routes - 路由
  */
-export function transformAuthRouteToMenu(routes: AuthRoute.Route[]): GlobalMenuOption[] {
+export const transformAuthRouteToMenu = (routes: RouteRecordRaw[]): GlobalMenuOption[] => {
   const globalMenu: GlobalMenuOption[] = []
   routes.forEach((route) => {
     const { name, path, meta } = route
@@ -33,11 +39,11 @@ export function transformAuthRouteToMenu(routes: AuthRoute.Route[]): GlobalMenuO
     const menuItem: GlobalMenuOption = addPartialProps(
       {
         key: routeName,
-        label: meta.title,
+        label: meta!.title as string,
         routeName,
         routePath: path
       },
-      meta?.icon,
+      meta?.icon as string,
       menuChildren
     )
 
@@ -45,7 +51,6 @@ export function transformAuthRouteToMenu(routes: AuthRoute.Route[]): GlobalMenuO
       globalMenu.push(menuItem)
     }
   })
-
   return globalMenu
 }
 
@@ -55,11 +60,10 @@ export function transformAuthRouteToMenu(routes: AuthRoute.Route[]): GlobalMenuO
  * @param menus - 菜单数据
  */
 export function getActiveKeyPathsOfMenus(activeKey: string, menus: GlobalMenuOption[]) {
-  const keys = menus.map((menu) => getActiveKeyPathsOfMenu(activeKey, menu)).flat(1)
-  return keys
+  return menus.map((menu) => getActiveKeyPathsOfMenu(activeKey, menu)).flat(1)
 }
 
-function getActiveKeyPathsOfMenu(activeKey: string, menu: GlobalMenuOption) {
+const getActiveKeyPathsOfMenu = (activeKey: string, menu: GlobalMenuOption) => {
   const keys: string[] = []
   if (activeKey.includes(menu.routeName)) {
     keys.push(menu.routeName)
@@ -68,4 +72,24 @@ function getActiveKeyPathsOfMenu(activeKey: string, menu: GlobalMenuOption) {
     keys.push(...menu.children.map((item) => getActiveKeyPathsOfMenu(activeKey, item)).flat(1))
   }
   return keys
+}
+
+/**
+ * 获取所有静态路由的名称集合
+ * @param routes - 固定路由
+ */
+export const getConstantRouteNames = (routes: AuthRoute.Route[]) => {
+  return routes.map((route) => getConstantRouteName(route)).flat(1)
+}
+
+/**
+ * 获取所有静态路由的名称集合
+ * @param route - 固定路由
+ */
+const getConstantRouteName = (route: AuthRoute.Route) => {
+  const names = [route.name]
+  if (Boolean(route.children && route.children.length)) {
+    names.push(...route.children!.map((item) => getConstantRouteName(item)).flat(1))
+  }
+  return names
 }

@@ -25,7 +25,6 @@
 </template>
 
 <script lang="ts" setup>
-import { useThemeStore } from '@/store';
 import SettingMenu from '../SettingMenu/index.vue';
 const theme = useThemeStore();
 const switchBgColor=computed(() =>theme.darkMode==true?"#000e1c":"#eee")

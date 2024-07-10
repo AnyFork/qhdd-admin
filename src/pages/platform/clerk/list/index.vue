@@ -25,13 +25,12 @@
     <BindStoreDialog v-if="modifyShow" v-model:open="modifyShow" :storeOptions="storeOptions" :rowNode="rowNode" @refresh="clerkList"></BindStoreDialog>
 </template>
 <script setup lang="ts">
-import { store } from '@/types/api'
 const size = ref<'small' | 'medium' | 'large'>('medium')
 const striped = ref(true)
 const { height } = useWindowSize()
 const storeOptions = ref([])
-const { clerkList, pagination, tableData, loading, columns, modifyShow, rowNode, searchForm } = useClerk()
-const { storeSelectList } = useStore()
+const { clerkList, pagination, tableData, loading, columns, modifyShow, rowNode, searchForm } = usePlatformClerk()
+const { storeSelectList } = usePlatformStore()
 // 表格高度
 const tableHeight = computed(() => height.value - 330)
 /**

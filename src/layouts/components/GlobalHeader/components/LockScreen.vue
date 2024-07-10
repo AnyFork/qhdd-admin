@@ -10,7 +10,7 @@
     <template #default>
       <div>
         <n-space justify="center">
-          <n-avatar round bordered :size="60" :src="userInfo.avatar" />
+          <n-avatar round bordered :size="60" :src="userInfo?.avatar" />
         </n-space>
         <div class="w-full text-center pt-3 pb-6">欢迎您，{{ userInfo.name }}</div>
       </div>
@@ -30,14 +30,10 @@
 <script setup lang="ts">
 import user from '@/assets/images/user.png'
 import { FormInst, FormItemRule, FormRules } from 'naive-ui';
-import { useRouterPush } from '@/composables'
-import { useLockScreenstore } from '@/store'
-import { useRoute } from 'vue-router'
-import { getUserInfo } from '@/utils'
 defineOptions({ name: 'LockScreen' })
 const message = useMessage()
 const useRouter = useRouterPush()
-const lockScreen = useLockScreenstore()
+const lockScreen = useLockScreenStore()
 const showModal = ref(false)
 const formRef = ref<FormInst | null>(null)
 const LockPassword = reactive({
@@ -84,10 +80,10 @@ const handleValidateButtonClick = (e: MouseEvent) => {
   })
 }
 onMounted(() => {
-  const data = getUserInfo() as any
-  if (data.avatar) {
+  const data = getPlatformUserInfo() as any
+  if (data?.avatar) {
     userInfo.avatar = data.avatar
   }
-  userInfo.name = data.name
+  userInfo.name = data?.name
 })
 </script>

@@ -1,11 +1,10 @@
-import { encrypto, decrypto } from '../crypto'
 /**
  * 设置session值
  * @param key 
  * @param value 
  */
 export function setSession(key: string, value: unknown) {
-  const json = encrypto(value)
+  const json = encrypt(value)
   sessionStorage.setItem(key, json)
 }
 /**
@@ -18,7 +17,7 @@ export function getSession<T>(key: string) {
   let data: T | null = null
   if (json) {
     try {
-      data = decrypto(json)
+      data = decrypt(json)
     } catch (e) {
       // 防止解析失败
       console.log(e)

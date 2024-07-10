@@ -8,11 +8,10 @@
       <SurfaceShow />
     </n-drawer-content>
   </n-drawer>
-  <DarwerButton />
+  <DrawerButton />
 </template>
 
 <script setup lang="ts">
-import { useAppStore } from '@/store';
+defineOptions({ name:'GlobalDrawerSetting'})
 const app = useAppStore();
-defineOptions({ name:'GlobalDrewerSetting'})
 </script>

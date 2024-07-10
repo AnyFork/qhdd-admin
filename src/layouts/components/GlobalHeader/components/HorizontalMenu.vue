@@ -13,12 +13,9 @@
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import type { MenuOption } from 'naive-ui';
-import { useRouteStore, useThemeStore } from '@/store';
-import { useRouterPush } from '@/composables';
-import { getUserInfo } from '@/utils'
 defineOptions({ name: 'HorizontalMenu' });
 //获取当前用户信息
-const user = getUserInfo() as any
+const user = getPlatformUserInfo() as any
 const route = useRoute();
 const routeStore = useRouteStore();
 const theme = useThemeStore();

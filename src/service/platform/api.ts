@@ -1,0 +1,87 @@
+// 平台管理员登录
+export const loginPlatformApi = '/AccAdmin/doLogin'
+// 平台管理员注销
+export const logOutPlatformApi = '/AccAdmin/doExit'
+
+
+// 平台管理员列表
+export const platformAdminListApi = '/admin/getList'
+// 新增平台管理员用户
+export const addPlatformAdminApi = '/admin/add'
+// 修改平台管理员用户
+export const updatePlatformAdminApi = '/admin/update'
+// 删除平台管理员用户
+export const deletePlatformAdminApi = '/admin/delete'
+
+
+// 获取平台管理角色列表
+export const platformRoleListApi = '/role/getList'
+
+
+// 平台管理员登录日志
+export const platformLoginLogApi = '/SpAdminLogin/getList'
+
+
+// 平台商品分类导航树型数据
+export const platformCategoryTreeApi = '/storeCategory/getTree'
+// 创建子分类
+export const addPlatformCategoryApi = '/storeCategory/add'
+// 删除分类
+export const removePlatformCategoryApi = '/storeCategory/delete'
+// 修改分类
+export const updatePlatformCategoryApi = '/storeCategory/update'
+// 平台分类列表
+export const storePlatformCategoryApi = '/storeCategory/getList'
+
+
+// 图片分组列表
+export const attachmentPlatformGroupListApi = '/attachmentGroup/getList'
+// 添加附件分组
+export const addPlatformAttachmentGroupApi = '/attachmentGroup/add'
+// 删除分组
+export const deletePlatformAttachmentGroupApi = '/attachmentGroup/delete'
+// 修改分组
+export const updatePlatformAttachmentGroupApi = '/attachmentGroup/update'
+
+
+// 获取附件列表
+export const attachmentPlatformListApi = '/attachment/getList'
+// 修改附件名称
+export const updatePlatformAttachmentInfoApi = '/attachment/update'
+// 删除图片
+export const deletePlatformAttachmentInfoApi = '/attachment/removeGroup'
+// 批量删除图片
+export const deletePlatformAttachmentBatchApi = '/attachment/removeGroupByIds'
+// 批量移动图片分组
+export const movePlatformAttachmentGroupApi = '/attachment/setGroupByIds'
+
+
+// 商户列表
+export const storeListPlatformApi = '/store/getList'
+// 删除商户
+export const removeStorePlatformApi = '/store/delete'
+// 修改商户
+export const updateStorePlatformApi = '/store/update'
+// 创建商户
+export const addStorePlatformApi = '/store/add'
+// 批量修改商户状态
+export const modifyStoreBatchPlatformApi = "/store/batchUpdate"
+
+
+
+// 标签列表
+export const categoryListPlatformApi = '/category/getList'
+// 删除标签
+export const deleteCategoryPlatformApi = '/category/delete'
+// 创建标签
+export const createCategoryPlatformApi = '	/category/add'
+// 修改标签
+export const modifyCategoryPlatformApi = '/category/update'
+
+
+// 获取店员列表
+export const getClerkPlatformApi = '/clerk/getList'
+// 删除店员
+export const removeClerkPlatformApi = '/clerk/delete'
+// 修改店员
+export const updateClerkPlatformApi = '/clerk/update'

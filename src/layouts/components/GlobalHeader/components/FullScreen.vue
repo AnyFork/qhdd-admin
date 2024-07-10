@@ -6,8 +6,6 @@
 </template>
 
 <script lang="ts" setup>
-import { useThemeStore } from '@/store';
-import { useFullscreen } from '@vueuse/core';
 defineOptions({ name: 'FullScreen' });
 const { isFullscreen, toggle } = useFullscreen();
 const theme= useThemeStore();

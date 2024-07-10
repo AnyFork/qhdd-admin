@@ -4,11 +4,10 @@
         <n-dropdown trigger="hover" :options="options" @select="handleSelect">
             <n-el tag="span" class="font-bold">{{ userInfo?.name }}</n-el>
         </n-dropdown>
-        <ModifyPersonDialog v-if="modifyShow" v-model:open="modifyShow" :rowNode="userInfo"></ModifyPersonDialog>
+        <ModifyPersonDialog v-if="modifyShow" v-model:open="modifyShow" :rowNode="userInfo!"></ModifyPersonDialog>
     </n-space>
 </template>
 <script setup lang="ts">
-import { getUserInfo } from '@/utils'
 import userImg from '@/assets/images/user.png'
 const modifyShow = ref(false)
 const userInfo = ref<system.adminInfo>()
@@ -18,10 +17,10 @@ const options = [
         key: 'myBaseInfo'
     }
 ]
-const handleSelect = (key: string | number) => {
+const handleSelect = (_key: string | number) => {
     modifyShow.value = true
 }
 onMounted(() => {
-    userInfo.value = getUserInfo() as system.adminInfo
+    userInfo.value = getPlatformUserInfo() as system.adminInfo
 })
 </script>

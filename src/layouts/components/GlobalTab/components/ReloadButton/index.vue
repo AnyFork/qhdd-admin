@@ -5,9 +5,6 @@
 </template>
 
 <script setup lang="ts">
-import { useAppStore } from '@/store';
-import { useLoading } from '@/composables';
-
 const app = useAppStore();
 const { loading, startLoading, endLoading } = useLoading();
 

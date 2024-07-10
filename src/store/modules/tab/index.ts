@@ -1,6 +1,5 @@
 import type { Router, RouteLocationNormalizedLoaded } from 'vue-router'
 import { defineStore } from 'pinia'
-import { useRouterPush } from '@/composables'
 import { useThemeStore } from '../theme'
 import { getTabRouteByVueRoute, isInTabRoutes, getIndexInTabRoutes, getIndexInTabRoutesByRouteName } from './helpers'
 
@@ -17,7 +16,7 @@ export const useTabStore = defineStore('tab-store', {
   state: (): TabState => ({
     tabs: [],
     homeTab: {
-      name: 'seo_pc_global',
+      name: 'platform-system-user',
       fullPath: '/',
       meta: {
         title: 'Root'

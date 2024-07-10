@@ -1,27 +1,23 @@
-import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router'
-import { transformRouteNameToRoutePath, transformAuthRoutesToVueRoutes } from '@/utils'
+import { createRouter, createWebHistory } from 'vue-router'
+import routes from './modules'
 import { constantRoutes } from './staticRoute'
 import { createRouterGuard } from './routeGuard'
-export * from './modules'
-export * from './staticRoute'
+
+console.log(routes, constantRoutes)
 
 //获取路由模式和项目baseUrl
-const { VITE_HASH_ROUTE = 'false', VITE_BASE_URL } = import.meta.env
+const { VITE_BASE_URL } = import.meta.env
 
 /**
- * 定义返回模块
+ * 创建路由实例
  */
 export const router = createRouter({
-    history: VITE_HASH_ROUTE === 'true' ? createWebHashHistory(VITE_BASE_URL) : createWebHistory(VITE_BASE_URL),
-    routes: transformAuthRoutesToVueRoutes(constantRoutes)
+    history: createWebHistory(VITE_BASE_URL),
+    routes: routes.concat(constantRoutes)
 })
-// 创建路由守卫
-createRouterGuard(router)
-/** 路由名称 */
-export const routeName = (key: AuthRoute.RouteKey) => key
 
-/** 根据路由名称获取路由路径 */
-export const routePath = (key: Exclude<AuthRoute.RouteKey, 'not-found-page'>) => transformRouteNameToRoutePath(key)
+//创建路由守卫
+createRouterGuard(router)
 
 export default router
 
