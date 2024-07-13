@@ -17,7 +17,7 @@
         <TableHeaderOperation v-model:columns="columns" v-model:size="size" v-model:striped="striped" :loading="loading" @refresh="clerkList"></TableHeaderOperation>
     </n-space>
     <!--数据表格 -->
-    <n-data-table :striped="striped" :single-line="false" :bordered="false" remote :size="size" :columns="columns" :data="tableData" :pagination="pagination" :row-key="(rowData:store.clerk) => `${rowData.id}`" :loading="loading" :min-height="tableHeight" :max-height="tableHeight" />
+    <n-data-table :striped="striped" :single-line="false" remote :size="size" :columns="columns" :data="tableData" :pagination="pagination" :row-key="(rowData:store.clerk) => `${rowData.id}`" :loading="loading" :min-height="tableHeight" :max-height="tableHeight" />
 </template>
 <script setup lang="ts">
 const size = ref<'small' | 'medium' | 'large'>('medium')

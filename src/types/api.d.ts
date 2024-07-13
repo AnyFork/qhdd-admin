@@ -248,6 +248,11 @@ declare namespace system {
 declare namespace store {
 
     /**
+     * 店铺信息来源，主要用户非平台情况下接口请求token采用方案，1 平台 2 商户
+     */
+    type storeFrom = 1 | 2
+
+    /**
      * 商户属性
      */
     interface storeData {
@@ -452,6 +457,22 @@ declare namespace store {
          * 状态(1=审核通过,2=审核中,3=审核未通过) 
          */
         status: 1 | 2 | 3
+        /**
+         * 店员信息
+         */
+        clerk: clerk
+        /**
+         * 微信提醒 0关 1开
+         */
+        weChat: 0 | 1
+        /**
+         * 语音提醒 0关 1开
+         */
+        voice: 0 | 1
+        /**
+         * 绑定时间
+         */
+        addtime: number
     }
 
 }

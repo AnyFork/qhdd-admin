@@ -7,3 +7,13 @@ export const bindStoreClerkApi = '/storeClerk/add'
 export const updateBindStoreClerkApi = '/storeClerk/update'
 // 解绑店员
 export const removeStoreClerkApi = '/storeClerk/delete'
+// 店员店铺关联列表
+export const storeClerkListApi = '/storeClerk/getList'
+// 修改店员账号状态
+export const updateStoreAccountStatusApi = '/clerk/update'
+
+
+// 店员登录
+export const storeLoginApi = "/accMerchant/login"
+// 店员退出系统
+export const storeLogOutApi = "/accMerchant/logout"

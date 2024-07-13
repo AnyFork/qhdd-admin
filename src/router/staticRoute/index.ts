@@ -1,21 +1,8 @@
-import type { AuthRoute } from "@/types/route"
-
-/**
- * 根路由
- */
-export const rootRoute: AuthRoute.Route = {
-    name: 'root',
-    path: '/',
-    redirect: import.meta.env.VITE_ROUTE_HOME_PATH,
-    meta: {
-        title: 'Root'
-    }
-}
+import { RouteRecordRaw } from "vue-router"
 /**
  * 系统静态路由
  */
-export const constantRoutes: AuthRoute.Route[] = [
-    rootRoute,
+export const constantRoutes: RouteRecordRaw[] = [
     {
         name: 'login-parent',
         path: '/login/parent',

@@ -9,7 +9,7 @@ export const usePlatformCategory = () => {
     const { $axios } = useInstance()
     const message = useMessage()
     const loading = ref(false)
-    const userInfo = getPlatformUserInfo()
+    const { isAdmin } = useLoginUser()
     /**
      * 新增dialog状态
      */
@@ -82,7 +82,7 @@ export const usePlatformCategory = () => {
             key: 'status',
             align: 'center',
             render: (rowData, index: number) => {
-                if (userInfo?.roleName === '系统管理员') {
+                if (isAdmin.value) {
                     return h(
                         NPopconfirm,
                         {
@@ -110,7 +110,7 @@ export const usePlatformCategory = () => {
             align: 'center',
             className: 'flex-row-center',
             render(rowData) {
-                if (userInfo?.roleName === '系统管理员') {
+                if (isAdmin.value) {
                     return h('div', {}, {
                         default: () =>
                             [

@@ -8,7 +8,7 @@ export const usePlatformAdmin = () => {
     const tableData = ref<system.adminInfo[]>([])
     const message = useMessage()
     const loading = ref<boolean>(false)
-    const userInfo = getPlatformUserInfo()
+    const { isAdmin } = useLoginUser()
     /**
      * 表格分页配置
      */
@@ -191,7 +191,7 @@ export const usePlatformAdmin = () => {
             key: 'status',
             align: 'center',
             render: (rowData, _index: number) => {
-                if (userInfo?.roleName === '系统管理员') {
+                if (isAdmin.value) {
                     return h(
                         NPopconfirm,
                         {
@@ -235,7 +235,7 @@ export const usePlatformAdmin = () => {
             fixed: 'right',
             width: 180,
             render(rowData) {
-                if (userInfo?.roleName === '系统管理员') {
+                if (isAdmin.value) {
                     return [
                         h(
                             NPopconfirm,

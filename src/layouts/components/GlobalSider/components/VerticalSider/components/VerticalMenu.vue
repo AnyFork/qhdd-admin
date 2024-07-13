@@ -20,21 +20,10 @@ import type { MenuOption } from 'naive-ui'
 const route = useRoute()
 const app = useAppStore()
 const theme = useThemeStore()
-//获取当前用户信息
-const user = getPlatformUserInfo() as any
 const routeStore = useRouteStore()
 //菜单数据
-const menu = ref([{}])
+const menu = ref(routeStore.menus)
 const { routerPush } = useRouterPush()
-//监听值变化
-watch(
-    () => user?.roleName,
-    (val, oldValue) => {
-        menu.value = routeStore.menus
-    },
-    { immediate: true }
-)
-
 const activeKey = computed(() => (route.meta?.activeMenu ? route.meta.activeMenu : route.name) as string)
 const expandedKeys = ref<string[]>([])
 /**

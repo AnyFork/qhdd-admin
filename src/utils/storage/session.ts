@@ -31,12 +31,12 @@ export function getSession<T>(key: string) {
  * @param key key
  */
 export function removeSession(key: string) {
-  window.sessionStorage.removeItem(key)
+  sessionStorage.removeItem(key)
 }
 
 /**
  * 清除sessionStorage
  */
 export function clearSession() {
-  window.sessionStorage.clear()
+  sessionStorage.clear()
 }

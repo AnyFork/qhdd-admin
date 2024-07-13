@@ -56,12 +56,12 @@ export const usePlatformLogin = () => {
             const { data } = await loginPlatform(userInfo.value.userAccount, userInfo.value.userPassword)
             if (data) {
                 if (data.code == 200) {
-                    loginUserType.value = 1
                     setPlatformToken(JSON.stringify(data.data.tokenInfo))
                     setPlatformUserInfo(data.data.admin)
+                    loginUserType.value = 1
                     message.success("登录成功!", {
                         onLeave: () => {
-                            routerPush("/")
+                            routerPush(import.meta.env.VITE_PLATFORM_ROUTE_HOME_PATH)
                         }
                     })
                 } else {

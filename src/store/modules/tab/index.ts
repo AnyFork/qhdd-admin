@@ -16,7 +16,7 @@ export const useTabStore = defineStore('tab-store', {
   state: (): TabState => ({
     tabs: [],
     homeTab: {
-      name: 'platform-system-user',
+      name: '',
       fullPath: '/',
       meta: {
         title: 'Root'
@@ -40,7 +40,7 @@ export const useTabStore = defineStore('tab-store', {
      * 重置Tab状态
      */
     resetTabStore() {
-      this.$reset()
+      sessionStorage.removeItem('tab-store')
     },
     /**
      * 设置当前路由对应的页签为激活状态

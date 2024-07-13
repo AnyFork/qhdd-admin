@@ -16,17 +16,10 @@
                 <div class="form">
                     <h2>商户登录</h2>
                     <n-form ref="formRef" :model="userInfo" :rules="formRules" label-placement="left" label-width="auto" label-align="right" :show-require-mark="false" size="large" :show-label="false">
-                        <n-form-item path="userAccount">
-                            <n-input v-model:value="userInfo.userAccount" @keydown.enter.prevent round clearable placeholder="账号">
+                        <n-form-item path="clerkId">
+                            <n-input v-model:value="userInfo.clerkId" @keydown.enter.prevent round clearable placeholder="请输入店员ID">
                                 <template #prefix>
                                     <icon-material-symbols:account-circle />
-                                </template>
-                            </n-input>
-                        </n-form-item>
-                        <n-form-item path="userPassword" label="密 码">
-                            <n-input v-model:value="userInfo.userPassword" type="password" round @keydown.enter.prevent clearable placeholder="密码">
-                                <template #prefix>
-                                    <icon-mdi:password />
                                 </template>
                             </n-input>
                         </n-form-item>
@@ -41,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-const { userInfo, handleValidateButtonClick, loading, formRef, formRules } = useLogin()
+const { userInfo, handleValidateButtonClick, loading, formRef, formRules } = useStoreLogin()
 </script>
 
 <style scoped>

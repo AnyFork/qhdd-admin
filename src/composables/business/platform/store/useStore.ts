@@ -11,12 +11,14 @@ import { DataTableColumns, DataTableRowKey, FormInst, FormItemRule, NButton, NPo
 export const usePlatformStore = () => {
     const { categoryPageList, tableData: selectData } = usePlatformTag()
     const tableData = ref<store.storeData[]>([])
+    const { routerPush } = useRouterPush()
     const dialog = useDialog()
     const { $axios } = useInstance()
     const message = useMessage()
     const loading = ref(false)
-    const userInfo = getPlatformUserInfo()
+    const { isAdmin } = useLoginUser()
     const checkedRowKeysRef = ref<DataTableRowKey[]>([])
+    const { storeInfo, storeInfoFrom } = useStoreInfo()
     /**
      * 表格分页配置
      */
@@ -213,7 +215,7 @@ export const usePlatformStore = () => {
             align: 'center',
             key: 'businessStatus',
             render: (rowData, _index: number) => {
-                if (userInfo?.roleName === '系统管理员') {
+                if (isAdmin.value) {
                     return h(
                         NPopconfirm,
                         {
@@ -246,7 +248,7 @@ export const usePlatformStore = () => {
             align: 'center',
             key: 'status',
             render: (rowData, _index: number) => {
-                if (userInfo?.roleName === '系统管理员') {
+                if (isAdmin.value) {
                     return h(
                         NPopconfirm,
                         {
@@ -279,7 +281,7 @@ export const usePlatformStore = () => {
             align: 'center',
             key: 'isRecommend',
             render: (rowData, _index: number) => {
-                if (userInfo?.roleName === '系统管理员') {
+                if (isAdmin.value) {
                     return h(
                         NPopconfirm,
                         {
@@ -312,7 +314,7 @@ export const usePlatformStore = () => {
             align: 'center',
             key: 'isStick',
             render: (rowData, _index: number) => {
-                if (userInfo?.roleName === '系统管理员') {
+                if (isAdmin.value) {
                     return h(
                         NPopconfirm,
                         {
@@ -345,7 +347,7 @@ export const usePlatformStore = () => {
             align: 'center',
             key: 'sailed',
             render: (rowData, _index: number) => {
-                if (userInfo?.roleName === '系统管理员') {
+                if (isAdmin.value) {
                     return h(InputNumberColumn, {
                         value: rowData.sailed,
                         editable: false,
@@ -368,7 +370,7 @@ export const usePlatformStore = () => {
             align: 'center',
             key: 'click',
             render: (rowData, _index: number) => {
-                if (userInfo?.roleName === '系统管理员') {
+                if (isAdmin.value) {
                     return h(InputNumberColumn, {
                         value: rowData.click,
                         editable: false,
@@ -391,7 +393,7 @@ export const usePlatformStore = () => {
             align: 'center',
             key: 'displayorder',
             render: (rowData, _index: number) => {
-                if (userInfo?.roleName === '系统管理员') {
+                if (isAdmin.value) {
                     return h(InputNumberColumn, {
                         value: rowData.displayorder,
                         editable: false,
@@ -578,7 +580,7 @@ export const usePlatformStore = () => {
             fixed: 'right',
             width: 180,
             render(rowData) {
-                if (userInfo?.roleName === '系统管理员') {
+                if (isAdmin.value) {
                     return [
                         h(
                             NPopconfirm,
@@ -610,9 +612,14 @@ export const usePlatformStore = () => {
                                 type: 'primary',
                                 style: {
                                     marginLeft: '10px'
+                                },
+                                onClick: () => {
+                                    storeInfo.value = rowData
+                                    storeInfoFrom.value = 1
+                                    routerPush('/store/shop/settings/list', true)
                                 }
                             },
-                            { default: () => '配置' }
+                            { default: () => '管理' }
                         )
                     ]
                 } else {

@@ -13,7 +13,7 @@ export const usePlatformTag = () => {
     const { $axios } = useInstance()
     const message = useMessage()
     const loading = ref(false)
-    const userInfo = getPlatformUserInfo()
+    const { isAdmin } = useLoginUser()
     const pagination = reactive({
         page: 1,
         pageSize: 10,
@@ -135,7 +135,7 @@ export const usePlatformTag = () => {
             fixed: 'right',
             width: 180,
             render(rowData, index) {
-                if (userInfo?.roleName === '系统管理员') {
+                if (isAdmin.value) {
                     return [
                         h(
                             NButton,

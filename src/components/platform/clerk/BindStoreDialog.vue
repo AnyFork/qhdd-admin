@@ -14,10 +14,9 @@
     </n-modal>
 </template>
 <script setup lang="ts">
-import { store } from '@/types/api'
 const { addStoreClerkInfo, updateStoreClerkInfo, loading, message, formRef, rules, moduleValue } = useStoreClerk()
 const open = defineModel<boolean>('open')
-const props = defineProps<{ storeOptions: []; rowNode: store.clerk }>()
+const props = defineProps<{ storeOptions: {label:string,value:string}[]; rowNode: store.clerk }>()
 const emit = defineEmits<{ refresh: [] }>()
 watchEffect(() => {
     moduleValue.id = props.rowNode.id

@@ -4,12 +4,14 @@ interface StorageData {
   expire: number | null
 }
 
-/** 默认缓存期限为7天 */
+/** 
+ * 默认缓存期限为7天
+ */
 const DEFAULT_CACHE_TIME = 60 * 60 * 24 * 7
 
 
 /**
- * 设置localstorage中key对应的值
+ * 设置localStorage中key对应的值
  * @param key 
  * @param value 
  * @param expire 
@@ -17,16 +19,16 @@ const DEFAULT_CACHE_TIME = 60 * 60 * 24 * 7
 export function setLocal(key: string, value: unknown, expire: number | null = DEFAULT_CACHE_TIME) {
   const storageData: StorageData = { value, expire: expire !== null ? new Date().getTime() + expire * 1000 : null }
   const json = encrypt(storageData)
-  window.localStorage.setItem(key, json)
+  localStorage.setItem(key, json)
 }
 
 /**
- * 获取localstorage中key对应的值
+ * 获取localStorage中key对应的值
  * @param key key
  * @returns 值
  */
 export function getLocal<T>(key: string) {
-  const json = window.localStorage.getItem(key)
+  const json = localStorage.getItem(key)
   if (json) {
     let storageData: StorageData | null = null
     try {
@@ -49,15 +51,15 @@ export function getLocal<T>(key: string) {
 }
 
 /**
- * 清除localstorage中的key和值
+ * 清除localStorage中的key和值
  */
 export function removeLocal(key: string) {
-  window.localStorage.removeItem(key)
+  localStorage.removeItem(key)
 }
 
 /**
- * 清除localstorage中的所有值
+ * 清除localStorage中的所有值
  */
 export function clearLocal() {
-  window.localStorage.clear()
+  localStorage.clear()
 }

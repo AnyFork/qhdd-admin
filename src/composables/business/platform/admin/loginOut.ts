@@ -5,7 +5,7 @@ import { logOutPlatform } from "@/service/platform/system/login";
  * @returns 
  */
 export const usePlatformLogOut = () => {
-    const { routerPush } = useRouterPush()
+    const { routerReplace } = useRouterPush()
     const message = useMessage()
     const dialog = useDialog()
     const logOut = () => {
@@ -20,11 +20,11 @@ export const usePlatformLogOut = () => {
                     await logOutPlatform()
                     //清除本地localStorage中的数据
                     clearPlatformAuthStorage()
-                    routerPush('/login/platform')
+                    sessionStorage.clear()
+                    routerReplace('/login/platform')
                 } catch (err: any) {
                     message.error(err.message)
                 }
-
             }
         })
     }

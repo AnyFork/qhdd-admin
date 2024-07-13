@@ -24,6 +24,14 @@ export const useRouterPush = (inSetup = true) => {
     }
   }
 
+  /**
+ * 路由跳转
+ * @param to - 需要跳转的路由
+ */
+  const routerReplace = (to: RouteLocationRaw) => {
+    router.replace(to)
+  }
+
   /** 
    * 返回上一级路由
    */
@@ -86,6 +94,7 @@ export const useRouterPush = (inSetup = true) => {
     toLogin,
     toLoginModule,
     toLoginRedirect,
-    getCurrentRouter
+    getCurrentRouter,
+    routerReplace
   }
 }

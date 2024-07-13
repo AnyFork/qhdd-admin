@@ -7,7 +7,7 @@ export const usePlatformPictureGroup = () => {
     const { $axios } = useInstance()
     const message = useMessage()
     const loading = ref(false)
-    const userInfo = getPlatformUserInfo()
+    const { isAdmin, userInfo } = useLoginUser()
     /**
      * 表格分页配置
      */
@@ -157,7 +157,7 @@ export const usePlatformPictureGroup = () => {
      * @returns 
      */
     const deleteIcon = (disabled: boolean = false, id: number) => {
-        if (userInfo?.roleName === '系统管理员' || !disabled) {
+        if (isAdmin.value || !disabled) {
             return h(
                 NPopover,
                 {},
@@ -200,7 +200,7 @@ export const usePlatformPictureGroup = () => {
      * @returns 
      */
     const editorIcon = (disabled: boolean = false, item: system.attachmentGroup) => {
-        if (userInfo?.roleName === '系统管理员' || !disabled) {
+        if (isAdmin.value || !disabled) {
             return h(
                 NPopover,
                 {},
@@ -258,7 +258,7 @@ export const usePlatformPictureGroup = () => {
                         uid: item.uid,
                         prefix: () => folderIcon,
                         suffix: () => {
-                            return h('div', { style: { display: 'none', marginRight: '5px' }, class: 'suffix_btn' }, { default: () => [editorIcon(userInfo?.id != item.uid, item), deleteIcon(userInfo?.id != item.uid, item.id)] })
+                            return h('div', { style: { display: 'none', marginRight: '5px' }, class: 'suffix_btn' }, { default: () => [editorIcon(userInfo.value?.id != item.uid, item), deleteIcon(userInfo.value?.id != item.uid, item.id)] })
                         }
                     }
                 })

@@ -23,9 +23,10 @@ const storeAxios = axios.create({
  * 添加请求拦截器
  */
 storeAxios.interceptors.request.use(function (config) {
+    const { storeInfoFrom } = useStoreInfo()
     console.log(config)
     // 添加请求头部token
-    const token = getStoreToken()
+    const token = storeInfoFrom.value == 1 ? getPlatformToken() : getStoreToken()
     if (token && config.headers) {
         const tokenObj = JSON.parse(token)
         config.headers[tokenObj.tokenName] = tokenObj.tokenValue

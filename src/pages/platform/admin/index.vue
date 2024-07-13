@@ -17,7 +17,7 @@
         <TableHeaderOperation v-model:columns="columns" v-model:size="size" v-model:striped="striped" :loading="loading" @refresh="adminList"></TableHeaderOperation>
     </n-space>
     <!--数据表格 -->
-    <n-data-table :striped="striped" :bordered="false" :single-line="false" remote :size="size" :columns="columns" :data="tableData" :pagination="pagination" :row-key="(rowData:system.adminInfo) => `${rowData.id}`" :loading="loading" :min-height="tableHeight" :max-height="tableHeight" />
+    <n-data-table :striped="striped" :single-line="false" remote :size="size" :columns="columns" :data="tableData" :pagination="pagination" :row-key="(rowData:system.adminInfo) => `${rowData.id}`" :loading="loading" :min-height="tableHeight" :max-height="tableHeight" />
     <!-- 增加平台管理员dialog -->
     <CreateAdminDialog v-if="CreateShow" v-model:open="CreateShow" :roleList="rolesSelectOptions" @refresh="adminList"></CreateAdminDialog>
     <!-- 编辑平台管理员dialog -->

@@ -11,7 +11,7 @@
         </n-form>
     </n-space>
     <!--数据表格 -->
-    <n-data-table striped remote :bordered="false" :single-line="false" :columns="columns" :data="tableData" :pagination="pagination" :on-update:page="pageChange" :row-key="(rowData:store.category) => `${rowData.id}`" :loading="loading" :min-height="tableHeight" :max-height="tableHeight" />
+    <n-data-table striped remote :single-line="false" :columns="columns" :data="tableData" :pagination="pagination" :on-update:page="pageChange" :row-key="(rowData:store.category) => `${rowData.id}`" :loading="loading" :min-height="tableHeight" :max-height="tableHeight" />
 </template>
 <script setup lang="ts">
 const { categoryPageList, pagination, tableData, loading, columns, pageChange, searchForm } = usePlatformTag()

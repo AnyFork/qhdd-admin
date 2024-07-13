@@ -10,22 +10,20 @@
 </template>
 
 <script setup lang="ts">
-import { useRoute } from 'vue-router'
-import { useElementBounding } from '@vueuse/core'
 defineOptions({ name: 'GlobalTabs' })
-
+import { useElementBounding } from '@vueuse/core'
 const route = useRoute()
 const theme = useThemeStore()
 const tab = useTabStore()
-
 const bsWrapper = ref<HTMLElement>()
 const { width: bsWrapperWidth, left: bsWrapperLeft } = useElementBounding(bsWrapper)
-
-const bsScroll = ref<Expose.BetterScroll>()
-
+const bsScroll = ref<any>()
 const canClick = Boolean(true)
-
-function handleScroll(clientX: number) {
+tab.iniTabStore(route)
+/**
+ * 水平滚动时触发
+ */
+const handleScroll = (clientX: number) => {
     const currentX = clientX - bsWrapperLeft.value
     const deltaX = currentX - bsWrapperWidth.value / 2
     if (bsScroll.value) {
@@ -35,11 +33,6 @@ function handleScroll(clientX: number) {
         bsScroll.value?.instance.scrollBy(update, 0, 300)
     }
 }
-
-function init() {
-    tab.iniTabStore(route)
-}
-
 watch(
     () => route.fullPath,
     () => {
@@ -47,9 +40,6 @@ watch(
         tab.setActiveTab(route.fullPath)
     }
 )
-
-// 初始化
-init()
 </script>
 
 <style scoped>

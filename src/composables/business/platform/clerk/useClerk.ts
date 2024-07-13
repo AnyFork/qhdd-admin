@@ -1,14 +1,16 @@
 import { getClerkPlatform, removeClerkPlatform, updateClerkPlatform } from '@/service/platform/clerk';
 import { Icon } from '@iconify/vue';
 import { DataTableColumns, NAvatar, NButton, NImage, NPopconfirm, NPopover, NSwitch } from 'naive-ui'
-
+/**
+ * 店员
+ * @returns 
+ */
 export const usePlatformClerk = () => {
     const tableData = ref([])
-    const { $axios } = useInstance()
     const message = useMessage()
     const loading = ref(false)
-    const userInfo = getPlatformUserInfo()
     const { deleteStoreClerkInfo } = useStoreClerk()
+    const { isAdmin } = useLoginUser()
     /**
      * 表格分页配置
      */
@@ -61,7 +63,7 @@ export const usePlatformClerk = () => {
             width: 70,
             align: 'center',
             key: 'key',
-            render: (rowData, index: number) => {
+            render: (_rowData, index: number) => {
                 return `${(pagination.page - 1) * pagination.pageSize + index + 1}`
             }
         },
@@ -74,7 +76,7 @@ export const usePlatformClerk = () => {
             title: '微信图像',
             key: 'avatar',
             align: 'center',
-            render: (rowData, index: number) => {
+            render: (rowData, _index: number) => {
                 return h(NAvatar, { src: rowData.avatar, round: true })
             }
         },
@@ -95,7 +97,7 @@ export const usePlatformClerk = () => {
             width: 300,
             align: 'center',
             key: 'store',
-            render(rowData, rowIndex) {
+            render(rowData, _rowIndex) {
                 if (rowData.store) {
                     return h('div', {
                         style: {
@@ -123,12 +125,12 @@ export const usePlatformClerk = () => {
         },
         {
             title() {
-                return searchForm.isDelete == 0 ? renderEditableTitle("工作状态", "可编辑列") : "工作状态"
+                return searchForm.isDelete == 0 ? renderEditableTitle("账号状态", "可编辑列") : "账号状态"
             },
             key: 'status',
             align: 'center',
-            render: (rowData, index: number) => {
-                if (userInfo?.roleName === '系统管理员' && searchForm.isDelete == 0) {
+            render: (rowData, _index: number) => {
+                if (isAdmin.value && searchForm.isDelete == 0) {
                     return h(
                         NPopconfirm,
                         {
@@ -141,12 +143,12 @@ export const usePlatformClerk = () => {
                             }
                         },
                         {
-                            default: () => '您确定修改此店员工作状态吗',
+                            default: () => '您确定修改此店员账号状态吗,禁止后店员将无法登录后台和小程序',
                             trigger: () => h(NSwitch, { checkedValue: 1, uncheckedValue: 0, value: rowData.status }, {})
                         }
                     )
                 } else {
-                    return h(NPopover, {}, { default: () => '非系统管理员禁止操作', trigger: () => h(NSwitch, { checkedValue: 1, uncheckedValue: 0, value: rowData.status, disabled: true }, {}) })
+                    return h(NPopover, {}, { default: () => '非管理员禁止操作', trigger: () => h(NSwitch, { checkedValue: 1, uncheckedValue: 0, value: rowData.status, disabled: true }, {}) })
                 }
             }
         },
@@ -154,7 +156,7 @@ export const usePlatformClerk = () => {
             title: '创建日期',
             align: 'center',
             key: 'addtime',
-            render(rowData, rowIndex) {
+            render(rowData, _rowIndex) {
                 return transformTimestampsToDateString(rowData.addtime)
             },
         },
@@ -165,7 +167,7 @@ export const usePlatformClerk = () => {
             fixed: 'right',
             width: 180,
             render(rowData) {
-                if (userInfo?.roleName === '系统管理员') {
+                if (isAdmin.value) {
                     return [
                         h(
                             NButton,
@@ -221,7 +223,7 @@ export const usePlatformClerk = () => {
                             NPopover,
                             {},
                             {
-                                default: () => '非系统管理员账号禁止绑定店员信息',
+                                default: () => '非管理员账号禁止绑定店员信息',
                                 trigger: () =>
                                     h(
                                         NButton,
@@ -336,5 +338,5 @@ export const usePlatformClerk = () => {
         }
     }
 
-    return { clerkList, updateClerkInfo, deleteClerkInfo, pagination, tableData, loading, columns, $axios, message, rowNode, modifyShow, searchForm }
+    return { clerkList, updateClerkInfo, deleteClerkInfo, pagination, tableData, loading, columns, message, rowNode, modifyShow, searchForm }
 }

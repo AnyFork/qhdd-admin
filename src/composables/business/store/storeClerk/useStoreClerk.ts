@@ -1,13 +1,17 @@
-import { getClerkPlatform } from '@/service/platform/clerk'
-import { bindStoreClerkInfo, removeStoreClerkInfo, updateBindStoreClerkInfo } from '@/service/store/storeClerk'
-import { DataTableColumns, FormInst, FormItemRule, NAvatar, NButton, NPopconfirm, NPopover, NSwitch } from 'naive-ui'
-
+import { bindStoreClerkInfo, removeStoreClerkInfo, storeClerkList, updateBindStoreClerkInfo, updateStoreAccountStatus } from '@/service/store/storeClerk'
+import { DataTableColumns, FormInst, FormItemRule, NAvatar, NButton, NPopconfirm, NPopover, NSwitch, NTag } from 'naive-ui'
+/**
+ * 店员店铺管理信息
+ * @returns 
+ */
 export const useStoreClerk = () => {
     const tableData = ref([])
-    const { $axios } = useInstance()
     const message = useMessage()
     const loading = ref(false)
-    const userInfo = getPlatformUserInfo()
+    const { isAdmin } = useLoginUser()
+    const { storeInfo } = useStoreInfo()
+    // 当前店铺id
+    const sid = computed(() => storeInfo.value.id)
     /**
      * 表格分页配置
      */
@@ -19,23 +23,16 @@ export const useStoreClerk = () => {
         pageSizes: [10, 15, 20, 25, 30],
         onChange: (page: number) => {
             pagination.page = page
-            clerkList()
+            getStoreClerkList()
         },
         onUpdatePageSize: (pageSize: number) => {
             pagination.pageSize = pageSize
             pagination.page = 1
-            clerkList()
+            getStoreClerkList()
         },
         prefix({ itemCount }: any) {
             return `共${itemCount}条`
         }
-    })
-    /**
-     * 查询条件
-     */
-    const searchForm = reactive({
-        name: undefined,
-        roleId: undefined
     })
     /**
      * 修改dialog状态
@@ -59,7 +56,7 @@ export const useStoreClerk = () => {
     const rules = {
         sid: [
             {
-                validator(rule: FormItemRule, value: string) {
+                validator(_rule: FormItemRule, value: string) {
                     if (!value) {
                         return new Error('请选择绑定的门店名')
                     }
@@ -78,7 +75,7 @@ export const useStoreClerk = () => {
             width: 70,
             align: 'center',
             key: 'key',
-            render: (rowData, index: number) => {
+            render: (_rowData, index: number) => {
                 return `${(pagination.page - 1) * pagination.pageSize + index + 1}`
             }
         },
@@ -91,57 +88,165 @@ export const useStoreClerk = () => {
             title: '微信图像',
             key: 'avatar',
             align: 'center',
-            render: (rowData, index: number) => {
-                return h(NAvatar, { src: rowData.avatar, round: true })
+            render: (rowData, _index: number) => {
+                return h(NAvatar, { src: rowData.clerk.avatar, round: true })
             }
         },
         {
             title: '姓名',
             align: 'center',
-            key: 'title'
+            key: 'title',
+            render: (rowData, _index: number) => {
+                return rowData.clerk.title
+            }
         },
         {
             title: '电话号码',
             align: 'center',
-            key: 'mobile'
+            key: 'mobile',
+            render: (rowData, _index: number) => {
+                return rowData.clerk.mobile
+            }
         },
         {
-            title: '所属门店',
+            title: '微信模版消息',
             align: 'center',
-            key: 'bindUid'
-        },
-        {
-            title: '工作状态',
-            key: 'status',
-            align: 'center',
-            render: (rowData, index: number) => {
-                if (userInfo?.roleName === '系统管理员') {
+            key: 'weChat',
+            render: (rowData, _index: number) => {
+                if (isAdmin.value) {
+                    try {
+                        const obj = rowData.extra ? JSON.parse(rowData.extra) : ''
+                        rowData.weChat = obj.accept_wechat_notice || 0
+                    } catch (e: any) {
+                        rowData.weChat = 0
+                    }
                     return h(
                         NPopconfirm,
                         {
-                            onPositiveClick: () => {
-                                if (rowData.status == 1) {
-                                    updateClerkInfo({ id: rowData.id, status: 0 })
+                            onPositiveClick: async () => {
+                                if (rowData.weChat == 1) {
+                                    await updateStoreClerkInfo({ id: rowData.id, sid: sid.value as number, extra: JSON.stringify({ accept_wechat_notice: 0, accept_voice_notice: rowData.voice }) })
                                 } else {
-                                    updateClerkInfo({ id: rowData.id, status: 1 })
+                                    await updateStoreClerkInfo({ id: rowData.id, sid: sid.value as number, extra: JSON.stringify({ accept_wechat_notice: 1, accept_voice_notice: rowData.voice }) })
                                 }
+                                getStoreClerkList()
                             }
                         },
                         {
-                            default: () => '您确定修改此店员工作状态吗',
-                            trigger: () => h(NSwitch, { checkedValue: 1, uncheckedValue: 0, value: rowData.status }, {})
+                            default: () => '您确定修改微信模版消息状态码',
+                            trigger: () => h(NSwitch, { checkedValue: 1, uncheckedValue: 0, value: rowData.weChat }, { checked: () => "开启", unchecked: () => "关闭" })
                         }
                     )
                 } else {
-                    return h(NPopover, {}, { default: () => '非系统管理员禁止操作', trigger: () => h(NSwitch, { checkedValue: 1, uncheckedValue: 0, value: rowData.status, disabled: true }, {}) })
+                    return h(NPopover, {}, { default: () => '非店铺管理员禁止操作', trigger: () => h(NSwitch, { checkedValue: 1, uncheckedValue: 0, value: rowData.weChat, disabled: true }, {}) })
                 }
+            }
+        },
+        {
+            title: '语音电话提醒',
+            align: 'center',
+            key: 'voice',
+            render: (rowData, _index: number) => {
+                if (isAdmin.value) {
+                    try {
+                        const obj = rowData.extra ? JSON.parse(rowData.extra) : ''
+                        rowData.voice = obj.accept_voice_notice || 0
+                    } catch (e: any) {
+                        rowData.voice = 0
+                        console.log(e)
+                    }
+                    return h(
+                        NPopconfirm,
+                        {
+                            onPositiveClick: async () => {
+                                if (rowData.voice == 1) {
+                                    await updateStoreClerkInfo({ id: rowData.id, sid: sid.value as number, extra: JSON.stringify({ accept_wechat_notice: rowData.weChat, accept_voice_notice: 0 }) })
+                                } else {
+                                    await updateStoreClerkInfo({ id: rowData.id, sid: sid.value as number, extra: JSON.stringify({ accept_wechat_notice: rowData.weChat, accept_voice_notice: 1 }) })
+                                }
+                                getStoreClerkList()
+                            }
+                        },
+                        {
+                            default: () => '您确定修改语音消息状态吗',
+                            trigger: () => h(NSwitch, { checkedValue: 1, uncheckedValue: 0, value: rowData.voice }, { checked: () => "开启", unchecked: () => "关闭" })
+                        }
+                    )
+                } else {
+                    return h(NPopover, {}, { default: () => '非店铺管理员禁止操作', trigger: () => h(NSwitch, { checkedValue: 1, uncheckedValue: 0, value: rowData.voice, disabled: true }, {}) })
+                }
+            }
+        },
+        {
+            title: '客服工作状态',
+            key: 'kefuStatus',
+            align: 'center',
+            render: (rowData, _index: number) => {
+                if (isAdmin.value) {
+                    return h(
+                        NPopconfirm,
+                        {
+                            onPositiveClick: async () => {
+                                if (rowData.kefuStatus == 1) {
+                                    await updateStoreClerkInfo({ id: rowData.id, sid: sid.value as number, kefuStatus: 0 })
+                                } else {
+                                    await updateStoreClerkInfo({ id: rowData.id, sid: sid.value as number, kefuStatus: 1 })
+                                }
+                                getStoreClerkList()
+                            }
+                        },
+                        {
+                            default: () => '您确定修改此客服工作状态吗',
+                            trigger: () => h(NSwitch, { checkedValue: 1, uncheckedValue: 0, value: rowData.kefuStatus }, { checked: () => "在线", unchecked: () => "忙碌" })
+                        }
+                    )
+                } else {
+                    return h(NPopover, {}, { default: () => '非店铺管理员禁止操作', trigger: () => h(NSwitch, { checkedValue: 1, uncheckedValue: 0, value: rowData.kefuStatus, disabled: true }, {}) })
+                }
+            }
+        },
+        {
+            title: "账号状态",
+            key: 'status',
+            align: 'center',
+            render: (rowData, _index: number) => {
+                if (isAdmin.value) {
+                    return h(
+                        NPopconfirm,
+                        {
+                            onPositiveClick: async () => {
+                                if (rowData.clerk.status == 1) {
+                                    await updateStoreAccountStatus(rowData.clerk.id, 0)
+                                } else {
+                                    await updateStoreAccountStatus(rowData.clerk.id, 1)
+                                }
+                                // 刷新数据
+                                getStoreClerkList()
+                            }
+                        },
+                        {
+                            default: () => '您确定修改此店员账号状态吗,禁止后店员将无法登录后台和小程序',
+                            trigger: () => h(NSwitch, { checkedValue: 1, uncheckedValue: 0, value: rowData.clerk.status }, {})
+                        }
+                    )
+                } else {
+                    return h(NPopover, {}, { default: () => '非管理员禁止操作', trigger: () => h(NSwitch, { checkedValue: 1, uncheckedValue: 0, value: rowData.clerk.status, disabled: true }, {}) })
+                }
+            }
+        },
+        {
+            title: '角色',
+            align: 'center',
+            key: 'role',
+            render(rowData, _rowIndex) {
+                return h(NTag, { type: "primary" }, { default: () => rowData.role == "clerk" ? "店员" : "管理员" })
             }
         },
         {
             title: '创建日期',
             align: 'center',
             key: 'addtime',
-            render(rowData, rowIndex) {
+            render(rowData, _rowIndex) {
                 return transformTimestampsToDateString(rowData.addtime)
             },
         },
@@ -152,18 +257,18 @@ export const useStoreClerk = () => {
             fixed: 'right',
             width: 180,
             render(rowData) {
-                if (userInfo?.roleName === '系统管理员') {
+                if (isAdmin.value) {
                     return [
-                        h(
+                        rowData.role == "clerk" ? h(
                             NPopconfirm,
                             {
-                                onPositiveClick: () => {
-                                    rowNode.value = rowData
-                                    modifyShow.value = true
+                                onPositiveClick: async () => {
+                                    await updateStoreClerkInfo({ id: rowData.id, role: "manager" })
+                                    getStoreClerkList()
                                 }
                             },
                             {
-                                default: () => '您确定要修改此用户账号吗?',
+                                default: () => '您确定要将此店员设置为店铺管理员吗?',
                                 trigger: () =>
                                     h(
                                         NButton,
@@ -174,19 +279,19 @@ export const useStoreClerk = () => {
                                                 marginLeft: '10px'
                                             }
                                         },
-                                        { default: () => '绑定' }
+                                        { default: () => '管理员' }
                                     )
                             }
-                        ),
+                        ) : "",
                         h(
                             NPopconfirm,
                             {
                                 onPositiveClick: () => {
-                                    updateClerkInfo({ id: rowData.id, isDelete: 1 })
+                                    deleteStoreClerkInfo(rowData.id)
                                 }
                             },
                             {
-                                default: () => '您确定要删除此店员吗,删除后数据将进入回收站。',
+                                default: () => '您确定要删除此店员吗,删除后此店员无法操作此门店。',
                                 trigger: () =>
                                     h(
                                         NButton,
@@ -208,7 +313,7 @@ export const useStoreClerk = () => {
                             NPopover,
                             {},
                             {
-                                default: () => '非系统管理员账号禁止绑定店员信息',
+                                default: () => '非店铺管理员账号禁止绑定店员信息',
                                 trigger: () =>
                                     h(
                                         NButton,
@@ -253,12 +358,12 @@ export const useStoreClerk = () => {
     ])
 
     /**
-     * 获取店员列表
+     * 获取店员绑定关联列表
      */
-    const clerkList = async () => {
+    const getStoreClerkList = async () => {
         try {
             loading.value = true
-            const { data } = await getClerkPlatform({ pageNo: pagination.page, pageSize: pagination.pageSize, type: 1, isDelete: 0 })
+            const { data } = await storeClerkList({ pageNo: pagination.page, pageSize: pagination.pageSize, sid: sid.value })
             loading.value = false
             if (data.code == 200) {
                 tableData.value = data.data
@@ -336,5 +441,5 @@ export const useStoreClerk = () => {
         }
     }
 
-    return { clerkList, addStoreClerkInfo, updateStoreClerkInfo, deleteStoreClerkInfo, pagination, tableData, loading, columns, formRef, moduleValue, rules, $axios, message, rowNode, modifyShow, searchForm }
+    return { getStoreClerkList, addStoreClerkInfo, updateStoreClerkInfo, deleteStoreClerkInfo, pagination, tableData, loading, columns, formRef, moduleValue, rules, message, rowNode, modifyShow }
 }

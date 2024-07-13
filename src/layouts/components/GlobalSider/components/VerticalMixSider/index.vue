@@ -12,14 +12,12 @@
 
 <script setup lang="ts">
 defineOptions({ name: 'VerticalMixSider' })
-//获取当前用户信息
-const user = getPlatformUserInfo() as any
 const route = useRoute()
 const app = useAppStore()
 const theme = useThemeStore()
 const routeStore = useRouteStore()
 const { routerPush } = useRouterPush()
-const { bool: drawerVisible, setTrue: openDrawer, setFalse: hideDrawer } = useBoolean()
+const { bool: drawerVisible, setTrue: openDrawer, setFalse: hideDrawer } = useBoolean(true)
 /**激活的路由名称 */
 const activeParentRouteName = ref('')
 const setActiveParentRouteName = (routeName: string) => {
@@ -28,9 +26,6 @@ const setActiveParentRouteName = (routeName: string) => {
 /**一级菜单数据*/
 const firstDegreeMenus = computed(() => {
     let menu = routeStore.menus
-    if (user && user.roleName != '系统管理员') {
-        menu = menu.slice(0, -1)
-    }
     return menu.map((item) => {
         const { routeName, label } = item
         const icon = item?.icon

@@ -3,9 +3,9 @@
         <n-card bordered class="w-450px opacity-80">
             <div>
                 <n-space justify="center">
-                    <n-avatar round bordered :size="60" :src="userInfo.avatar" />
+                    <n-avatar round bordered :size="60" :src="userAvatar" />
                 </n-space>
-                <div class="w-full text-center pt-3 pb-6">欢迎您，{{ userInfo.name }}</div>
+                <div class="w-full text-center pt-3 pb-6">欢迎您，{{ userName }}</div>
             </div>
             <n-form ref="formRef" :model="LockPassword" :rules="rules" :show-label="false">
                 <n-form-item path="password">
@@ -19,7 +19,7 @@
 
 <script setup lang="ts">
 import { FormInst, FormItemRule, FormRules } from 'naive-ui'
-import user from '@/assets/images/user.png'
+const { userName, userAvatar } = useLoginUser()
 const useRouter = useRouterPush()
 const lockScreen = useLockScreenStore()
 const formRef = ref<FormInst | null>(null)
@@ -27,17 +27,12 @@ const message = useMessage()
 const LockPassword = reactive({
     password: ''
 })
-//当前登录用户信息
-const userInfo = reactive({
-    avatar: user,
-    name: ''
-})
 /**自定义表单校验规则*/
 const rules: FormRules = {
     password: [
         {
             required: true,
-            validator(rule: FormItemRule, value: string) {
+            validator(_rule: FormItemRule, value: string) {
                 if (!value) {
                     return new Error('请输入锁屏密码!')
                 } else if (!/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]/.test(value)) {
@@ -67,13 +62,6 @@ const handleValidateButtonClick = (e: MouseEvent) => {
         }
     })
 }
-onMounted(() => {
-    const data = getPlatformUserInfo() as any
-    if (data.avatar) {
-        userInfo.avatar = data.avatar
-    }
-    userInfo.name = data.name
-})
 </script>
 <style scoped>
 .lock-screen {
