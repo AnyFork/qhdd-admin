@@ -1,0 +1,190 @@
+<template>
+    <div class="flex items-center text-16px p-2 my-2 h-40px bg-#eee before:content-[''] before:w-5px before:h-20px before:bg-primary before:inline-flex before:mr-2">商户基本信息设置</div>
+    <n-form ref="formRef" :label-width="200" :model="moduleValue" :rules="rules" size="medium" label-placement="left" style="margin-top: 20px">
+        <n-form-item show-require-mark label="门店名称" path="title">
+            <n-input v-model:value="moduleValue.title" clearable placeholder="请输入商户名称" class="!w-680px" />
+        </n-form-item>
+        <n-form-item show-require-mark label="主营品类" path="cateParentid1">
+            <n-select v-model:value="moduleValue.cateParentid1" :options="shopCategoryOption" placeholder="请选择商户标签" clearable class="w-680px" />
+        </n-form-item>
+        <n-form-item label="所属片区">
+            <n-select v-model:value="moduleValue.cateParentid2" :options="shopAreaOption" placeholder="请选择商户标签" clearable class="w-680px" />
+        </n-form-item>
+        <n-form-item label="所属连锁店">
+            <n-select v-model:value="moduleValue.chainid" :options="chainOptions" placeholder="请选择连锁店" clearable class="w-680px" />
+        </n-form-item>
+        <n-form-item label="门店图标">
+            <div class="selectImg">
+                <div class="flex-row-center">
+                    <n-input v-model:value="moduleValue.logo" disabled learable class="!w-[625px]" placeholder="请选择Logo" />
+                    <n-button type="primary" @click="showLogo = true"> 搜索 </n-button>
+                </div>
+                <n-image :src="node?.url ?? getAssetsImages('nopic.jpg')" :preview-disabled="!node?.url" width="100" height="100" class="my-1 border border-solid border-#f5f5f5"></n-image>
+            </div>
+        </n-form-item>
+        <n-form-item label="门店描述" path="description">
+            <n-input v-model:value="moduleValue.description" clearable placeholder="请输入门店描述" class="!w-680px" />
+        </n-form-item>
+        <n-form-item label="门店电话" path="telephone">
+            <n-input v-model:value="moduleValue.telephone" clearable placeholder="请输入门店电话" class="!w-680px" />
+        </n-form-item>
+        <n-form-item label="门店实景">
+            <div>
+                <n-button type="primary" @click="showThumb = true">选择图片</n-button>
+                <div class="text-#999 text-12px py-1">建议尺寸640*120</div>
+                <div v-if="thumbNode && thumbNode.length > 0" class="flex items-center flex-wrap gap-2">
+                    <n-image v-for="(item, index) in thumbNode" :key="'thumb' + index" :src="item?.url" :preview-disabled="!node?.url" width="640" height="120" class="my-1 border border-solid border-#f5f5f5"></n-image>
+                </div>
+            </div>
+        </n-form-item>
+        <n-form-item label="详细地址" path="address">
+            <n-input v-model:value="moduleValue.address" clearable placeholder="请输入商户详细地址" class="!w-680px" />
+        </n-form-item>
+        <n-form-item label="营业状态" path="businessStatus">
+            <n-switch v-model:value="moduleValue.businessStatus" :checked-value="2" :unchecked-value="0">
+                <template #checked> 营业中 </template>
+                <template #unchecked> 歇业中</template>
+            </n-switch>
+        </n-form-item>
+        <n-form-item label="营业时间">
+            <div>
+                <n-space v-for="(item, index) in moduleValue.businessHours" :key="index" class="mb-2">
+                    <n-time-picker v-model:value="item.start" format="H:mm" class="!w-280px" time-zone="Asia/Shanghai" />
+                    <span>至</span>
+                    <n-time-picker v-model:value="item.end" format="H:mm" class="!w-280px" time-zone="Asia/Shanghai" />
+                    <n-button type="error" @click="removeBusinessHours(index)">删除</n-button>
+                </n-space>
+                <n-button type="primary" @click="addBusinessHours">添加营业时间段</n-button>
+            </div>
+        </n-form-item>
+        <n-form-item label="地图坐标">
+            <div class="flex-row-center gap-4">
+                <n-input v-model:value="moduleValue.locationY" clearable placeholder="请输入坐标经度" class="!w-280px" />
+                <n-input v-model:value="moduleValue.locationX" clearable placeholder="请输入坐标纬度" class="!w-280px" />
+                <n-button type="default" @click="locationBtn = true">选择坐标</n-button>
+            </div>
+        </n-form-item>
+        <n-form-item label="商户标签">
+            <n-select v-model:value="moduleValue.shopCategory" :options="shopOption" placeholder="请选择商户标签" clearable class="w-680px" />
+        </n-form-item>
+        <n-form-item label="配送标签">
+            <n-select v-model:value="moduleValue.deliveryCategory" :options="deliveryOption" placeholder="请选择配送标签" clearable class="w-680px" />
+        </n-form-item>
+        <n-form-item label="服务标签">
+            <n-select v-model:value="moduleValue.serviceCategory" :options="serviceOption" placeholder="请选择服务标签" clearable class="w-680px" />
+        </n-form-item>
+        <n-form-item>
+            <n-button type="primary" class="w-680px ml-200px" @click="submitCallback" :loading="loading">保存</n-button>
+        </n-form-item>
+    </n-form>
+    <!-- 选择门店logo对话框 -->
+    <SelectImageDialog v-if="showLogo" v-model:open="showLogo" v-model:node="node"></SelectImageDialog>
+    <!-- 选择门店实景图对话框 -->
+    <SelectImageDialog v-if="showThumb" v-model:open="showThumb" v-model:node="thumbNode" multi></SelectImageDialog>
+    <!-- 坐标选择器 -->
+    <MapContainer v-if="locationBtn" v-model:show="locationBtn" :location-x="moduleValue.locationX ? Number(moduleValue.locationX) : undefined" :location-y="moduleValue.locationY ? Number(moduleValue.locationY) : undefined" @location="locationBack"></MapContainer>
+</template>
+
+<script setup lang="ts">
+import { getAssetsImages } from '@/utils/tools/getAssetsImages'
+const emit = defineEmits<{ refresh: [] }>()
+const { formRef, moduleValue, rules, getStoreDetailInfoBySid, loading, message, categoryPageList, serviceOption, shopOption, deliveryOption, updateStoreInfo, removeBusinessHours, addBusinessHours } = useStore()
+const { storeCategoryList } = usePlatformCategory()
+const { chainSelectList, chainOptions } = useChain()
+const showLogo = ref(false)
+const showThumb = ref(false)
+const locationBtn = ref(false)
+const node = ref<Partial<system.attachment>>({})
+const thumbNode = ref<Partial<system.attachment[]>>()
+// 主营区域
+const categoryRef = ref<system.category[]>()
+// 所属片区
+const areaRef = ref<system.category[]>()
+/**
+ * 主营分类
+ */
+const shopCategoryOption = computed(() =>
+    categoryRef.value?.map((item) => ({
+        label: item.title,
+        value: item.id!
+    }))
+)
+
+/**
+ * 所属片区
+ */
+const shopAreaOption = computed(() =>
+    areaRef.value?.map((item) => ({
+        label: item.title,
+        value: item.id!
+    }))
+)
+/**
+ * 选择经纬度回调
+ */
+const locationBack = (location: { locationY: number; locationX: number }) => {
+    moduleValue.locationY = String(location.locationY)
+    moduleValue.locationX = String(location.locationX)
+}
+/**
+ * 表单校验
+ * @param e
+ */
+const submitCallback = (e: MouseEvent) => {
+    e.preventDefault
+    formRef.value?.validate(async (errors) => {
+        if (!errors) {
+            const array = []
+            const { id, title, logo, chainid, businessStatus, cateParentid1, cateParentid2, description, telephone, businessHours, thumbs, address, locationX, locationY, shopCategory, serviceCategory, deliveryCategory } = moduleValue
+            const time = businessHours && businessHours.length > 0 ? JSON.stringify(businessHours) : undefined
+            if (shopCategory) {
+                array.push(shopCategory)
+            }
+            if (deliveryCategory) {
+                array.push(deliveryCategory)
+            }
+            if (serviceCategory) {
+                array.push(serviceCategory)
+            }
+            await updateStoreInfo({ id, title, logo, chainid, businessStatus, cateParentid1, cateParentid2, description, telephone, businessHours: time, thumbs, address, locationX, locationY, serviceLabel: array.join(',') })
+            getStoreDetailInfoBySid()
+            // 清空表单校验
+            formRef.value?.restoreValidation()
+        } else {
+            console.log(errors)
+            message.error('表单参数校验失败!')
+        }
+    })
+}
+watchEffect(() => {
+    moduleValue.logo = node.value?.attachment
+    const thumbs = thumbNode.value?.map((item) => {
+        return { image: item?.attachment, url: '' }
+    })
+    moduleValue.thumbs = thumbs ? JSON.stringify(thumbs) : undefined
+})
+onMounted(async () => {
+    getStoreDetailInfoBySid()
+    categoryPageList()
+    chainSelectList()
+    categoryRef.value = (await storeCategoryList(1)) || []
+    areaRef.value = (await storeCategoryList(2)) || []
+    moduleValue.logo ? (node.value.url = previewUrl + moduleValue.logo) : ''
+    if (moduleValue.thumbs) {
+        try {
+            const temp = JSON.parse(moduleValue.thumbs)
+            if (temp?.length > 0) {
+                thumbNode.value = temp.map((item: any) => {
+                    return {
+                        attachment: item.image,
+                        url: previewUrl + item.image
+                    }
+                })
+                console.log(thumbNode.value)
+            }
+        } catch (err) {
+            thumbNode.value = []
+        }
+    }
+})
+</script>

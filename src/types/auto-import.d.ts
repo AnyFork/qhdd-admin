@@ -364,7 +364,7 @@ declare global {
   const useStepper: typeof import('@vueuse/core')['useStepper']
   const useStorage: typeof import('@vueuse/core')['useStorage']
   const useStorageAsync: typeof import('@vueuse/core')['useStorageAsync']
-  const useStore: typeof import('../composables/business/platform/store/useStore')['useStore']
+  const useStore: typeof import('../composables/business/store/store/useStore')['useStore']
   const useStoreClerk: typeof import('../composables/business/store/storeClerk/useStoreClerk')['useStoreClerk']
   const useStoreInfo: typeof import('../composables/useStoreInfo')['useStoreInfo']
   const useStoreLogOut: typeof import('../composables/business/store/admin/loginOut')['useStoreLogOut']

@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@amap/amap-jsapi-loader": "^1.0.1",
     "@better-scroll/core": "^2.5.1",
     "@soybeanjs/vue-materials": "^0.2.0",
     "@vueuse/core": "^10.11.0",

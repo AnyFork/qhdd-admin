@@ -1,5 +1,5 @@
 <template>
-    <n-modal v-model:show="open" preset="card" title="选择图片" :mask-closable="false" :close-on-esc="false" class="w-[900px]">
+    <n-modal v-model:show="open" preset="card" title="选择图片" :mask-closable="false" :close-on-esc="false" class="w-[980px]">
         <n-grid x-gap="10" class="border border-solid border-[#f5f5f5]">
             <n-grid-item span="6">
                 <n-flex vertical class="p-2 border-r border-r-solid border-r-[#f5f5f5]">
@@ -97,7 +97,8 @@
 
 <script setup lang="ts">
 const open = defineModel<boolean>('open')
-const node = defineModel<Partial<system.attachment>>('node')
+const node = defineModel<Partial<system.attachment | system.attachment[]>>('node')
+const { multi = false } = defineProps<{ multi?: boolean }>()
 const {
     removeChecked,
     loading,
@@ -137,14 +138,19 @@ pagination.pageSize = 18
 const selectImage = () => {
     console.log(selectedPictureNode.value.length)
     if (selectedPictureNode.value && selectedPictureNode.value.length > 0) {
-        if (selectedPictureNode.value.length > 1) {
-            message.error('只能选择一项')
-        } else {
-            node.value = selectedPictureNode.value[0]
+        if (multi) {
+            node.value = selectedPictureNode.value
             open.value = false
+        } else {
+            if (selectedPictureNode.value.length > 1) {
+                message.error('只能选择一项')
+            } else {
+                node.value = selectedPictureNode.value[0]
+                open.value = false
+            }
         }
     } else {
-        message.error('请选择选择一项')
+        message.error('请至少选择一项')
     }
 }
 onMounted(async () => {

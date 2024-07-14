@@ -10,6 +10,7 @@
 <script setup lang="ts">
 import { UploadFileInfo } from 'naive-ui'
 import { Icon } from '@iconify/vue'
+const { storeInfoFrom } = useStoreInfo()
 const message = useMessage()
 const token = ref()
 const url = defineModel<string>('url', { default: '' })
@@ -83,7 +84,7 @@ const finish = ({ file, event }: { file: UploadFileInfo; event?: ProgressEvent }
     }
 }
 onMounted(() => {
-    const tokenInfo = getPlatformToken()
+    const tokenInfo = storeInfoFrom.value == 1 ? getPlatformToken() : getStoreToken()
     token.value = tokenInfo ? JSON.parse(tokenInfo) : undefined
 })
 </script>

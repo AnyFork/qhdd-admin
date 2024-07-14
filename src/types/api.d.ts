@@ -344,6 +344,30 @@ declare namespace store {
          * 排序方式 (0 = 默认id倒序, 1 = id升序, 2 = addtime升序, 3 = addtime倒序, 4 = displayorder升序, 5 = displayorder倒序, 6 = cateParentid1倒序, 7 = cateChildid1倒序, 8 = cateParentid2倒序, 9 = isInBusiness倒序, 10 = businessStatus倒序, 11 = restCanOrder倒序, 12 = sendPrice倒序, 13 = deliveryPrice倒序, 14 = packPrice倒序, 15 = deliveryTime倒序, 16 = prepareTime倒序, 17 = deliveryType倒序, 18 = serveRadius倒序, 19 =status倒序, 20 = wgDisplayorder倒序, 21 = payment倒序, 22 = sailed倒序, 23 = score倒序, 24 = favor倒序, 25 = firstOrderStatus倒序, 26 = click倒序, 27 = isRecommend倒序, 28 =isStick倒序, 29 =chainid倒序, 30 = deliveryTimes倒序)
          */
         sortType: number
+        /**
+         * 营业时间
+         */
+        businessHours: string
+        /**
+         * 门店实景
+         */
+        thumbs: string
+        /**
+         * 详细地址
+         */
+        address: string
+        /**
+         * 经度
+         */
+        locationX: string
+        /**
+         * 纬度
+         */
+        locationY: string
+        /**
+         * 营业资质图片
+         */
+        qualification: string
     }
     /**
      * 商户标签

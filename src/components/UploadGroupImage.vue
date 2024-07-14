@@ -12,6 +12,7 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue'
 import { UploadFileInfo } from 'naive-ui'
+const { storeInfoFrom } = useStoreInfo()
 const message = useMessage()
 const currentGroupId = defineModel<number>('currentGroupId', { required: true })
 const { text = '上传' } = defineProps<{ text?: string }>()
@@ -49,7 +50,7 @@ const finish = ({ event }: { event?: ProgressEvent }) => {
     }
 }
 onMounted(() => {
-    const tokenInfo = getPlatformToken()
+    const tokenInfo = storeInfoFrom.value == 1 ? getPlatformToken() : getStoreToken()
     token.value = tokenInfo ? JSON.parse(tokenInfo) : undefined
 })
 </script>

@@ -12,6 +12,10 @@ export const storeClerkListApi = '/storeClerk/getList'
 // 修改店员账号状态
 export const updateStoreAccountStatusApi = '/clerk/update'
 
+// 通过店铺id获取店铺信息
+export const getStoreInfoBySidApi = "/store/getById"
+// 通过店铺id修改店铺信息
+export const updateStoreInfoBySidApi = "/store/update"
 
 // 店员登录
 export const storeLoginApi = "/accMerchant/login"
