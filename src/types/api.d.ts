@@ -368,6 +368,95 @@ declare namespace store {
          * 营业资质图片
          */
         qualification: string
+        /**
+        * 营业资质图片,解析后对象
+        */
+        qualificationObj: { business: { thumb: string }, service: { thumb: string }, more1: { thumb: string }, more2: { thumb: string } }
+        /**
+         * 营业执照过期时间
+         */
+        licenseEndtime: number
+        /**
+       * 营业执照过期时间
+       */
+        licenseEndtimeStr: string | null
+        /**
+         * 餐饮执照过期时间
+         */
+        foodcertEndtime: number
+        /**
+       * 餐饮执照过期时间
+       */
+        foodcertEndtimeStr: string | null
+        /**
+         * 繁杂的配置
+         */
+        data: string
+        /**
+         * 繁杂配置解析后对象
+         */
+        dataObj: {
+            /**
+             * 食品安全等级
+             */
+            food_level?: "A" | "B" | "C" | "非餐饮"
+            /**
+             * 打印机打印类型
+             */
+            printer_perms?: Array<"orderplace" | "orderremind" | "ordercancel" | "cancelrefund">
+            /**
+             * 自动通知配送员的时间
+             */
+            auto_notice_deliveryer_time?: number
+        }
+        /**
+         * 打印机打印设置，0=支付后自动打印,1=接单后自动打印,2=手动打印
+         */
+        autoPrintOrder?: 0 | 1 | 2
+        /**
+         * 自动接单方式 0=不自动接单,1=支付后自动接单, 2=打印机出单后自动接单(注:仅喜讯打印机支持,其他打印机不支持)
+         */
+        autoHandelOrder?: 0 | 1 | 2
+        /**
+         * 接单后自动通知配送员配送 1=开启,0=关闭
+         */
+        autoNoticeDeliveryer?: 0 | 1
+        /**
+         * 是否支持开发票(1=是,0=否)
+         */
+        invoiceStatus?: 0 | 1
+        /**
+         * 支付方式(wechat=微信支付,credit=余额支付) 
+         */
+        payment?: string
+        /**
+         * 支付方式(wechat=微信支付,credit=余额支付) 
+         */
+        paymentStr: Array<"wechat" | "credit">
+        /**
+         * 催单时间间隔
+         */
+        remindTimeLimit?: number
+        /**
+         * 可催单开始时间
+         */
+        remindTimeStart?: number
+        /**
+         * 自定义催单回复
+         */
+        remindReply: string
+        /**
+         * 自定义催单回复
+         */
+        remindReplyStr: Array<{ text: string }>
+        /**
+         * 评价回复
+         */
+        commentReply: string
+        /**
+         * 评价回复
+         */
+        commentReplyStr: Array<{ text: string }>
     }
     /**
      * 商户标签

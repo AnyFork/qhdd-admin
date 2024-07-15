@@ -74,7 +74,21 @@ export const useStore = () => {
         address: undefined,
         locationX: undefined,
         locationY: undefined,
-        qualification: undefined
+        qualificationObj: { business: { thumb: "" }, service: { thumb: "" }, more1: { thumb: "" }, more2: { thumb: "" } },
+        dataObj: {
+            food_level: undefined,
+            printer_perms: ['orderplace'],
+            auto_notice_deliveryer_time: undefined
+        },
+        autoPrintOrder: undefined,
+        autoHandelOrder: undefined,
+        autoNoticeDeliveryer: undefined,
+        invoiceStatus: undefined,
+        paymentStr: [],
+        remindTimeLimit: undefined,
+        remindTimeStart: undefined,
+        remindReplyStr: [],
+        commentReplyStr: []
     })
     /**
      * 表单校验规则
@@ -109,11 +123,10 @@ export const useStore = () => {
     const getStoreDetailInfoBySid = async () => {
         try {
             loading.value = true
-            const { data } = await getStoreInfoBySid(sid.value!)
+            const { data: dataList } = await getStoreInfoBySid(sid.value!)
             loading.value = false
-            if (data.code == 200) {
-                console.log(data.data)
-                const { id, title, logo, displayorder, chainid, businessStatus, cateParentid1, cateParentid2, description, telephone, businessHours, thumbs, address, locationX, locationY, categoryList } = data.data
+            if (dataList.code == 200) {
+                const { id, title, logo, displayorder, chainid, businessStatus, cateParentid1, cateParentid2, description, telephone, businessHours, thumbs, address, locationX, locationY, categoryList, qualification, licenseEndtime, foodcertEndtime, data } = dataList.data
                 moduleValue.id = id
                 moduleValue.title = title
                 moduleValue.logo = logo
@@ -148,8 +161,44 @@ export const useStore = () => {
                 moduleValue.address = address
                 moduleValue.locationX = locationX
                 moduleValue.locationY = locationY
+                if (qualification) {
+                    try {
+                        moduleValue.qualificationObj = JSON.parse(qualification)
+                    } catch (e: any) {
+                        console.error(e)
+                    }
+                }
+                if (data) {
+                    try {
+                        moduleValue.dataObj = JSON.parse(data)
+                    } catch (e: any) {
+                        moduleValue.dataObj!.food_level = "A"
+                        console.error(e)
+                    }
+                }
+                moduleValue.foodcertEndtimeStr = String(foodcertEndtime)
+                moduleValue.licenseEndtimeStr = String(licenseEndtime)
+                moduleValue.autoPrintOrder = dataList.data?.autoPrintOrder
+                moduleValue.autoHandelOrder = dataList.data?.autoHandelOrder
+                moduleValue.autoNoticeDeliveryer = dataList.data?.autoNoticeDeliveryer
+                moduleValue.invoiceStatus = dataList.data?.invoiceStatus
+                moduleValue.paymentStr = dataList.data?.payment?.split(",").length == 2 ? dataList.data?.payment?.split(",") : []
+                moduleValue.remindTimeLimit = dataList.data?.remindTimeLimit
+                moduleValue.remindTimeStart = dataList.data?.remindTimeStart
+                if (dataList.data?.remindReply) {
+                    const tmp = dataList.data?.remindReply?.split(",")
+                    moduleValue.remindReplyStr = tmp?.map((item: string) => ({
+                        text: item
+                    }))
+                }
+                if (dataList.data?.commentReply) {
+                    const tmp = dataList.data?.commentReply?.split(",")
+                    moduleValue.commentReplyStr = tmp?.map((item: string) => ({
+                        text: item
+                    }))
+                }
             } else {
-                message.error(data.msg)
+                message.error(dataList.msg)
             }
         } catch (e: any) {
             loading.value = false

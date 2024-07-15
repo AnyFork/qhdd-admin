@@ -1,5 +1,5 @@
 <template>
-    <n-tabs type="segment" v-model:value="activeTab">
+    <n-tabs type="card" v-model:value="activeTab">
         <n-tab name="BasicSetting">基本信息</n-tab>
         <n-tab name="BusinessQualification"> 营业资质 </n-tab>
         <n-tab name="TakeoutSettings"> 外卖设置 </n-tab>
