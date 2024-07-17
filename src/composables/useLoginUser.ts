@@ -54,7 +54,7 @@ export const useLoginUser = () => {
     /**
      * 商户名称
      */
-    const storeName = computed(() => (userInfo.value as store.clerk)?.store?.title || storeInfo.value.title)
+    const storeName = computed(() => (userInfo.value as store.clerk)?.store?.title || storeInfo.value?.title)
 
     /**
      * 当前系统登录用户

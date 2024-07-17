@@ -9,6 +9,19 @@ export const previewUrl = import.meta.env.VITE_PREVIEW_IMG_PREVIEW
 
 
 /**
+ * 动态渲染Popover
+ * @param trigger 触发节点
+ * @param content Popover 文本
+ * @returns 
+ */
+export const renderPopover = (trigger: VNode, content: string) => {
+    return h(NTooltip, null, {
+        trigger: () => trigger,
+        default: () => content
+    })
+}
+
+/**
  * 动态渲染tooltip
  * @param trigger 触发节点
  * @param content tooltip 文本
@@ -20,6 +33,7 @@ export const renderTooltip = (trigger: VNode, content: string) => {
         default: () => content
     })
 }
+
 /**
  * 动态渲染可编辑标识的表格列title
  * @param title 列名称

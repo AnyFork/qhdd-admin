@@ -7,6 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AddGoodsCategory: typeof import('./../components/store/goods/category/AddGoodsCategory.vue')['default']
     AdvancedSetting: typeof import('./../components/platform/store/setting/AdvancedSetting.vue')['default']
     BasicLayout: typeof import('./../layouts/BasicLayout/index.vue')['default']
     BasicSetting: typeof import('./../components/platform/store/setting/BasicSetting.vue')['default']
@@ -157,6 +158,7 @@ declare module 'vue' {
     TakeoutSettings: typeof import('./../components/platform/store/setting/TakeoutSettings.vue')['default']
     ThemeColorSelect: typeof import('./../layouts/components/GlobalDrawer/ThemeColorSelect/index.vue')['default']
     ThemeMode: typeof import('./../layouts/components/GlobalHeader/components/ThemeMode.vue')['default']
+    UpdateGoodsCategory: typeof import('./../components/store/goods/category/updateGoodsCategory.vue')['default']
     UploadAvatar: typeof import('./../components/UploadAvatar.vue')['default']
     UploadGroupImage: typeof import('./../components/UploadGroupImage.vue')['default']
     UploadImage: typeof import('./../components/UploadImage.vue')['default']

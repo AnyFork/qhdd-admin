@@ -34,7 +34,13 @@ const theme = useThemeStore()
 const tab = useTabStore()
 const { openPageUserType } = useLoginUser()
 const isChromeMode = computed(() => theme.tab.mode === 'chrome')
-const tabArray = ref<typeof tab.tabs>([])
+const tabArray = computed(() => {
+    if (openPageUserType.value) {
+        return tab.tabs.filter((item) => item.fullPath.startsWith(('/' + openPageUserType.value) as string))
+    } else {
+        return tab.tabs
+    }
+})
 // 获取当前激活的tab的clientX
 const tabRef = ref<HTMLElement>()
 async function getActiveTabClientX() {
@@ -83,16 +89,5 @@ watch(
     {
         immediate: true
     }
-)
-watch(
-    () => tab.tabs,
-    (_a, _b) => {
-        if (openPageUserType.value) {
-            tabArray.value = tab.tabs.filter((item) => item.fullPath.startsWith(('/' + openPageUserType.value) as string))
-        } else {
-            tabArray.value = tab.tabs
-        }
-    },
-    { immediate: true }
 )
 </script>

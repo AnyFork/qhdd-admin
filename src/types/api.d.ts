@@ -587,5 +587,77 @@ declare namespace store {
          */
         addtime: number
     }
+    /**
+     * 商品分类
+     */
+    interface goodsCategory {
+        /**
+         * 分类描述
+         */
+        description: string
+        /**
+         * 排序
+         */
+        displayorder: number
+        /**
+         * 结束时间
+         */
+        endTime: string
+        /**
+         * 分类id
+         */
+        id: number
+        /**
+         * 是否必选 0否 1是
+         */
+        isRequired: 0 | 1
+        /**
+         * 是否指定可售时间段(1=指定,0=不指定) 
+         */
+        isShowtime: 0 | 1
+        /**
+         * 分类内最低消费金额
+         */
+        minFee: number
+        /**
+         * 父分类ID
+         */
+        parentid: number
+        /**
+         * 门店id
+         */
+        sid: number
+        /**
+         * 开始时间 
+         */
+        startTime: string
+        /**
+         * 状态(1=显示,0=不显示) 
+         */
+        status: 0 | 1
+        /**
+         * 分类图标
+         */
+        thumb: string
+        /**
+         * 分类名称
+         */
+        title: string
+        /**
+         * 显示星期
+         */
+        week: string
+        /**
+         * 显示星期
+         */
+        weekStr: number[]
+    }
+
+    /**
+    * 商品分类树形数据
+    */
+    interface goodsCategoryTree extends goodsCategory {
+        children?: goodsCategoryTree[]
+    }
 
 }

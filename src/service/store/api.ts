@@ -17,6 +17,19 @@ export const getStoreInfoBySidApi = "/store/getById"
 // 通过店铺id修改店铺信息
 export const updateStoreInfoBySidApi = "/store/update"
 
+
+
+// 店员查看商品分类
+export const getGoodsCategoryListApi = "/goodsCategory/store/getList"
+// 增加商品分类
+export const addGoodsCategoryApi = "/goodsCategory/add"
+// 修改商品分类
+export const updateGoodsCategoryApi = "/goodsCategory/update"
+// 删除商品分类
+export const removeGoodsCategoryApi = "/goodsCategory/delete"
+
+
+
 // 店员登录
 export const storeLoginApi = "/accMerchant/login"
 // 店员退出系统
