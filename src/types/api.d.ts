@@ -660,4 +660,511 @@ declare namespace store {
         children?: goodsCategoryTree[]
     }
 
+    /**
+     * 商品列表
+     */
+    interface goods {
+        /**
+         * 商品id
+         */
+        id: number;
+        /**
+         * 商户id
+         */
+        sid: number;
+        /**
+         * 分类id
+         */
+        cid: number;
+        /**
+         * 子分类id
+         */
+        childId: number
+        /**
+         * 商品类型(1=仅外卖,2=仅店内,3=外卖+店内) 
+         */
+        type: 1 | 2 | 1
+        /**
+         * 商品名称
+         */
+        title: string
+        /**
+         * 现价
+         */
+        price: number
+        /**
+         * 原价
+         */
+        oldPrice: number
+        /**
+         * 采购价
+         */
+        caigouPrice: number
+        /**
+         * 店内价
+         */
+        tsPrice: string
+        /**
+         * 餐盒价格
+         */
+        boxPrice: number
+        /**
+         * 是否添加商品规格(1=是,0=否) 
+         */
+        isOptions: 0 | 1
+        /**
+         * 是否添加商品加料(1=是,0=否) 
+         */
+        isMaterials: 0 | 1
+        /**
+         * 商品单位 
+         */
+        unitname: string
+        /**
+         * 数量
+         */
+        unitnum: number
+        /**
+         * 库存 -1 不限制
+         */
+        total: number
+        /**
+         * 库存预警 
+         */
+        totalWarning: number
+        /**
+         * 每日库存
+         */
+        totalEveryday: number
+        /**
+         * 库存更新日期
+         */
+        totalUpdateday: number
+        /**
+         * 每日自动补足库存(1=是,0=否) 
+         */
+        totalAutoUpdate: 0 | 1
+        /**
+         * 库存更新方式(1=拍下减库存,2=付款减库存,3=用不减库存) 
+         */
+        totalUpdateType: number
+        /**
+         * 已卖出数量
+         */
+        sailed: number
+        /**
+         * 商品状态(1=上架,0=下架) 
+         */
+        status: 0 | 1
+        /**
+         * 设置为热销(1=是,0=否)
+         */
+        isHot: 0 | 1
+        /**
+         * 商品图片
+         */
+        thumb: string
+        /**
+         * 自定义标签
+         */
+        label: string
+        /**
+         * 排序
+         */
+        displayorder: number
+        /**
+         * 内容
+         */
+        content: string
+        /**
+         * 描述
+         */
+        description: string
+        /**
+         * 评价数量
+         */
+        commentTotal: number
+        /**
+         * 好评数量
+         */
+        commentGood: number
+        /**
+         * 打印标签
+         */
+        printLabel: string
+        /**
+         * 商品规格属性 {"0":{"name":"口味","label":{"0":"不辣,"1":"微辣","2":"中辣","3":"特辣"}}} 
+         */
+        attrs: string
+        /**
+         * 是否设置可售时间段 
+         */
+        isShowtime: number
+        /**
+         * 可售时间段1-开始时间 
+         */
+        startTime1: string
+        /**
+        * 可售时间段2-开始时间 
+        */
+        startTime2: string
+        /**
+         * 可售时间段1-结束时间 
+         */
+        endTime1: string
+        /**
+         * 可售时间段2-结束时间 
+         */
+        endTime2: string
+        /**
+         * 可售时间星期 
+         */
+        week: string
+        /**
+         * 可售时间段
+         */
+        weekStr: string[]
+        /**
+         * 审核状态(1=待审核,2=审核通过,3=审核不通过) 
+         */
+        auditStatus: 1 | 2 | 3
+        /**
+         * 审核原因
+         */
+        auditReason: string
+        /**
+         * 月销售数量
+         */
+        sailedMonth: number
+        /**
+         * 好评百分比
+         */
+        commentGoodPercent: number
+        /**
+         * 商品重量
+         */
+        weight: number
+        /**
+         * 推荐理由
+         */
+        recommendReason: string
+        /**
+         * 每单限购
+         */
+        orderLimit: number
+        /**
+         * 总限购
+         */
+        totalLimit: number
+        /**
+         * 连锁店id
+         */
+        chainid: number
+        /**
+         * 添加类型(store=门店添加,chain=连锁店添加) 
+         */
+        createType: "store" | "chain"
+        /**
+         * 价格类型(store=门店价,chain=连锁店价)
+         */
+        priceType: "store" | "chain"
+        /**
+         * 连锁店价格
+         */
+        chainPrice: string
+        /**
+         * 门店价格
+         */
+        storePrice: string
+        /**
+         * 平台排序
+         */
+        mallDisplayorder: number
+        /**
+         * 规格标题
+         */
+        optionTitle: string
+        /**
+         * 加料标题
+         */
+        materialTitle: string
+        /**
+         * 排序方式
+         */
+        sortType: number
+        /**
+         * 会员价格
+         */
+        svipPrice: number
+        /**
+         *  单点不送(1=是,0=否)
+         */
+        singleStatus: 0 | 1
+        /**
+         * 商品规格属性
+         */
+        goodsOptionsList: Partial<goodsOption>[]
+        /**
+         * 商品加料属性
+         */
+        goodsMaterialList: Partial<goodsMaterial>[]
+        /**
+         * 商品属性
+         */
+        goodsAttrs: Partial<goodsAttrs>[]
+    }
+
+    /**
+     * 商品规格
+     */
+    interface goodsOption {
+        /**
+         * 规格id
+         */
+        id: number
+        /**
+         * 商户id
+         */
+        sid: number
+        /**
+         * 商品id
+         */
+        goodsId: number
+        /**
+         * 规格名称
+         */
+        name: string
+        /**
+         * 规格图片
+         */
+        thumb?: string
+        /**
+         * 外卖价
+         */
+        price: number
+        /**
+         * 会员价
+         */
+        svipPrice: number
+        /**
+         * 库存
+         */
+        total: number
+        /**
+         * 库存预警
+         */
+        totalWarning: number
+        /**
+         * 每日库存
+         */
+        totalEveryday: number
+        /**
+         * 是否每日补足库存(1=是,0=否) 
+         */
+        totalAutoUpdate: 0 | 1
+        /**
+         * 重量
+         */
+        weight: number
+        /**
+         * 排序
+         */
+        displayorder: number
+        /**
+         * 添加类型(store=门店添加,chain=连锁店添加) 
+         */
+        createType: "store" | "chain"
+        /**
+         * 价格类型(store=门店价,chain=连锁店价)
+         */
+        priceType: "store" | "chain"
+    }
+
+    /**
+     * 加料类型
+     */
+    interface goodsMaterial {
+        /**
+                * 规格id
+                */
+        id: number
+        /**
+         * 商户id
+         */
+        sid: number
+        /**
+         * 商品id
+         */
+        goodsId: number
+        /**
+         * 规格名称
+         */
+        name: string
+        /**
+         * 外卖价
+         */
+        price: number
+        /**
+         * 会员价
+         */
+        svipPrice: number
+        /**
+         * 库存
+         */
+        total: number
+        /**
+         * 库存预警
+         */
+        totalWarning: number
+        /**
+         * 每日库存
+         */
+        totalEveryday: number
+        /**
+         * 是否每日补足库存(1=是,0=否) 
+         */
+        totalAutoUpdate: 0 | 1
+        /**
+         * 重量
+         */
+        weight: number
+        /**
+         * 排序
+         */
+        displayorder: number
+        /**
+         * 添加类型(store=门店添加,chain=连锁店添加) 
+         */
+        createType: "store" | "chain"
+        /**
+         * 价格类型(store=门店价,chain=连锁店价)
+         */
+        priceType: "store" | "chain"
+    }
+
+    /**
+     * 商品属性
+     */
+    interface goodsAttrs {
+        name: string
+        label: string[]
+    }
+
+    /**
+     * 打印机属性
+     */
+    interface printer {
+        /**
+         * 打印机appsecret
+         */
+        apiKey: string
+        /**
+         * 设备类型(printer=打印机,voiceBox=音箱) 
+         */
+        deviceType: "printer" | "voiceBox"
+        /**
+         * id
+         */
+        id: number
+        /**
+         * 打印类型(1=整单打印,0=分单打印) 
+         */
+        isPrintAll: 0 | 1
+        /**
+         * 打印机key 
+         */
+        key: string
+        /**
+         * appid
+         */
+        memberCode: string
+        /**
+         * 设备名称
+         */
+        name: string
+        /**
+         * 	尾部自定义信息 
+         */
+        printFooter: string
+        /**
+         * 头部自定义
+         */
+        printHeader: string
+        /**
+         * 机器号
+         */
+        printNo: stirng
+        /**
+         * 打印联数(默认1)
+         */
+        printNums: number
+        /**
+         * 角色类型
+         */
+        role: "store"
+        /**
+         * 自定义二维码连接
+         */
+        qrcodeLink: string
+        /**
+         * 店铺id
+         */
+        sid: number
+        /**
+         * 是否启用设备(1=启用,0=不启用) 
+         */
+        status: 0 | 1
+        /**
+         * 打印机类型(feie=飞鹅,spyun=商鹏) 
+         */
+        type: "spyun"
+        /**
+         * 最后更新时间
+         */
+        updatetime: number,
+        /**
+         * 二维码类型(delivery_handle=配送员接单二维码,delivery_assign=旧版配送员接单二维码,custom=自定义二维码,ordersn=订单编号条形码) 
+         */
+        qrcodeType: "custom"
+        
+        /**
+         * 打印机状态(1在线，0离线)
+         */
+        onlineStatus: 0 | 1
+    }
+
+    /**
+     * 打印日志
+     */
+    interface printerLog {
+        /**
+         * 打印id
+         */
+        id: number
+        /**
+         * 订单id
+         */
+        orderId: number
+        /**
+         * 打印机id
+         */
+        printerId: number
+        /**
+         * 打印返回数据
+         */
+        response: string
+        /**
+         * 打印标签数据
+         */
+        data: string
+        /**
+         * 打印时间
+         */
+        addtime: number
+        /**
+         * 打印单类型
+         */
+        type: "waimai"
+    }
+
 }

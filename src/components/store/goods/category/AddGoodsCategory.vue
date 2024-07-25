@@ -93,7 +93,7 @@ const node = ref<system.attachment>()
  */
 const submitCallback = (e: MouseEvent) => {
     e.preventDefault
-    formRef.value?.validate(async (errors) => {
+    formRef.value?.validate(async (errors: any) => {
         if (!errors) {
             const { title, description, thumb, minFee, displayorder, isShowtime, isRequired, startTime, endTime, weekStr, sid } = moduleValue
             if (props.parentNode) {

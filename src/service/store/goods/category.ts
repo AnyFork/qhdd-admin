@@ -1,7 +1,7 @@
 import qs from 'qs'
 import { getGoodsCategoryListApi, addGoodsCategoryApi, updateGoodsCategoryApi, removeGoodsCategoryApi } from '../api'
 /**
- * 绑定店员信息
+ * 商品分类列表
  * @returns 
  */
 export const getGoodsCategoryList = async (params: Record<string, any>) => await storeAxios.get(`${getGoodsCategoryListApi}?${qs.stringify(params)}`)

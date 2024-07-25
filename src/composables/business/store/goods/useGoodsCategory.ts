@@ -5,36 +5,15 @@ import { DataTableColumns, FormInst, FormItemRule, NAvatar, NButton, NPopover, N
  * 店铺商品分类
  * @returns 
  */
-export const useStoreGoodsCategory = () => {
+export const useStoreGoodsCategory = (): any => {
     const tableData = ref<store.goodsCategoryTree[]>([])
+    const flatData = ref<store.goodsCategory[]>([])
     const message = useMessage()
     const loading = ref(false)
     const { isAdmin } = useLoginUser()
     const { storeInfo } = useStoreInfo()
     // 当前店铺id
     const sid = computed(() => storeInfo.value.id)
-    /**
-     * 表格分页配置
-     */
-    const pagination = reactive({
-        page: 1,
-        pageSize: 10,
-        itemCount: 0,
-        showSizePicker: true,
-        pageSizes: [10, 15, 20, 25, 30],
-        onChange: (page: number) => {
-            pagination.page = page
-            goodsCategoryList()
-        },
-        onUpdatePageSize: (pageSize: number) => {
-            pagination.pageSize = pageSize
-            pagination.page = 1
-            goodsCategoryList()
-        },
-        prefix({ itemCount }: any) {
-            return `共${itemCount}条`
-        }
-    })
     /**
      * 新增dialog状态
      */
@@ -208,7 +187,7 @@ export const useStoreGoodsCategory = () => {
             align: 'center',
             key: 'key',
             render: (_rowData, index: number) => {
-                return `${(pagination.page - 1) * pagination.pageSize + index + 1}`
+                return `${index + 1}`
             }
         },
         {
@@ -339,35 +318,16 @@ export const useStoreGoodsCategory = () => {
     const transformTreeData = (data: store.goodsCategoryTree[], parentId: number) => {
         return data.filter(item => {
             if (item.parentid == parentId) {
-                item.children = transformTreeData(data, item.id)
+                const ch = transformTreeData(data, item.id)
+                if (ch && ch.length > 0) {
+                    item.children = ch
+                }
                 return true
             } else {
                 return false
             }
         })
     }
-
-    /**
-     * 获取商品分类列表
-     */
-    const goodsCategoryList = async () => {
-        try {
-            loading.value = true
-            const { data } = await getGoodsCategoryList({ pageNo: pagination.page, pageSize: pagination.pageSize, sid: sid.value })
-            loading.value = false
-            if (data.code == 200) {
-                tableData.value = data.data
-                pagination.itemCount = data.dataCount
-            } else {
-                message.error(data.msg)
-            }
-        } catch (e: any) {
-            loading.value = false
-            message.error(e.message as string)
-            console.log(e)
-        }
-    }
-
     /**
      * 获取商品分类树形数据
      */
@@ -377,6 +337,7 @@ export const useStoreGoodsCategory = () => {
             const { data } = await getGoodsCategoryList({ pageNo: 1, pageSize: 1000, sid: sid.value })
             loading.value = false
             if (data.code == 200) {
+                flatData.value = data.data
                 tableData.value = transformTreeData(data.data, 0)
             } else {
                 message.error(data.msg)
@@ -451,5 +412,5 @@ export const useStoreGoodsCategory = () => {
         }
     }
 
-    return { goodsCategoryList, goodsCategoryTree, addCategory, updateCategory, pagination, tableData, loading, columns, formRef, moduleValue, rules, message, rowNode, modifyShow, createShow, parentNode }
+    return { goodsCategoryTree, addCategory, updateCategory, tableData, flatData, loading, columns, formRef, moduleValue, rules, message, rowNode, modifyShow, createShow, parentNode }
 }

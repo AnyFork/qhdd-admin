@@ -13,6 +13,8 @@
     "@better-scroll/core": "^2.5.1",
     "@soybeanjs/vue-materials": "^0.2.0",
     "@vueuse/core": "^10.11.0",
+    "@wangeditor/editor": "5.1.23",
+    "@wangeditor/editor-for-vue": "5.1.12",
     "animate.css": "^4.1.1",
     "axios": "^1.7.2",
     "colord": "^2.9.3",

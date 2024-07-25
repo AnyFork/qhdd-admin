@@ -29,6 +29,30 @@ export const updateGoodsCategoryApi = "/goodsCategory/update"
 export const removeGoodsCategoryApi = "/goodsCategory/delete"
 
 
+// 商品列表
+export const goodsListApi = "/goods/store/getList"
+// 新增商品
+export const addGoodsApi = "/goods/add"
+// 删除商品
+export const removeGoodsApi = "/goods/delete"
+// 更新商品
+export const updateGoodsApi = "/goods/update"
+
+
+// 打印机列表
+export const printerListApi = "/printer/getList"
+// 添加打印机
+export const addPrinterApi = "/printer/add"
+// 修改打印机
+export const updatePrinterApi = "/printer/update"
+// 删除打印机
+export const removePrinterApi = "/printer/delete"
+
+
+// 打印机打印日志
+export const printerLogsApi = "/printLog/getList"
+
+
 
 // 店员登录
 export const storeLoginApi = "/accMerchant/login"
