@@ -9,25 +9,10 @@
                     <n-input v-model:value="moduleValue.title" clearable placeholder="请输入分类名称" />
                 </n-form-item>
                 <n-form-item v-if="!props.parentNode" label="分类描述">
-                    <n-input v-model:value="moduleValue.description" placeholder="请输入分类描述" clearable class="w-180px" />
-                </n-form-item>
-                <n-form-item :label="props.parentNode ? '子分类图标' : '分类图标'">
-                    <div class="selectImg">
-                        <div class="flex-row-center">
-                            <n-input v-model:value="moduleValue.thumb" disabled learable class="!w-[255px]" placeholder="请选择图标" />
-                            <n-button type="primary" @click="show = true"> 搜索 </n-button>
-                        </div>
-                        <n-image :src="node?.url ?? getAssetsImages('nopic.jpg')" :preview-disabled="!node?.url" width="100" height="100" class="my-1 border border-solid border-#f5f5f5"></n-image>
-                    </div>
+                    <n-input v-model:value="moduleValue.description" type="textarea" :autosize="{ minRows: 3 }" :maxlength="30" show-count placeholder="请输入分类描述" clearable class="w-180px" />
                 </n-form-item>
                 <n-form-item label="排序">
                     <n-input-number v-model:value="moduleValue.displayorder" clearable :min="0" :max="9999" placeholder="请输入排序" />
-                </n-form-item>
-                <n-form-item v-if="!props.parentNode" label="分类内最低消费金额">
-                    <div>
-                        <n-input-number v-model:value="moduleValue.minFee" placeholder="请输入分类内最低消费金额" :min="0" clearable class="w-180px" />
-                        <div class="mt-2 text-#999 text-12px">限制在该分类内， 购买的商品不能少于多少元。适用场景：快餐分类，这个分类内的商品，下单金额必须满足元才能下单。该设置仅对外卖有效。消费金额不包括餐盒费</div>
-                    </div>
                 </n-form-item>
                 <n-form-item v-if="!props.parentNode" label="可售时间段">
                     <div>
@@ -38,14 +23,14 @@
                             </n-space>
                         </n-radio-group>
                         <div v-if="moduleValue.isShowtime == 1" class="mt-4">
-                            <n-form-item label="展示时间" :label-width="70">
+                            <n-form-item label="显示时间" :label-width="70">
                                 <div class="flex-row-center">
                                     <n-time-picker v-model:formatted-value="moduleValue.startTime" value-format="H:mm" format="H:mm" clearable time-zone="Asia/Shanghai" />
                                     <div class="px-2">至</div>
                                     <n-time-picker v-model:formatted-value="moduleValue.endTime" value-format="H:mm" format="H:mm" clearable time-zone="Asia/Shanghai" />
                                 </div>
                             </n-form-item>
-                            <n-form-item label="展示时间" :label-width="70">
+                            <n-form-item label="显示星期" :label-width="70">
                                 <n-checkbox-group v-model:value="moduleValue.weekStr">
                                     <n-space>
                                         <n-checkbox :key="1" :value="1">周一</n-checkbox>
@@ -75,39 +60,50 @@
             </template>
         </n-drawer-content>
     </n-drawer>
-    <!-- 选择图片对话框 -->
-    <SelectImageDialog v-if="show" v-model:open="show" v-model:node="node"></SelectImageDialog>
 </template>
 
 <script setup lang="ts">
-import { getAssetsImages } from '@/utils/tools/getAssetsImages'
 const active = defineModel<boolean>('active')
 const props = defineProps<{ parentNode: store.goodsCategory; node: store.goodsCategory }>()
 const emit = defineEmits<{ refresh: [] }>()
 const { formRef, moduleValue, rules, updateCategory, loading, message } = useStoreGoodsCategory()
-const show = ref(false)
-const node = ref<system.attachment>()
 /**
  * 表单校验
  * @param e
  */
 const submitCallback = (e: MouseEvent) => {
     e.preventDefault
-    formRef.value?.validate(async (errors) => {
+    formRef.value?.validate(async (errors: any) => {
         if (!errors) {
-            const { id, title, description, thumb, minFee, displayorder, isShowtime, isRequired, startTime, endTime, weekStr, sid } = moduleValue
+            if (moduleValue.isShowtime == 1) {
+                if (!moduleValue.startTime) {
+                    message.error('请选择开始时间!')
+                    return
+                }
+                if (!moduleValue.endTime) {
+                    message.error('请选择结束时间!')
+                    return
+                }
+                if (moduleValue.startTime >= moduleValue.endTime) {
+                    message.error('开始时间不能大于等于结束时间!')
+                    return
+                }
+                if (moduleValue.weekStr?.length == 0) {
+                    message.error('请选择星期!')
+                    return
+                }
+            }
+            const { id, title, description, displayorder, isShowtime, isRequired, startTime, endTime, weekStr, sid } = moduleValue
             if (props.parentNode) {
-                await updateCategory({ id, sid, title, thumb, displayorder })
+                await updateCategory({ id, sid, title, displayorder, description })
             } else {
-                await updateCategory({ id,sid, title, description, thumb, minFee, displayorder, isShowtime, isRequired, startTime: isShowtime == 1 ? startTime : undefined, endTime: isShowtime == 1 ? endTime : undefined, week: isShowtime == 1 ? weekStr?.join(',') : undefined })
+                await updateCategory({ id, sid, title, description, displayorder, isShowtime, isRequired, startTime: isShowtime == 1 ? startTime : undefined, endTime: isShowtime == 1 ? endTime : undefined, week: isShowtime == 1 ? weekStr?.join(',') : undefined })
             }
             active.value = false
             emit('refresh')
             //清除表单数据
             moduleValue.title = undefined
             moduleValue.description = undefined
-            moduleValue.thumb = undefined
-            moduleValue.minFee = undefined
             moduleValue.displayorder = undefined
             moduleValue.isShowtime = undefined
             moduleValue.isRequired = undefined
@@ -126,9 +122,7 @@ onMounted(() => {
     if (props.node) {
         moduleValue.id = props.node.id
         moduleValue.title = props.node.title
-        moduleValue.thumb = props.node.thumb
         moduleValue.description = props.node.description
-        moduleValue.minFee = props.node.minFee
         moduleValue.displayorder = props.node.displayorder
         moduleValue.isShowtime = props.node.isShowtime
         moduleValue.isRequired = props.node.isRequired

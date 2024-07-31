@@ -14,19 +14,18 @@
             <!-- 登录框 -->
             <div class="container">
                 <div class="form">
-                    <h2>商户登录</h2>
-                    <n-form ref="formRef" :model="userInfo" :rules="formRules" label-placement="left" label-width="auto" label-align="right" :show-require-mark="false" size="large" :show-label="false">
-                        <n-form-item path="clerkId">
-                            <n-input v-model:value="userInfo.clerkId" @keydown.enter.prevent round clearable placeholder="请输入店员ID">
-                                <template #prefix>
-                                    <icon-material-symbols:account-circle />
-                                </template>
-                            </n-input>
-                        </n-form-item>
-                        <n-row :gutter="[0, 24]">
-                            <n-button round type="primary" color="#1890ff" @click="handleValidateButtonClick" size="large" style="width: 100%; margin-top: 10px" :loading="loading"> 登录 </n-button>
-                        </n-row>
-                    </n-form>
+                    <h2>商户微信扫码登录</h2>
+                    <div class="flex-row-center mb-6 relative">
+                        <img v-if="imgSrc" :src="imgSrc" class="w-200px h-200px rounded-6px" />
+                        <div v-else class="h-200px w-200px rounded-6px flex-col-center bg-#f5f5f5/50">
+                            <Icon icon="line-md:loading-twotone-loop" size="20" class="text-primary mt-6"></Icon>
+                        </div>
+                        <div v-if="logInOk == 1 || logInOk == 2" class="h-200px w-200px rounded-6px absolute flex-col-center" :class="logInOk == 2 ? 'bg-#000000f5 cursor-pointer' : 'bg-#ccc/90'" @click="refresh">
+                            <Icon v-if="logInOk == 1" icon="clarity:success-standard-solid" size="24" class="text-primary mt-6"></Icon>
+                            <Icon v-if="logInOk == 2" icon="weui:error-filled" size="24" class="text-yellow mt-6"></Icon>
+                            <div :class="logInOk == 1 ? 'text-primary' : 'text-yellow'">{{ loginBackText }}</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -34,7 +33,21 @@
 </template>
 
 <script setup lang="ts">
-const { userInfo, handleValidateButtonClick, loading, formRef, formRules } = useStoreLogin()
+import { Icon } from '@iconify/vue'
+const { logInOk, scanLoginInfo, imgSrc, refreshQRCode, loginBackText } = useStoreLogin()
+
+/**
+ * 刷新验证码
+ */
+const refresh = () => {
+    if (logInOk.value == 2) {
+        refreshQRCode()
+    }
+}
+
+onMounted(() => {
+    scanLoginInfo()
+})
 </script>
 
 <style scoped>

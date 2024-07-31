@@ -82,14 +82,9 @@ export const useStoreClerk = () => {
         {
             title: '微信昵称',
             align: 'center',
-            key: 'nickname'
-        },
-        {
-            title: '微信图像',
-            key: 'avatar',
-            align: 'center',
+            key: 'nickname',
             render: (rowData, _index: number) => {
-                return h(NAvatar, { src: rowData.clerk.avatar, round: true })
+                return rowData.clerk.nickname
             }
         },
         {

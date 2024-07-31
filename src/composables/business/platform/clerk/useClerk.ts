@@ -73,14 +73,6 @@ export const usePlatformClerk = () => {
             key: 'nickname'
         },
         {
-            title: '微信图像',
-            key: 'avatar',
-            align: 'center',
-            render: (rowData, _index: number) => {
-                return h(NAvatar, { src: rowData.avatar, round: true })
-            }
-        },
-        {
             title: '姓名',
             align: 'center',
             key: 'title'

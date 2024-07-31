@@ -58,3 +58,8 @@ export const printerLogsApi = "/printLog/getList"
 export const storeLoginApi = "/accMerchant/login"
 // 店员退出系统
 export const storeLogOutApi = "/accMerchant/logout"
+
+// 扫码登录
+export const scanLoginApi = "/accMerchant/qrCodeLogin"
+// 轮训获取用户信息，判断登录状态
+export const getLoginUserApi = "/accMerchant/getLoginInfo"

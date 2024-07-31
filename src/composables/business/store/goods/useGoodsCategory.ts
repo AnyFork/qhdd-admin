@@ -196,25 +196,9 @@ export const useStoreGoodsCategory = (): any => {
             key: 'id'
         },
         {
-            title: '图标',
-            key: 'thumb',
-            align: 'center',
-            render: (rowData, _index: number) => {
-                return h(NAvatar, { src: rowData.thumb, round: true })
-            }
-        },
-        {
             title: '分类名称',
             align: 'center',
             key: 'title'
-        },
-        {
-            title: '最低消费金额',
-            align: 'center',
-            key: 'minFee',
-            render: (rowData, _index: number) => {
-                return rowData.parentid ? "" : rowData.minFee
-            }
         },
         {
             title: '排序',

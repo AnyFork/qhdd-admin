@@ -27,7 +27,6 @@
                         <n-space item-style="display: flex;">
                             <n-radio :value="1" label="支付后自动接单" />
                             <n-radio :value="0" label="不自动接单" />
-                            <n-radio :value="2" label="打印机出单后自动接单(仅支持喜讯打印机)" />
                         </n-space>
                     </n-radio-group>
                     <div class="py-1 text-14px text-#999">开启自动接单后, 用户下单支付后,系统会根据自动接单设置将订单设置为处理中; 自动接单方式设置为打印机出单后自动接单，则打印机默认支付后自动打印。</div>

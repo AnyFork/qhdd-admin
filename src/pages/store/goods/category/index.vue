@@ -1,6 +1,6 @@
 <template>
     <n-space align="center" justify="space-between" class="mb-2">
-        <n-button type="primary" @click="createShow = true">添加分类</n-button>
+        <n-button type="primary" @click="openCategory">添加分类</n-button>
         <TableHeaderOperation v-model:columns="columns" v-model:size="size" v-model:striped="striped" :loading="loading" @refresh="goodsCategoryTree"></TableHeaderOperation>
     </n-space>
     <!--数据表格 -->
@@ -17,6 +17,11 @@ const { height } = useWindowSize()
 const { goodsCategoryTree, tableData, loading, columns, createShow, rowNode, modifyShow, parentNode } = useStoreGoodsCategory()
 // 表格高度
 const tableHeight = computed(() => height.value - 340)
+
+const openCategory = () => {
+    createShow.value = true
+    rowNode.value = undefined
+}
 
 onMounted(async () => {
     goodsCategoryTree()

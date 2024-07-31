@@ -176,8 +176,8 @@ export const useStore = () => {
                         console.error(e)
                     }
                 }
-                moduleValue.foodcertEndtimeStr = String(foodcertEndtime)
-                moduleValue.licenseEndtimeStr = String(licenseEndtime)
+                moduleValue.foodcertEndtimeStr = foodcertEndtime == 0 ? null : String(foodcertEndtime)
+                moduleValue.licenseEndtimeStr = licenseEndtime == 0 ? null : String(licenseEndtime)
                 moduleValue.autoPrintOrder = dataList.data?.autoPrintOrder
                 moduleValue.autoHandelOrder = dataList.data?.autoHandelOrder
                 moduleValue.autoNoticeDeliveryer = dataList.data?.autoNoticeDeliveryer

@@ -8,26 +8,11 @@
                 <n-form-item show-require-mark :label="props.parentNode ? '子分类名称' : '分类名称'" path="title">
                     <n-input v-model:value="moduleValue.title" clearable placeholder="请输入分类名称" />
                 </n-form-item>
-                <n-form-item v-if="!props.parentNode" label="分类描述">
-                    <n-input v-model:value="moduleValue.description" placeholder="请输入分类描述" clearable class="w-180px" />
-                </n-form-item>
-                <n-form-item :label="props.parentNode ? '子分类图标' : '分类图标'">
-                    <div class="selectImg">
-                        <div class="flex-row-center">
-                            <n-input v-model:value="moduleValue.thumb" disabled learable class="!w-[255px]" placeholder="请选择图标" />
-                            <n-button type="primary" @click="show = true"> 搜索 </n-button>
-                        </div>
-                        <n-image :src="node?.url ?? getAssetsImages('nopic.jpg')" :preview-disabled="!node?.url" width="100" height="100" class="my-1 border border-solid border-#f5f5f5"></n-image>
-                    </div>
+                <n-form-item label="分类描述">
+                    <n-input v-model:value="moduleValue.description" type="textarea" :autosize="{ minRows: 3 }" :maxlength="30" show-count placeholder="请输入分类描述" clearable class="w-180px" />
                 </n-form-item>
                 <n-form-item label="排序">
                     <n-input-number v-model:value="moduleValue.displayorder" clearable :min="0" :max="9999" placeholder="请输入排序" />
-                </n-form-item>
-                <n-form-item v-if="!props.parentNode" label="分类内最低消费金额">
-                    <div>
-                        <n-input-number v-model:value="moduleValue.minFee" placeholder="请输入分类内最低消费金额" :min="0" clearable class="w-180px" />
-                        <div class="mt-2 text-#999 text-12px">限制在该分类内， 购买的商品不能少于多少元。适用场景：快餐分类，这个分类内的商品，下单金额必须满足元才能下单。该设置仅对外卖有效。消费金额不包括餐盒费</div>
-                    </div>
                 </n-form-item>
                 <n-form-item v-if="!props.parentNode" label="可售时间段">
                     <div>
@@ -75,18 +60,13 @@
             </template>
         </n-drawer-content>
     </n-drawer>
-    <!-- 选择图片对话框 -->
-    <SelectImageDialog v-if="show" v-model:open="show" v-model:node="node"></SelectImageDialog>
 </template>
 
 <script setup lang="ts">
-import { getAssetsImages } from '@/utils/tools/getAssetsImages'
 const active = defineModel<boolean>('active')
 const props = defineProps<{ parentNode?: store.goodsCategory }>()
 const emit = defineEmits<{ refresh: [] }>()
 const { formRef, moduleValue, rules, addCategory, loading, message } = useStoreGoodsCategory()
-const show = ref(false)
-const node = ref<system.attachment>()
 /**
  * 表单校验
  * @param e
@@ -95,19 +75,35 @@ const submitCallback = (e: MouseEvent) => {
     e.preventDefault
     formRef.value?.validate(async (errors: any) => {
         if (!errors) {
-            const { title, description, thumb, minFee, displayorder, isShowtime, isRequired, startTime, endTime, weekStr, sid } = moduleValue
+            if (moduleValue.isShowtime == 1) {
+                if (!moduleValue.startTime) {
+                    message.error('请选择开始时间!')
+                    return
+                }
+                if (!moduleValue.endTime) {
+                    message.error('请选择结束时间!')
+                    return
+                }
+                if (moduleValue.startTime >= moduleValue.endTime) {
+                    message.error('开始时间不能大于等于结束时间!')
+                    return
+                }
+                if (moduleValue.weekStr?.length == 0) {
+                    message.error('请选择星期!')
+                    return
+                }
+            }
+            const { title, description, displayorder, isShowtime, isRequired, startTime, endTime, weekStr, sid } = moduleValue
             if (props.parentNode) {
-                await addCategory({ parentid: props.parentNode.id, sid, title, thumb, displayorder })
+                await addCategory({ parentid: props.parentNode.id, sid, title, displayorder, description })
             } else {
-                await addCategory({ sid, title, description, thumb, minFee, displayorder, isShowtime, isRequired, startTime: isShowtime == 1 ? startTime : undefined, endTime: isShowtime == 1 ? endTime : undefined, week: isShowtime == 1 ? weekStr?.join(',') : undefined })
+                await addCategory({ sid, title, description, displayorder, isShowtime, isRequired, startTime: isShowtime == 1 ? startTime : undefined, endTime: isShowtime == 1 ? endTime : undefined, week: isShowtime == 1 ? weekStr?.join(',') : undefined })
             }
             active.value = false
             emit('refresh')
             //清除表单数据
             moduleValue.title = undefined
             moduleValue.description = undefined
-            moduleValue.thumb = undefined
-            moduleValue.minFee = undefined
             moduleValue.displayorder = undefined
             moduleValue.isShowtime = undefined
             moduleValue.isRequired = undefined
