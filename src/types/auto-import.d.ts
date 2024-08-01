@@ -300,7 +300,7 @@ declare global {
   const useLogin: typeof import('../composables/business/loginModule/loginStore/loginIn')['useLogin']
   const useLoginType: typeof import('../composables/common/useLoginType')['useLoginType']
   const useLoginUser: typeof import('../composables/useLoginUser')['useLoginUser']
-  const useLogs: typeof import('../composables/business/platform/logs/useLogs')['useLogs']
+  const useLogs: typeof import('../composables/business/platform/log/useLogs')['useLogs']
   const useMagicKeys: typeof import('@vueuse/core')['useMagicKeys']
   const useManualRefHistory: typeof import('@vueuse/core')['useManualRefHistory']
   const useMediaControls: typeof import('@vueuse/core')['useMediaControls']

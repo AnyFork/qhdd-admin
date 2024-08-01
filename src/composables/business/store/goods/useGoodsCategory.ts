@@ -1,5 +1,5 @@
 import { addGoodsCategory, getGoodsCategoryList, removeGoodsCategory, updateGoodsCategory } from '@/service/store/goods/category'
-import { DataTableColumns, FormInst, FormItemRule, NAvatar, NButton, NPopover, NSwitch } from 'naive-ui'
+import { DataTableColumns, FormInst, FormItemRule, NButton, NPopover, NSwitch } from 'naive-ui'
 
 /**
  * 店铺商品分类

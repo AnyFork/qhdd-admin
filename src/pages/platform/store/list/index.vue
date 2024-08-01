@@ -24,6 +24,9 @@
             <div>标签筛选</div>
         </n-dropdown>
         <n-select v-model:value="searchForm.serviceLabel" :options="tagRef" placeholder="请选择标签" clearable class="!w-180px" />
+        <n-form-item label="门店类型" label-placement="left" :show-feedback="false" :size="size">
+            <n-select v-model:value="searchForm.isWaimai" :options="types" placeholder="请选择门店类型" clearable class="!w-180px" />
+        </n-form-item>
         <div style="display: flex; justify-content: flex-end">
             <n-button round type="primary" :size="size" @click="storeListData">查询</n-button>
         </div>
@@ -91,6 +94,20 @@ const status = [
     {
         label: '显示',
         value: 1
+    }
+]
+
+/**
+ * 门店类型
+ */
+const types = [
+    {
+        label: '外卖',
+        value: 1
+    },
+    {
+        label: '商超',
+        value: 2
     }
 ]
 

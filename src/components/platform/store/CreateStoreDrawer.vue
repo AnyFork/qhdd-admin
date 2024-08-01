@@ -5,6 +5,14 @@
                 <n-form-item show-require-mark label="门店名称" path="title">
                     <n-input v-model:value="moduleValue.title" clearable placeholder="请输入商户名称" />
                 </n-form-item>
+                <n-form-item show-require-mark label="门店类型">
+                    <n-radio-group v-model:value="moduleValue.isWaimai">
+                        <n-space>
+                            <n-radio :value="1">外卖</n-radio>
+                            <n-radio :value="2">商超</n-radio>
+                        </n-space>
+                    </n-radio-group>
+                </n-form-item>
                 <n-form-item show-require-mark label="主营品类" path="cateParentid1">
                     <n-select v-model:value="moduleValue.cateParentid1" :options="shopCategoryOption" placeholder="请选择商户标签" clearable class="w-180px" />
                 </n-form-item>

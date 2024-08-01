@@ -87,6 +87,7 @@ export const usePlatformStore = () => {
         chainid: undefined,
         status: undefined,
         serviceLabel: undefined,
+        isWaimai: undefined,
         sortType: 0
     })
     /**
@@ -110,7 +111,8 @@ export const usePlatformStore = () => {
         shopCategory: undefined,
         deliveryCategory: undefined,
         serviceCategory: undefined,
-        chainid: undefined
+        chainid: undefined,
+        isWaimai: 1
     })
     /**
      * 表单校验规则
@@ -177,6 +179,15 @@ export const usePlatformStore = () => {
             width: 160,
             align: 'center',
             key: 'title'
+        },
+        {
+            title: '商户类型',
+            width: 100,
+            align: 'center',
+            key: 'isWaimai',
+            render: (rowData, _index: number) => {
+                return h(NTag, { type: rowData.isWaimai == 1 ? "primary" : "warning" }, { default: () => rowData.isWaimai == 1 ? "外卖" : "商超" })
+            }
         },
         {
             title: '主营品类',
@@ -800,7 +811,7 @@ export const usePlatformStore = () => {
         try {
             loading.value = true
             const array = []
-            const { title, cateParentid1, cateParentid2, logo, displayorder, shopCategory, deliveryCategory, serviceCategory, chainid } = moduleValue
+            const { title, cateParentid1, cateParentid2, logo, displayorder, shopCategory, deliveryCategory, serviceCategory, chainid, isWaimai } = moduleValue
             if (shopCategory) {
                 array.push(shopCategory)
             }
@@ -810,7 +821,7 @@ export const usePlatformStore = () => {
             if (serviceCategory) {
                 array.push(serviceCategory)
             }
-            const { data } = await addStorePlatform({ title, cateParentid1, cateParentid2, logo, displayorder, chainid, serviceLabel: array.join(",") })
+            const { data } = await addStorePlatform({ title, cateParentid1, cateParentid2, logo, displayorder, chainid, isWaimai, serviceLabel: array.join(",") })
             loading.value = false
             if (data.code == 200) {
                 message.success('操作成功!')

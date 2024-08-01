@@ -230,9 +230,9 @@ declare namespace system {
          */
         status: number
         /**
-         * 类型(0=品类,1=区域,2=活动)
+         * 类型(0=品类,1=区域,2=活动,5=商品)
          */
-        type: 0 | 1 | 2
+        type: 0 | 1 | 2 | 5
     }
     /**
      * 树形分类类型
@@ -457,6 +457,10 @@ declare namespace store {
          * 评价回复
          */
         commentReplyStr: Array<{ text: string }>
+        /**
+         * 商户类型（1=外卖,2=商超）
+         */
+        isWaimai: 1 | 2
     }
     /**
      * 商户标签
@@ -1126,7 +1130,7 @@ declare namespace store {
          * 二维码类型(delivery_handle=配送员接单二维码,delivery_assign=旧版配送员接单二维码,custom=自定义二维码,ordersn=订单编号条形码) 
          */
         qrcodeType: "custom"
-        
+
         /**
          * 打印机状态(1在线，0离线)
          */

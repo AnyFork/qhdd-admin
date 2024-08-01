@@ -88,7 +88,8 @@ export const useStore = () => {
         remindTimeLimit: undefined,
         remindTimeStart: undefined,
         remindReplyStr: [],
-        commentReplyStr: []
+        commentReplyStr: [],
+        isWaimai: 1
     })
     /**
      * 表单校验规则
@@ -185,6 +186,7 @@ export const useStore = () => {
                 moduleValue.paymentStr = dataList.data?.payment?.split(",").length == 2 ? dataList.data?.payment?.split(",") : []
                 moduleValue.remindTimeLimit = dataList.data?.remindTimeLimit
                 moduleValue.remindTimeStart = dataList.data?.remindTimeStart
+                moduleValue.isWaimai = dataList.data?.isWaimai
                 if (dataList.data?.remindReply) {
                     const tmp = dataList.data?.remindReply?.split(",")
                     moduleValue.remindReplyStr = tmp?.map((item: string) => ({

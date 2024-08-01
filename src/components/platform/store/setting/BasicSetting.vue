@@ -5,6 +5,14 @@
             <n-form-item show-require-mark label="门店名称" path="title">
                 <n-input v-model:value="moduleValue.title" clearable placeholder="请输入商户名称" class="!w-680px" />
             </n-form-item>
+            <n-form-item show-require-mark label="门店类型">
+                <n-radio-group v-model:value="moduleValue.isWaimai">
+                    <n-space>
+                        <n-radio :value="1">外卖</n-radio>
+                        <n-radio :value="2">商超</n-radio>
+                    </n-space>
+                </n-radio-group>
+            </n-form-item>
             <n-form-item show-require-mark label="主营品类" path="cateParentid1">
                 <n-select v-model:value="moduleValue.cateParentid1" :options="shopCategoryOption" placeholder="请选择商户标签" clearable class="w-680px" />
             </n-form-item>
@@ -137,7 +145,7 @@ const submitCallback = (e: MouseEvent) => {
     formRef.value?.validate(async (errors) => {
         if (!errors) {
             const array = []
-            const { id, title, logo, chainid, businessStatus, cateParentid1, cateParentid2, description, telephone, businessHours, thumbs, address, locationX, locationY, shopCategory, serviceCategory, deliveryCategory } = moduleValue
+            const { id, title, logo, chainid, businessStatus, cateParentid1, cateParentid2, description, telephone, businessHours, thumbs, address, locationX, locationY, shopCategory, serviceCategory, deliveryCategory, isWaimai } = moduleValue
             const time = businessHours && businessHours.length > 0 ? JSON.stringify(businessHours) : undefined
             if (shopCategory) {
                 array.push(shopCategory)
@@ -148,7 +156,7 @@ const submitCallback = (e: MouseEvent) => {
             if (serviceCategory) {
                 array.push(serviceCategory)
             }
-            await updateStoreInfo({ id, title, logo, chainid, businessStatus, cateParentid1, cateParentid2, description, telephone, businessHours: time, thumbs, address, locationX, locationY, serviceLabel: array.join(',') })
+            await updateStoreInfo({ id, title, logo, chainid, businessStatus, isWaimai, cateParentid1, cateParentid2, description, telephone, businessHours: time, thumbs, address, locationX, locationY, serviceLabel: array.join(',') })
             getStoreDetailInfoBySid()
             // 清空表单校验
             formRef.value?.restoreValidation()
