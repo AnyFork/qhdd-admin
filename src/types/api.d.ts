@@ -685,9 +685,9 @@ declare namespace store {
          */
         childId: number
         /**
-         * 商品类型(1=仅外卖,2=仅店内,3=外卖+店内) 
+         * 商品类型(1=外卖,2=商超) 
          */
-        type: 1 | 2 | 1
+        type: 1 | 2
         /**
          * 商品名称
          */

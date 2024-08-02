@@ -21,7 +21,6 @@
                 <n-form-item label="排序">
                     <n-input-number v-model:value="moduleValue.displayorder" clearable :min="0" :max="9999" placeholder="请输入排序" />
                 </n-form-item>
-                <div class="mb-2 flex items-center text-18px font-600 before:content-[''] before:w-5px before:h-20px before:bg-primary before:inline-flex before:mr-2">详细信息</div>
                 <n-form-item label="商品推荐理由">
                     <div class="w-full">
                         <n-input v-model:value="moduleValue.recommendReason" type="textarea" :autosize="{ minRows: 3 }" clearable placeholder="请输入商品推荐理由" :maxlength="14" show-count />
@@ -31,9 +30,8 @@
                 <n-form-item label="商品类型">
                     <n-radio-group v-model:value="moduleValue.type">
                         <n-space>
-                            <n-radio :key="1" :value="1"> 仅外卖 </n-radio>
-                            <n-radio :key="2" :value="2"> 仅店内 </n-radio>
-                            <n-radio :key="3" :value="3"> 外面+店内 </n-radio>
+                            <n-radio :key="1" :value="1">外卖</n-radio>
+                            <n-radio :key="2" :value="2"> 商超</n-radio>
                         </n-space>
                     </n-radio-group>
                 </n-form-item>
@@ -117,14 +115,14 @@
                         </div>
                         <div v-if="moduleValue.isShowtime == 1" class="w-full">
                             <div class="flex items-center py-2 w-full">
-                                <n-time-picker v-model:formatted-value="moduleValue.startTime1" value-format="H:mm" format="H:mm" clearable time-zone="Asia/Shanghai" class="w-150px" />
+                                <n-time-picker v-model:formatted-value="moduleValue.startTime1" value-format="HH:mm" format="HH:mm" clearable time-zone="Asia/Shanghai" class="w-150px" />
                                 <div class="px-2">至</div>
-                                <n-time-picker v-model:formatted-value="moduleValue.endTime1" value-format="H:mm" format="H:mm" clearable time-zone="Asia/Shanghai" class="w-150px" />
+                                <n-time-picker v-model:formatted-value="moduleValue.endTime1" value-format="HH:mm" format="HH:mm" clearable time-zone="Asia/Shanghai" class="w-150px" />
                             </div>
                             <div class="flex items-center">
-                                <n-time-picker v-model:formatted-value="moduleValue.startTime2" value-format="H:mm" format="H:mm" clearable time-zone="Asia/Shanghai" class="w-150px" />
+                                <n-time-picker v-model:formatted-value="moduleValue.startTime2" value-format="HH:mm" format="HH:mm" clearable time-zone="Asia/Shanghai" class="w-150px" />
                                 <div class="px-2">至</div>
-                                <n-time-picker v-model:formatted-value="moduleValue.endTime2" value-format="H:mm" format="H:mm" clearable time-zone="Asia/Shanghai" class="w-150px" />
+                                <n-time-picker v-model:formatted-value="moduleValue.endTime2" value-format="HH:mm" format="HH:mm" clearable time-zone="Asia/Shanghai" class="w-150px" />
                             </div>
                         </div>
                     </div>
@@ -223,7 +221,7 @@
                         </n-space>
                     </n-radio-group>
                 </n-form-item>
-                <n-form-item v-if="moduleValue.content" label="商品详情" label-placement="top" :label-width="120">
+                <n-form-item label="商品详情" label-placement="top" :label-width="120">
                     <DefaultEditor v-model="moduleValue.content"></DefaultEditor>
                 </n-form-item>
             </n-form>
@@ -263,7 +261,6 @@ const submitCallback = (e: MouseEvent) => {
                 title,
                 displayorder,
                 cid,
-                childId,
                 thumb,
                 recommendReason,
                 type,
@@ -298,7 +295,8 @@ const submitCallback = (e: MouseEvent) => {
                 goodsMaterialList,
                 goodsAttrs,
                 materialTitle,
-                optionTitle
+                optionTitle,
+                unitnum
             } = moduleValue
             const params = {
                 id,
@@ -306,7 +304,6 @@ const submitCallback = (e: MouseEvent) => {
                 title,
                 displayorder,
                 cid,
-                childId,
                 thumb,
                 recommendReason,
                 type,
@@ -341,7 +338,8 @@ const submitCallback = (e: MouseEvent) => {
                 goodsMaterialList,
                 attrs: JSON.stringify(goodsAttrs),
                 materialTitle,
-                optionTitle
+                optionTitle,
+                unitnum
             }
             console.log(params, goodsAttrs)
             await updateGoodsInfo(params)
@@ -369,9 +367,9 @@ const addGoodsMaterial = () => {
     moduleValue.goodsMaterialList?.push({
         sid: undefined,
         name: undefined,
-        price: undefined,
+        price: 0,
         weight: undefined,
-        svipPrice: undefined,
+        svipPrice: 0,
         displayorder: 0,
         createType: 'store',
         priceType: 'store'
@@ -385,12 +383,12 @@ const addGoodsOption = () => {
         sid: undefined,
         name: undefined,
         thumb: undefined,
-        price: undefined,
+        price: 0,
         weight: undefined,
-        svipPrice: undefined,
-        total: undefined,
-        totalWarning: undefined,
-        totalEveryday: undefined,
+        svipPrice: 0,
+        total: -1,
+        totalWarning: 0,
+        totalEveryday: 0,
         totalAutoUpdate: 0,
         displayorder: 0,
         createType: 'store',
@@ -402,13 +400,8 @@ const addGoodsOption = () => {
  * @param value 选中的节点值
  * @param option 选择的节点数据
  */
-const handleUpdateValue = (value: number, option: CascaderOption) => {
-    if (option.parentid == 0) {
-        moduleValue.cid = value
-    } else {
-        moduleValue.cid = option.parentid as number
-        moduleValue.childId = option.id as number
-    }
+const handleUpdateValue = (value: number, _option: CascaderOption) => {
+    moduleValue.cid = value
 }
 
 onMounted(() => {
@@ -417,7 +410,6 @@ onMounted(() => {
     moduleValue.title = props.data.title
     moduleValue.displayorder = props.data.displayorder
     moduleValue.cid = props.data.cid
-    moduleValue.childId = props.data.childId
     moduleValue.thumb = props.data.thumb
     moduleValue.recommendReason = props.data.recommendReason
     moduleValue.type = props.data.type

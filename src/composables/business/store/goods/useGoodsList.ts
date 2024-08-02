@@ -83,16 +83,16 @@ export const useStoreGoods = () => {
         thumb: undefined,
         recommendReason: undefined,
         type: 1,
-        price: undefined,
-        oldPrice: undefined,
-        boxPrice: undefined,
-        svipPrice: undefined,
-        orderLimit: undefined,
-        totalLimit: undefined,
+        price: 0,
+        oldPrice: 0,
+        boxPrice: 0,
+        svipPrice: 0,
+        orderLimit: 0,
+        totalLimit: 0,
         totalAutoUpdate: 0,
         total: -1,
-        totalWarning: undefined,
-        totalEveryday: undefined,
+        totalWarning: 0,
+        totalEveryday: 0,
         isShowtime: 0,
         startTime1: undefined,
         endTime1: undefined,
@@ -114,7 +114,8 @@ export const useStoreGoods = () => {
         weekStr: [],
         goodsOptionsList: [],
         goodsMaterialList: [],
-        goodsAttrs: []
+        goodsAttrs: [],
+        unitnum: 1
     })
     /**
      * 表单校验规则
