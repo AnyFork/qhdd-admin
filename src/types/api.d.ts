@@ -173,7 +173,7 @@ declare namespace system {
          */
         sid: number
         /**
-         * 类型 0 平台 1商户，2顾客，3骑手
+         * 类型 0 平台 1商户，2顾客，3配送员
          */
         type: 0 | 1 | 2 | 3
         /**
@@ -458,9 +458,46 @@ declare namespace store {
          */
         commentReplyStr: Array<{ text: string }>
         /**
+         * 公告
+         */
+        notice: string
+        /**
+         * 进入商品列表提示
+         */
+        tips: string,
+        /**
          * 商户类型（1=外卖,2=商超）
          */
         isWaimai: 1 | 2
+        /**
+         * 是否预订单，0表示只支持当天订单 非0表示可预定几天的订单，最大支持提前6天下订单。
+         */
+        deliveryWithinDays: number
+        /**
+         * 需提前几天预定外卖
+         */
+        deliveryReserveDays: number
+        /**
+         * 门店评分
+         */
+        score: number
+        /**
+         * 起送费
+         */
+        sendPrice: number
+        /**
+         * 配送费
+         */
+        deliveryPrice: number
+        /**
+         * 配送时间
+         */
+        deliveryTime: number
+        /**
+         * 是否收藏此店铺
+         */
+        isLoginMemberFavorite: 0 | 1
+
     }
     /**
      * 商户标签
@@ -519,7 +556,7 @@ declare namespace store {
         /**
          * 添加时间
          */
-        addtime: long
+        addtime: number
         /**
          * 状态(0=禁用,1=启用) 
          */
@@ -540,6 +577,10 @@ declare namespace store {
          * 绑定关系关联表
          */
         storeClerk: storeClerk
+        /**
+         * 账号店铺绑定状态 0未绑定 1已绑定
+         */
+        bindStoreStatus: 0 | 1
     }
 
     /**
@@ -661,7 +702,15 @@ declare namespace store {
     * 商品分类树形数据
     */
     interface goodsCategoryTree extends goodsCategory {
-        children?: goodsCategoryTree[]
+        children?: goodsCategoryTree[],
+        goodsList?: goods[]
+        /**
+         * 分类徽记
+         */
+        badge: {
+            show: boolean
+            value: number
+        }
     }
 
     /**
@@ -679,13 +728,13 @@ declare namespace store {
         /**
          * 分类id
          */
-        cid: number;
+        cid: number | null;
         /**
          * 子分类id
          */
         childId: number
         /**
-         * 商品类型(1=外卖,2=商超) 
+         * 商品类型(1=外卖 2=商超) 
          */
         type: 1 | 2
         /**
@@ -725,7 +774,7 @@ declare namespace store {
          */
         unitname: string
         /**
-         * 数量
+         * 最低起购数量
          */
         unitnum: number
         /**
@@ -827,7 +876,7 @@ declare namespace store {
         /**
          * 可售时间段
          */
-        weekStr: string[]
+        weekStr: number[]
         /**
          * 审核状态(1=待审核,2=审核通过,3=审核不通过) 
          */
@@ -916,6 +965,14 @@ declare namespace store {
          * 商品属性
          */
         goodsAttrs: Partial<goodsAttrs>[]
+        /**
+         * 商超平台分类Id
+         */
+        plateformCid: number | null
+        /**
+         * 临时购买数量，用于商品列表临时购买双向绑定
+         */
+        buy_temp_num: number
     }
 
     /**
@@ -941,7 +998,7 @@ declare namespace store {
         /**
          * 规格图片
          */
-        thumb?: string
+        thumb?: string | string[]
         /**
          * 外卖价
          */
@@ -982,6 +1039,10 @@ declare namespace store {
          * 价格类型(store=门店价,chain=连锁店价)
          */
         priceType: "store" | "chain"
+        /**
+         * 是否选中
+         */
+        checked: boolean
     }
 
     /**
@@ -1043,7 +1104,11 @@ declare namespace store {
         /**
          * 价格类型(store=门店价,chain=连锁店价)
          */
-        priceType: "store" | "chain"
+        priceType: "store" | "chain",
+        /**
+         * 是否选中
+         */
+        checked: boolean
     }
 
     /**
@@ -1051,6 +1116,10 @@ declare namespace store {
      */
     interface goodsAttrs {
         name: string
+        /**
+         * 选中的值
+         */
+        value?: string
         label: string[]
     }
 
@@ -1097,7 +1166,7 @@ declare namespace store {
         /**
          * 机器号
          */
-        printNo: stirng
+        printNo: string
         /**
          * 打印联数(默认1)
          */
@@ -1171,4 +1240,1343 @@ declare namespace store {
         type: "waimai"
     }
 
+    /**
+     * 评论统计
+     */
+    interface commentStat {
+        /**
+         * 高于x%的商家
+         */
+        highRate: string
+        /**
+         * 商户-平均分
+         */
+        scoreAverage: number
+        /**
+         * 商品-平均分
+         */
+        goodsQualityAverage: number
+        /**
+         * 配送-平均分
+         */
+        deliveryServiceAverage: number
+        /**
+         * 配送满意度
+         */
+        deliveryRate: string
+        /**
+         * 好评数量
+         */
+        positiveCount: number
+        /**
+         * 中评数量
+         */
+        midCount: number
+        /**
+         * 差评数量
+         */
+        negativeCount: number
+    }
+}
+
+/**
+ * 配送员模块
+ */
+declare namespace rider {
+
+    /**
+     * 配送员信息
+     */
+    interface riderInfo {
+        /**
+         * 配送员id
+         */
+        id: number
+        /**
+         * 配送员姓名
+         */
+        title: string
+        /**
+         * 配送员昵称
+         */
+        nickname: string
+        /**
+         * 头像
+         */
+        avatar: string
+        /**
+         * 手机号码
+         */
+        mobile: string
+        /**
+         * 性别
+         */
+        sex: string
+        /**
+         * 年龄
+         */
+        age: number
+        /**
+         * 排序
+         */
+        displayorder: number
+        /**
+         * 添加时间
+         */
+        addtime: number
+        /**
+         * 工作状态(1=接单中,0=休息中) 
+         */
+        workStatus: 0 | 1
+        /**
+         * 外卖权限(1=有,0=无) 
+         */
+        isTakeout: 0 | 1
+        /**
+         * 集中配送权限(1=有,0=无)
+         */
+        isStation: 0 | 1
+        /**
+         * 外卖单数
+         */
+        orderTakeoutNum: number
+        /**
+         * 外卖满负荷单数
+         */
+        collectMaxTakeout: number
+        /**
+         * 微信订阅消息剩余数量 
+         */
+        wxappNoticeNum: number
+        /**
+         * 转单权限
+         */
+        permTransfer: string
+        /**
+         * 转单权限对象
+         */
+        permTransferObj: {
+            /**
+             * 外卖转单 0 禁止 1 允许
+             */
+            status_takeout: 1
+            /**
+             * 外卖转单上限，配送员在遇到特殊情况下可申请转单，设置每天最多可转几次单。0为不限制
+             */
+            max_takeout: 0
+        }
+        /**
+         * 取消订单权限
+         */
+        permCancel: string
+        /**
+         * 取消订单权限对象
+         */
+        permCancelObj: {
+            /**
+             * 取消外卖单 1 允许 0 禁止
+             */
+            status_takeout: 0 | 1
+        },
+        /**
+         * 账户设置
+         */
+        account: string
+        /**
+         * 状态(1=正常,2=删除 3=审核) 
+         */
+        status: 1 | 2 | 3
+    }
+}
+
+
+/**
+ * 购物车模块
+ */
+declare namespace goodCar {
+
+    /**
+     * 单个店铺购物车
+     */
+    interface storeCar {
+        /**
+         * id
+         */
+        id: number
+        /**
+         * 商户ID
+         */
+        sid: number
+        /**
+         *  用户ID
+         */
+        uid: number
+        /**
+         * 数量
+         */
+        num: number
+        /**
+         * 餐盒费
+         */
+        boxPrice: string
+        /**
+         * 价格
+         */
+        price: number
+        /**
+         *  原价
+         */
+        originalPrice: string
+        /**
+         * 采购价
+         */
+        caigouPrice: number
+        /**
+         * 购物车商品信息
+         */
+        data: string
+        /**
+         * 创建时间
+         */
+        addtime: number
+        /**
+         * 支付时间
+         */
+        paytime: number
+        /**
+         * 是否购买会员
+         */
+        isBuysvip: 0 | 1
+        /**
+         * 是否提交
+         */
+        issubmit: 0 | 1
+        /**
+         * 重量
+         */
+        weight: number
+        /**
+         * 包装费
+         */
+        boxCost: string
+        /**
+         * 购物车商品对象
+         */
+        dataArray: storeCarGoodsAttr[]
+        /**
+         * 店铺信息
+         */
+        store: store.storeData
+
+    }
+    interface storeCarGoodsAttr {
+        /**
+         * 添加时间
+         */
+        addtime: number
+        /**
+         * 包装费(目前没用到)
+         */
+        boxCost: string
+        /**
+         * 餐盒费
+         */
+        boxPrice: string
+        /**
+         * 选择的商品属性,多个以,分隔
+         */
+        goodsAttrs: string
+        /**
+         * 商品Id
+         */
+        goodsId: number
+        /**
+         * 商品信息-仅包含购物车计算相关的属性
+         */
+        goodsInfo: {
+            /**
+             * 天天特价价格
+             */
+            bargainPrice: string
+            /**
+             * 包装费
+             */
+            boxCost: string
+            /**
+             * 餐盒费
+             */
+            boxPrice: string
+            /**
+             * 用户id
+             */
+            id: number
+            /**
+             * 每单限购
+             */
+            orderLimit: number
+            /**
+             * 价格
+             */
+            price: string
+            /**
+             * 上架状态
+             */
+            status: 0 | 1
+            /**
+             * vip价格
+             */
+            svipPrice: string
+            /**
+             * 商品缩略图
+             */
+            thumb: string
+            /**
+             * 商品名称
+             */
+            title: string
+            /**
+             * 总限购
+             */
+            totalLimit: number
+            /**
+             * 最小起购数量
+             */
+            unitnum: number
+            /**
+            * 商品分类
+             */
+            cid: number
+            /**
+             * 单品不送
+             */
+            singleStatus: 0 | 1
+            /**
+             * 商品单位
+             */
+            unitname: string
+        }
+        /**
+         * 选择的商品加料-仅包含购物车计算相关的字段
+         */
+        goodsMaterialList: {
+            /**
+             * 商品id
+             */
+            goodsId: number
+            /**
+             * 加料id
+             */
+            id: number
+            /**
+             * 加料名称
+             */
+            name: string
+            /**
+             * 价格
+             */
+            price: string
+            /**
+             * 会员价格
+             */
+            svipPrice: number
+        }[]
+        /**
+         * 选择的商品规格-仅包含购物车计算相关的字段
+         */
+        goodsOptionsList: {
+            /**
+             * 商品id
+             */
+            goodsId: number
+            /**
+             * 规格id
+             */
+            id: number
+            /**
+             * 规格名称
+             */
+            name: string
+            /**
+             * 售价
+             */
+            price: number
+            /**
+             * vip价格
+             */
+            svipPrice: number
+        }[]
+        /**
+         * 商品数量
+         */
+        num: number
+        /**
+         * 该条目的总价=商品单价*num
+         */
+        price: number
+        /**
+         * 商品图片地址
+         */
+        thumb: string
+        /**
+         * 商品名称
+         */
+        title: string
+        /**
+         * 商品选择的规格、属性、加料信息,以+号连接
+         */
+        titleDetail: string
+        /**
+         * 退货商品数量，用于前端商品退货数量统计
+         */
+        payBackNum: number
+        /**
+         * 商品评价 0 踩 1 赞 -1 未操作
+         */
+        commentGood: 0 | 1 | -1
+        /**
+         * 已退款商品数量
+         */
+        reufundNum: number
+
+    }
+}
+
+/**
+ * 订单模块
+ */
+declare namespace order {
+    /**
+     * 时间区间类型
+     */
+    type time = {
+        /**
+         * 日期格式化形式
+         */
+        date: string,
+        /**
+         * 日期时间格式
+         */
+        time: string,
+        /**
+         * 日期天数
+         */
+        day: string,
+        /**
+         * 日期时间戳
+         */
+        timestamp: number
+    }
+
+
+    /**
+     * 配送时间段
+     */
+    interface deliveryTime {
+        /**
+         * 天数
+         */
+        day: string
+        /**
+         * 时间区间
+         */
+        timeList: time[]
+    }
+    /**
+     * 确认订单
+     */
+    type submitConfirmOrderInfo = {
+        /**
+         * 配送天数
+         */
+        deliveryDay: string
+        /**
+         * 配送时间文字
+         */
+        deliveryTime: string
+        /**
+         * 送达时间
+         */
+        deliverytime: number,
+        /**
+         * 购物车信息
+         */
+        orderCart: {
+            /**
+             * 购物车id
+             */
+            id: number
+        },
+        memberAddress: {
+            /**
+             * 地址id
+             */
+            id: number
+        },
+        /**
+         * 餐具数量
+         */
+        personNum: number
+        /**
+         * 备注
+         */
+        note: string
+    }
+    /**
+     * 订单信息
+     */
+    interface orderInfo {
+        /**
+         * 订单id
+         */
+        id: number,
+        /**
+         * 商户id
+         */
+        sid: number,
+        /**
+         * 用户id
+         */
+        uid: number
+        /**
+         *  是否支付(1=已支付,0=未支付)
+         */
+        isPay: 0 | 1
+        /**
+         * 订单号
+         */
+        ordersn: string
+        /**
+         * 顾客openid
+         */
+        openid: string
+        /**
+         * 用户名
+         */
+        username: string
+        /**
+         * 用户电话号码
+         */
+        mobile: string
+        /**
+         * 支付费用
+         */
+        price: number
+        /**
+         * 店铺消息
+         */
+        store: store.storeData,
+        /**
+         * 商品信息
+         */
+        data: string
+        /**
+         * 商品信息数据
+         */
+        orderCart: goodCar.storeCar
+        /**
+         * 订单状态(1=待确认,2=已确认,3=待配送,4=配送中,5=已完成,6=已取消,7=拼单中) 
+         */
+        status: 1 | 2 | 3 | 4 | 5 | 6 | 7
+        /**
+         * 下单时间
+         */
+        addtime: number
+        /**
+         * 用餐人数
+         */
+        personNum: number
+        /**
+         * 配送费
+         */
+        deliveryFee: number
+        /**
+         * 配送地址
+         */
+        address: string
+        /**
+         * 称谓
+         */
+        sex: string
+        /**
+         * 配送天数
+         */
+        deliveryDay: string
+        /**
+         * 配送时间
+         */
+        deliveryTime: string
+        /**
+         * 配送时间戳
+         */
+        deliverytime: number
+        /**
+         * 备注
+         */
+        note: string
+        /**
+         * 配送员信息
+         */
+        deliveryer: rider.riderInfo,
+        /**
+         * 商户接单时间
+         */
+        handletime: number
+        /**
+         * 商户实际备货结束时间
+         */
+        clerkHandledTime: number
+        /**
+         * 订单流水序列编号
+         */
+        serialSn: number
+        /**
+         * 经度
+         */
+        locationX: string
+        /**
+         * 纬度
+         */
+        locationY: string
+        /**
+         * 商户最终费用
+         */
+        storeFinalFee: string
+        /**
+         * 打印次数
+         */
+        printNums: number
+        /**
+         * 催单状态 催单状态(0=无催单,1=催单未处理,2=催单已处理) 
+         */
+        isRemind: 0 | 1 | 2
+        /**
+         * 是否退款中(1=退款中,0=不限)
+         */
+        isRefunding: 1 | 0
+        /**
+         * 下单开始时间 时间戳
+         */
+        addtimeStart: number
+        /**
+         * 下单结束时间 时间戳
+         */
+        addtimeEnd: number
+        /**
+         * 姓名，电话，地址模糊查询
+         */
+        mutiQuery: string
+        /**
+         * 订单流水记录
+         */
+        orderStatusLogList: orderStatusLog[]
+        /**
+         * 订单门牌号
+         */
+        number: string
+        /**
+         *  接单方式(0=自己抢单 1=系统派单 2=调度派单 3=转单)
+         */
+        deliveryCollectType: 0 | 1 | 2 | 3
+        /**
+         * 送达开始时间
+         */
+        deliverytimeStart: number | string
+        /**
+         * 送达结束时间
+         */
+        deliverytimeEnd: number | string
+        /**
+         * 配送状态(0=店员通知配送前,3=待抢（店员点击通知配送）,7=待取货(配送员点击抢单),4=配送中(配送员点击确认取货),5=配送完成(配送员点击确认送达),6=订单取消) 
+         */
+        deliveryStatus: 0 | 3 | 4 | 5 | 6 | 7
+        /**
+         * 配送员送达时间
+         */
+        deliverySuccessTime: number
+        /**
+         * 配送员接单时间
+         */
+        deliveryAssignTime: number
+        /**
+         * 配送员到店时间
+         */
+        deliveryInstoreTime: number
+        /**
+         * 配送员取餐时间
+         */
+        deliveryTakegoodsTime: number
+        /**
+         * 转单状态 1=转单中,0=非转单中
+         */
+        transferDeliveryStatus: 0 | 1
+        /**
+         * 是否预订单
+         */
+        isReserve: 0 | 1
+        /**
+         * 是否评论
+         */
+        isComment: 0 | 1
+        /**
+         * 退款状态(0=默认无退款,1=退款发起中,2=退款处理中,3=退款成功,4=退款失败,6=退款申请被驳回,7=退款待审核,8=退款纠纷处理中,9=退款申请取消)
+         */
+        refundStatus: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+        /**
+         * 是否存在退款(1=是,其他=不限)  
+         */
+        haveRefund: 0 | 1
+        /**
+         * 最终费用
+         */
+        finalFee: number
+        /**
+         * 总费用
+         */
+        totalFee: number
+        /**
+         * 折扣费用
+         */
+        discountFee: number
+    }
+
+    /**
+     * 订单交易类型
+     */
+    interface orderPay {
+        /**
+         * appId
+         */
+        appId: string
+        /**
+         * 随机字符串，长度为32个字符以下
+         */
+        nonceStr: string
+        /**
+         * 统一下单接口返回的 prepay_id 参数值，提交格式如：prepay_id=xx。
+         */
+        packageVal: string
+        /**
+         * 签名算法，应与后台下单时的值一致
+         */
+        signType: string
+        /**
+         * 签名，具体签名方案参见 微信小程序支付文档
+         */
+        paySign: string
+        /**
+         * 即当前的时间。
+         */
+        timeStamp: string
+    }
+
+    /**
+     * 顾客到收银台
+     */
+    interface goToPay {
+        /**
+         * 订单信息
+         */
+        order: orderInfo
+        /**
+         * 店铺信息
+         */
+        store: store.storeData
+        /**
+         * 支付截止时间
+         */
+        payLimitEndTime: number
+        /**
+         * 支付时间限制：15分钟
+         */
+        payTimeLimit: number
+    }
+
+    /**
+     * 订单状态流水
+     */
+    interface orderStatusLog {
+        /**
+         * 时间
+         */
+        addtime: number
+        /**
+         * id
+         */
+        id: number
+        /**
+         * 备注
+         */
+        note: string
+        /**
+         * 订单id
+         */
+        oid: number
+        /**
+         * 状态 1正常 0异常
+         */
+        status: 0 | 1
+        /**
+         * 标题
+         */
+        title: string
+    }
+
+    /**
+     * 外卖订单全局统一配置
+     */
+    interface talkOutOrderConfig {
+        /**
+         * 商家接单后至通知配送之前顾客取消订单时间限制，单位分钟
+         */
+        cancel_after_handle: number
+        /**
+         * 订单评价-订单评价时间,订单完成超过?天则不能再进行评价,单位分钟
+         */
+        comment_day_limit: number
+        /**
+         * 顾客申请退款后自动同意时间 (120分钟),例如:设置为15分钟,那么顾客在申请退款后15分钟内未商户未处理顾客的退款申请, 系统会自动同意顾客的退款申请。设置为0, 则表示不会自动同意
+         */
+        customer_refund_auto_audittime: number
+        /**
+         * 配送员接单时间限制  (0=不限制) ,例如:设置为10分钟,那么商家通知配送员接单后,配送员在10分钟内未接单,系统会自动取消该订单.如果没有接单时间限制,请设置为0.该设置仅对"外卖订单"有效.店内订单不受此设置影响
+         */
+        deliveryer_collect_time_limit: number
+        /**
+         * 催单时间间隔,分钟 
+         */
+        deliveryer_remind_time_limit: number
+        /**
+         * 顾客催单限制-配送员接单多少分钟后顾客才能催单
+         */
+        deliveryer_remind_time_start: number
+        /**
+         *  商家接单时间限制  (0=不限制),例如:设置为15分钟,那么顾客支付后,商家在15分钟内未接单,系统会自动取消该订单.如果没有接单时间限制,请设置为0,该设置仅对"外卖订单"有效.店内订单不受此设置影响
+         */
+        handle_time_limit: number
+        /**
+         * 支付时间限制 (15分钟),例如:设置为15分钟,那么顾客在提交订单后15分钟内未支付,系统会自动取消该订单。如果没有支付时间限制,请设置为0,该设置仅对"外卖订单"有效.店内订单不受此设置影响
+         */
+        pay_time_limit: number
+        /**
+         * 未支付提醒 (5分钟)，例如:设置为5分钟,那么顾客在提交订单后5分钟内未支付,系统会自动发送微信模板消息提醒顾客。如果没有待支付提醒,请设置为0，该设置仅对"外卖订单"有效.店内订单不受此设置影响
+         */
+        pay_time_notice: number
+        /**
+         *  顾客取消订单时间限制（单位天、系统默认为1天）
+         */
+        customer_cancel_timelimit: number
+    }
+
+    /**
+        * 订单评论类型
+        */
+    interface addComment {
+        /**
+         * 订单id
+         */
+        oid: number
+        /**
+         * 商户打分
+         */
+        goodsQuality: number
+        /**
+         * 配送打分
+         */
+        deliveryService: number
+        /**
+         * 评价原因
+         */
+        note?: string
+        /**
+         * 图片凭证
+         */
+        thumbs?: string
+        /**
+         * 商品评价
+         */
+        goodsCommentList?: {
+            /**
+             * 商品id
+             */
+            goodsId: number
+            /**
+             * 商品标题
+             */
+            title: string
+            /**
+             * 规格标题
+             */
+            titleDetail: string
+            /**
+             * 商品赞或踩(commentGood=1为赞,commentGood=-1为踩,commentGood=0为未评论)
+             */
+            commentGood: 0 | 1 | -1
+        }[]
+    }
+    /**
+     * 订单评论
+     */
+    interface comment {
+        /**
+         * 评论id
+         */
+        id: number
+        /**
+         * 订单id
+         */
+        oid: number
+        /**
+         * 用户id
+         */
+        uid: number
+        /**
+         * 商家id
+         */
+        sid: number
+        /**
+         * 配送员id
+         */
+        deliveryerId: number
+        /**
+         * 用户名称
+         */
+        username: string
+        /**
+         * 用户图像
+         */
+        avatar: string
+        /**
+         * 用户手机
+         */
+        mobile: string
+        /**
+         * 商品质量
+         */
+        goodsQuality: number
+        /**
+         * 口味评分
+         */
+        tasteScore: number
+        /**
+         * 配送评分
+         */
+        deliveryService: number
+        /**
+         * 评分
+         */
+        score: number
+        /**
+         * 点评信息
+         */
+        note: string
+        /**
+         * 上传图片的json字符串
+         */
+        thumbs: string
+        /**
+         * 上传图片的数组对象
+         */
+        thumbArray: string[]
+        /**
+         * 点餐信息
+         */
+        data: string
+        /**
+         * 评论回复
+         */
+        reply: string
+        /**
+         * 回复时间
+         */
+        replytime: number
+        /**
+         * 审核状态(0=待审核,1=审核通过,2=审核不通过)
+         */
+        status: 0 | 1 | 2
+        /**
+         * 是否分享(0=未分析,1=已分享) 
+         */
+        isShare: 0 | 1
+        /**
+         * 创建时间
+         */
+        addtime: number
+        /**
+         * 生效时间
+         */
+        entrytime: number
+        /**
+         * 更新时间
+         */
+        updatetime: number
+        /**
+         * 类型(1=真实评价,2=虚拟评价) 
+         */
+        type: 1 | 2
+        /**
+         * 连锁店id
+         */
+        chainid: number
+        /**
+         * 商户信息
+         */
+        store: store.storeData
+        /**
+         * 评价等级(好评=positive,中评=mid,差评=negative) 
+         */
+        level: "positive" | "negative" | "mid"
+        /**
+         * 评论商品列表
+         */
+        goodsCommentList: addComment['goodsCommentList']
+        /**
+         * 配送员信息
+         */
+        deliveryer: rider.riderInfo
+        /**
+         * 开始时间
+         */
+        addtimeStart: number
+        /**
+         * 结束时间
+         */
+        addtimeEnd: number
+        /**
+         * 配送员名称
+         */
+        deliveryerTitle:string
+
+    }
+    /**
+     * 退款信息
+     */
+    interface payBackList {
+        /**
+         * 退款商品
+         */
+        refundGoods: goodCar.storeCarGoodsAttr[]
+        /**
+         * 退款信息
+         */
+        refundInfo: {
+            /**
+             * 退款标题
+             */
+            title: string
+            /**
+             * 退款原因
+             */
+            reason: string
+            /**
+             * 退款图片
+             */
+            thumbs: string[]
+        },
+        /**
+         * 取消状态(0=未取消,1=已取消)
+         */
+        cancelStatus: 0 | 1
+        /**
+         * 退款金额
+         */
+        refundFee: number
+        /**
+         * 包装费
+         */
+        packFee: number
+        /**
+         * 配送费
+         */
+        deliveryFee: number
+        /**
+         * 是否全退(1=是,0=否);isRefundAll=1时才会退包装费、配送费
+         */
+        isRefundAll: 0 | 1
+    }
+
+    /**
+     * 退款详情
+     */
+    interface orderRefund {
+        /**
+         * 退款id
+         */
+        id: number
+        /**
+         * 商户id
+         */
+        sid: number
+        /**
+         * 用户id
+         */
+        uid: number
+        /**
+         * 订单id
+         */
+        orderId: number
+        /**
+         * 订单编号
+         */
+        orderSn: string
+        /**
+         * 退款原因
+         */
+        reason: string
+        /**
+         * 费用
+         */
+        fee: string
+        /**
+         * 总费用
+         */
+        totalFee: string
+        /**
+         * 退款代理费用
+         */
+        refundAgentServeFee: string
+        /**
+         * 退款连锁店费用
+         */
+        refundChainServeFee: string
+        /**
+         * 服务费
+         */
+        refundServeFee: string
+        /**
+         * 平台交易单号
+         */
+        outTradeNo: string
+        /**
+         * 平台退款单号
+         */
+        outRefundNo: string
+        /**
+         * 状态(1=退款发起中,2=退款处理中,3=退款成功,4=退款失败,6=退款申请被驳回,7=退款待审核,8=退款纠纷处理中,9=退款申请取消) 
+         */
+        status: 1 | 2 | 3 | 4 | 6 | 7 | 8 | 9
+        /**
+         * 申请时间
+         */
+        applyTime: number
+        /**
+         * 处理时间
+         */
+        handleTime: number
+        /**
+         * 完成时间
+         */
+        successTime: number
+        /**
+         * 详细退款信息
+         */
+        data: string
+        /**
+         * 类型(order=订单退款,goods=部分退款) 
+         */
+        type: "order" | "goods"
+        /**
+         * 订单信息
+         */
+        order: order.orderInfo
+        /**
+         * 退款步骤
+         */
+        orderRefundLogList: orderRefundLog[]
+        /**
+         * 退款商品信息
+         */
+        refundData: payBackList
+    }
+
+    /**
+     * 退款记录
+     */
+    interface orderRefundLog {
+        /**
+         * id
+         */
+        id: number
+        /**
+         * 订单类型(order=订单,errander=跑腿)
+         */
+        orderType: "order" | "errander"
+        /**
+         * 退款id
+         */
+        refundId: number
+        /**
+         * 商户id
+         */
+        sid: number
+        /**
+         * 订单id
+         */
+        oid: number
+        /**
+         * // 状态状态(1=商户、配送员、系统发起退款申请或部分退款,2=接受并处理退款,3=退款成功,4=退款失败,5=商户同意退款,6=商户拒绝退单,7=各方协商处理中,8=申请平台客服仲裁,9=退款申请已取消,10=平台客服驳回您的退款申请,11=下单顾客提交部分商品退款待商户审核)
+         */
+        status: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11
+        /**
+         * // 类型(apply=发起退款申请,place=下单顾客提交退款申请,agree=商户同意您的退单申请,cancel=退款申请已取消,arbitrat=申请平台客服仲裁,consult=各方协商处理中,handel=平台接受退款申请,overrule=平台客服驳回您的退款申请,reject=商户拒绝退单,store_audit=等待商户审核,success=退款成功)
+         */
+        type: "apply" | "place" | "agree" | "cancel" | "arbitrat" | "consult" | "handel" | "overrule" | "reject" | "store_audit" | "success"
+        /**
+         * 退款描述
+         */
+        title: string
+        /**
+         * 备注
+         */
+        note: string
+        /**
+         * 添加时间
+         */
+        addtime: number
+
+    }
+}
+
+/**
+ * 顾客用户模块
+ */
+declare namespace userInfo {
+
+    /**
+     * 用户地址
+     */
+    interface address {
+        /**
+         * id
+         */
+        id: number
+        /**
+         * 用户id
+         */
+        uid: number
+        /**
+         * 真实姓名
+         */
+        realname: string
+        /**
+         * 性别(先生、女士) 
+         */
+        sex: "先生" | "女士"
+        /**
+         * 手机号码
+         */
+        mobile: string
+        /**
+         * 用户名
+         */
+        name: string
+        /**
+         * 收货地址
+         */
+        address: string
+        /**
+         * 楼牌号
+         */
+        number: string
+        /**
+         * 经度
+         */
+        locationX: number
+        /**
+         * 纬度
+         */
+        locationY: number
+        /**
+         * 是否默认(0=非默认,1=默认) 
+         */
+        isDefault: 0 | 1
+    }
+
+    /**
+     * 顾客信息
+     */
+    interface user {
+        /**
+         * 顾客id
+         */
+        uid: number
+        /**
+         * 昵称
+         */
+        nickname: string
+        /**
+         * 电话号码
+         */
+        mobile: string
+        /**
+         * 用户图像
+         */
+        avatar: string
+        /**
+         * 用户openId
+         */
+        openidWxapp: string
+        /**
+         * 加入时间
+         */
+        addtime: number
+        /**
+         * 首次下单成功时间
+         */
+        successFirstTime: number
+        /**
+         * 最近下单成功时间
+         */
+        successLastTime: number
+    }
+
+    /**
+     * 顾客登录返回属性
+     */
+    interface loginResultApi {
+
+        /**
+         * 顾客信息
+         */
+        members: user
+
+        /**
+         * 登录返回token
+         */
+        tokenInfo: {
+            /**
+             * token 名称
+             */
+            tokenName: "satoken"
+            /**
+             * token值
+             */
+            tokenValue: string
+        }
+    }
+
+    /**
+     * 用户店铺收藏
+     */
+    interface storeFavorite {
+        /**
+         * 收藏id
+         */
+        id: number
+        /**
+         * 用户id
+         */
+        uid: number
+        /**
+         * 店铺id
+         */
+        sid: number
+        /**
+         * 收藏店铺信息
+         */
+        store: store.storeData
+        /**
+         * 收藏时间
+         */
+        addtime: number
+    }
 }

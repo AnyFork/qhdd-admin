@@ -24,7 +24,7 @@ const system: AuthRoute.Route[] = [{
         }
     }],
     meta: {
-        title: "系统管理",
+        title: "系统信息管理",
         icon: "mingcute:windows-fill"
     }
 }]

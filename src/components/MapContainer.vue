@@ -171,7 +171,7 @@ onUnmounted(() => {
 })
 </script>
 
-<style scoped>
+<style>
 .container {
     position: relative;
     height: 500px;
@@ -186,5 +186,11 @@ onUnmounted(() => {
     padding: 10px;
     div-align: center;
     background-color: #f0f0f0;
+}
+.amap-sug-result {
+    z-index: 10000 !important;
+}
+:deep(.amap-sug-result) {
+    z-index: 10000 !important;
 }
 </style>

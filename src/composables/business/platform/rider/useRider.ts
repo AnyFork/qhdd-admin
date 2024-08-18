@@ -1,16 +1,15 @@
-import { getClerkPlatform, removeClerkPlatform, updateClerkPlatform } from '@/service/platform/clerk';
-import { Icon } from '@iconify/vue';
-import { DataTableColumns, NAvatar, NButton, NImage, NPopconfirm, NPopover, NSwitch } from 'naive-ui'
+import { getRiderList, removeRiderInfo, updateRiderInfo } from '@/service/platform/rider';
+import { DataTableColumns, NAvatar, NButton, NPopconfirm, NPopover, NSwitch } from 'naive-ui'
 /**
- * 店员
+ * 配送员模块
  * @returns 
  */
-export const usePlatformClerk = () => {
+export const usePlatformRider = () => {
     const tableData = ref([])
     const message = useMessage()
     const loading = ref(false)
-    const { deleteStoreClerkInfo } = useStoreClerk()
     const { isAdmin } = useLoginUser()
+
     /**
      * 表格分页配置
      */
@@ -22,42 +21,42 @@ export const usePlatformClerk = () => {
         pageSizes: [10, 15, 20, 25, 30],
         onChange: (page: number) => {
             pagination.page = page
-            clerkList()
+            riderList()
         },
         onUpdatePageSize: (pageSize: number) => {
             pagination.pageSize = pageSize
             pagination.page = 1
-            clerkList()
+            riderList()
         },
         prefix({ itemCount }: any) {
             return `共${itemCount}条`
         }
     })
+
     /**
      * 查询条件
      */
-    const searchForm = reactive<Omit<Partial<store.clerk>, 'isDelete'> & { bindStoreStatus?: number } & { isDelete: 0 | 1 }>({
+    const searchForm = reactive<Partial<rider.riderInfo>>({
         nickname: undefined,
         title: undefined,
         mobile: undefined,
-        /**
-         * 是否绑定门店(1=是,0=否,不传=不限)
-         */
-        bindStoreStatus: undefined,
-        isDelete: 0
+        status: undefined
     })
+
     /**
      * 修改dialog状态
      */
     const modifyShow = ref(false)
+
     /**
      * 当前选中的节点
      */
-    const rowNode = ref<store.clerk>()
+    const rowNode = ref<rider.riderInfo>()
+
     /**
      * 表格列
      */
-    const columns = ref<DataTableColumns<store.clerk>>([
+    const columns = ref<DataTableColumns<rider.riderInfo>>([
         {
             title: '序号',
             width: 70,
@@ -91,64 +90,76 @@ export const usePlatformClerk = () => {
             key: 'mobile'
         },
         {
-            title() {
-                return searchForm.isDelete == 0 ? renderEditableTitle("所属门店", "可编辑列") : "所属门店"
-            },
-            width: 300,
+            title: '年龄',
             align: 'center',
-            key: 'store',
-            render(rowData, _rowIndex) {
-                if (rowData.store) {
-                    return h('div', {
-                        style: {
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            gap: "2px"
-                        }
-                    }, {
-                        default: () => {
-                            return [
-                                h(NImage, { src: previewUrl + rowData.store.logo, width: 20, style: { "border-radius": "6px" } }, {}),
-                                h("div", {}, { default: () => rowData.store.title }),
-                                renderPopConfirm(h(Icon, { icon: "clarity:remove-solid", style: { color: "#ff3333", cursor: "pointer", outline: "none" } }, {}), "您确定要解绑门店吗?", async () => {
-                                    await deleteStoreClerkInfo(rowData.storeClerk.id)
-                                    clerkList()
-                                })
-                            ]
-                        }
-                    })
-                } else {
-                    return '暂未绑定门店'
-                }
-            },
+            key: 'age'
+        },
+        {
+            title: '性别',
+            align: 'center',
+            key: 'sex'
         },
         {
             title() {
-                return searchForm.isDelete == 0 ? renderEditableTitle("账号状态", "可编辑列") : "账号状态"
+                return searchForm.status != 2 ? renderEditableTitle("工作状态", "可编辑列") : "工作状态"
             },
-            key: 'status',
+            key: 'workStatus',
             align: 'center',
             render: (rowData, _index: number) => {
-                if (isAdmin.value && searchForm.isDelete == 0) {
+                if (isAdmin.value && searchForm.status != 2) {
                     return h(
                         NPopconfirm,
                         {
                             onPositiveClick: () => {
-                                if (rowData.status == 1) {
-                                    updateClerkInfo({ id: rowData.id, status: 0 })
+                                if (rowData.workStatus == 1) {
+                                    updateRider({ id: rowData.id, workStatus: 0 })
                                 } else {
-                                    updateClerkInfo({ id: rowData.id, status: 1 })
+                                    updateRider({ id: rowData.id, workStatus: 1 })
                                 }
                             }
                         },
                         {
-                            default: () => '您确定修改此店员账号状态吗,禁止后店员将无法登录后台和小程序',
-                            trigger: () => h(NSwitch, { checkedValue: 1, uncheckedValue: 0, value: rowData.status }, {})
+                            default: () => '您确定修改此配送员工作状态吗?',
+                            trigger: () => h(NSwitch, { checkedValue: 1, uncheckedValue: 0, value: rowData.workStatus }, {
+                                checked: () => "正常",
+                                unchecked: () => "休息"
+                            })
                         }
                     )
                 } else {
-                    return h(NPopover, {}, { default: () => '非管理员禁止操作', trigger: () => h(NSwitch, { checkedValue: 1, uncheckedValue: 0, value: rowData.status, disabled: true }, {}) })
+                    return h(NPopover, {}, { default: () => '非管理员禁止操作', trigger: () => h(NSwitch, { checkedValue: 1, uncheckedValue: 0, value: rowData.workStatus, disabled: true }, {}) })
+                }
+            }
+        },
+        {
+            title() {
+                return searchForm.status != 2 ? renderEditableTitle("账号状态", "可编辑列") : "账号状态"
+            },
+            key: 'status',
+            align: 'center',
+            render: (rowData, _index: number) => {
+                if (isAdmin.value && searchForm.status != 2) {
+                    return h(
+                        NPopconfirm,
+                        {
+                            onPositiveClick: () => {
+                                if (rowData.workStatus == 1) {
+                                    updateRider({ id: rowData.id, status: 3 })
+                                } else {
+                                    updateRider({ id: rowData.id, status: 1 })
+                                }
+                            }
+                        },
+                        {
+                            default: () => rowData.workStatus == 1 ? '您确定禁用此账号状态吗,禁止后配送员无法登录配送员小程序' : '您确定恢复此账号状态吗,恢复后配送员将正常登录配送员小程序',
+                            trigger: () => h(NSwitch, { checkedValue: 1, uncheckedValue: 3, value: rowData.status }, {
+                                checked: () => "正常",
+                                unchecked: () => "禁用"
+                            })
+                        }
+                    )
+                } else {
+                    return h(NPopover, {}, { default: () => '非管理员禁止操作', trigger: () => h(NSwitch, { checkedValue: 1, uncheckedValue: 3, value: rowData.status, disabled: true }, {}) })
                 }
             }
         },
@@ -178,30 +189,36 @@ export const usePlatformClerk = () => {
                                     marginLeft: '10px'
                                 },
                                 onClick: () => {
-                                    if (searchForm.isDelete == 0) {
+                                    if (searchForm.status !== 2) {
+                                        rowData.permCancelObj = rowData.permCancel ? JSON.parse(rowData.permCancel) : {
+                                            status_takeout: 1
+                                        }
+                                        rowData.permTransferObj = rowData.permTransfer ? JSON.parse(rowData.permTransfer) : {
+                                            status_takeout: 1
+                                        }
                                         rowNode.value = rowData
                                         modifyShow.value = true
                                     } else {
-                                        updateClerkInfo({ id: rowData.id, isDelete: 0 })
+                                        updateRider({ id: rowData.id, status: 1 })
                                     }
 
                                 }
                             },
-                            { default: () => searchForm.isDelete == 0 ? "绑定" : "恢复" }
+                            { default: () => searchForm.status != 2 ? "设置" : "恢复" }
                         ),
                         h(
                             NPopconfirm,
                             {
                                 onPositiveClick: () => {
-                                    if (searchForm.isDelete == 0) {
-                                        updateClerkInfo({ id: rowData.id, isDelete: 1 })
+                                    if (searchForm.status != 2) {
+                                        updateRider({ id: rowData.id, status: 2 })
                                     } else {
-                                        deleteClerkInfo(rowData.id)
+                                        deleteRider(rowData.id)
                                     }
                                 }
                             },
                             {
-                                default: () => searchForm.isDelete == 0 ? '您确定要删除此店员吗,删除后数据将进入回收站。' : '您确定要彻底删除此店员吗?',
+                                default: () => searchForm.status != 2 ? '您确定要删除此配送员吗,删除后数据将进入回收站。' : '您确定要彻底删除此配送员吗?',
                                 trigger: () =>
                                     h(
                                         NButton,
@@ -212,7 +229,7 @@ export const usePlatformClerk = () => {
                                                 marginLeft: '10px'
                                             }
                                         },
-                                        { default: () => searchForm.isDelete == 0 ? '删除' : "彻底删除" }
+                                        { default: () => searchForm.status != 2 ? '删除' : "彻底删除" }
                                     )
                             }
                         )
@@ -223,7 +240,7 @@ export const usePlatformClerk = () => {
                             NPopover,
                             {},
                             {
-                                default: () => '非管理员账号禁止绑定店员信息',
+                                default: () => '非管理员账号禁止操作',
                                 trigger: () =>
                                     h(
                                         NButton,
@@ -236,7 +253,7 @@ export const usePlatformClerk = () => {
                                                 opacity: 0.5
                                             }
                                         },
-                                        { default: () => '绑定' }
+                                        { default: () => '设置' }
                                     )
                             }
                         ),
@@ -244,7 +261,7 @@ export const usePlatformClerk = () => {
                             NPopover,
                             {},
                             {
-                                default: () => '非管理员账号禁止删除',
+                                default: () => '非管理员账号禁止操作',
                                 trigger: () =>
                                     h(
                                         NButton,
@@ -268,12 +285,12 @@ export const usePlatformClerk = () => {
     ])
 
     /**
-     * 获取店员列表
+     * 获取配送员列表
      */
-    const clerkList = async () => {
+    const riderList = async () => {
         try {
             loading.value = true
-            const { data } = await getClerkPlatform({ pageNo: pagination.page, pageSize: pagination.pageSize, type: 1, ...searchForm })
+            const { data } = await getRiderList({ pageNo: pagination.page, pageSize: pagination.pageSize, ...searchForm })
             loading.value = false
             if (data.code == 200) {
                 tableData.value = data.data
@@ -289,18 +306,18 @@ export const usePlatformClerk = () => {
     }
 
     /**
-     * 修改店员信息
-     * @param params 店员信息
+     * 修改配送员信息
+     * @param params 配送员信息
      */
-    const updateClerkInfo = async (params: Partial<store.clerk>) => {
+    const updateRider = async (params: Partial<rider.riderInfo>) => {
         try {
             loading.value = true
-            const { data } = await updateClerkPlatform(params)
+            const { data } = await updateRiderInfo(params)
             loading.value = false
             if (data.code == 200) {
                 message.success('修改成功!', {
                     onLeave() {
-                        clerkList()
+                        riderList()
                     },
                 })
             } else {
@@ -314,18 +331,18 @@ export const usePlatformClerk = () => {
     }
 
     /**
-     * 彻底删除店员
-     * @param ID 店员id
+     * 彻底删除配送员
+     * @param ID 配送员id
      */
-    const deleteClerkInfo = async (id: number) => {
+    const deleteRider = async (id: number) => {
         try {
             loading.value = true
-            const { data } = await removeClerkPlatform(id)
+            const { data } = await removeRiderInfo(id)
             loading.value = false
             if (data.code == 200) {
                 message.success('删除成功!', {
                     onLeave() {
-                        clerkList()
+                        riderList()
                     }
                 })
             } else {
@@ -338,5 +355,5 @@ export const usePlatformClerk = () => {
         }
     }
 
-    return { clerkList, updateClerkInfo, deleteClerkInfo, pagination, tableData, loading, columns, message, rowNode, modifyShow, searchForm }
+    return { riderList, updateRider, deleteRider, pagination, tableData, loading, columns, message, rowNode, modifyShow, searchForm }
 }

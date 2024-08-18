@@ -68,7 +68,6 @@ export const addStorePlatformApi = '/store/add'
 export const modifyStoreBatchPlatformApi = "/store/batchUpdate"
 
 
-
 // 标签列表
 export const categoryListPlatformApi = '/category/getList'
 // 删除标签
@@ -85,3 +84,31 @@ export const getClerkPlatformApi = '/clerk/getList'
 export const removeClerkPlatformApi = '/clerk/delete'
 // 修改店员
 export const updateClerkPlatformApi = '/clerk/update'
+
+
+// 获取配送员列表
+export const getRiderListApi = "/deliveryer/getList"
+// 修改配送员
+export const updateRiderInfoApi = "/deliveryer/update"
+// 删除配送员
+export const removeRiderInfoApi = "/deliveryer/delete"
+
+
+/**
+ * 获取顾客评论
+ */
+export const getCommentListApi = "/orderComment/getList"
+/**
+ * 修改评论
+ */
+export const updateCommentApi = "/orderComment/update"
+/**
+ * 删除评论
+ */
+export const deleteCommentApi = "/orderComment/delete"
+
+
+/**
+ * 获取顾客列表信息
+ */
+export const getCustomerListApi = "/members/getList"
