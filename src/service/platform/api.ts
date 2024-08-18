@@ -116,3 +116,32 @@ export const getCustomerListApi = "/members/getList"
  * 获取顾客地址
  */
 export const getCustomerAddressListApi = "/address/getList"
+/**
+ * 广告位列表
+ */
+export const getAdvPositionListApi = "/adPosition/getList"
+/**
+ * 新增广告位
+ */
+export const addAdvPositionApi = "/adPosition/add"
+
+/**
+ * 获取广告列表
+ */
+export const getAdvListApi = "/ad/getList"
+/**
+ * 新增广告
+ */
+export const addAdvApi = "/ad/add"
+/**
+ * 更新广告
+ */
+export const updateAdvApi = "/ad/update"
+/**
+ * 删除广告
+ */
+export const deleteAdvApi = "/ad/delete"
+/**
+ * 删除广告位
+ */
+export const deleteAdvPositionApi = "/adPosition/delete"

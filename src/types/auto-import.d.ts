@@ -204,6 +204,8 @@ declare global {
   const useActiveElement: typeof import('@vueuse/core')['useActiveElement']
   const useAddress: typeof import('../composables/business/platform/customer/useAddress')['useAddress']
   const useAdmin: typeof import('../composables/business/platform/admin/useAdmin')['useAdmin']
+  const useAdv: typeof import('../composables/business/platform/adv/useAdv')['useAdv']
+  const useAdvPosition: typeof import('../composables/business/platform/adv/useAdvPosition')['useAdvPosition']
   const useAnimate: typeof import('@vueuse/core')['useAnimate']
   const useAnimates: typeof import('../store/modules/animate/useAnimates')['useAnimates']
   const useAppInfo: typeof import('../utils/settings/system/index')['useAppInfo']

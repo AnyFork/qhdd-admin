@@ -240,6 +240,66 @@ declare namespace system {
     interface rowData extends system.category {
         children?: rowData[]
     }
+
+    /**
+     * 广告位
+     */
+    interface advPosition {
+        /**
+         * 广告位id
+         */
+        id: number
+        /**
+         * 广告位标识
+         */
+        positionKey: string
+        /**
+         * 广告位名称
+         */
+        name: string
+        /**
+         * 创建时间
+         */
+        createTime: number
+    }
+
+    /**
+     * 广告列表
+     */
+    interface adv {
+        /**
+         * id
+         */
+        id: number
+        /**
+         * 广告位置标识 
+         */
+        positionKey: string
+        /**
+         * 图片url
+         */
+        img: string
+        /**
+         * 广告地址
+         */
+        link: string
+        /**
+         * 广告标题
+         */
+        title: string
+        /**
+         * 状态(1 = 上架, 2 = 下架) 
+         */
+        status: 0 | 1
+        /**
+         * 顺序
+         */
+        displayorder: number
+        /**
+         * 创建时间
+         */
+        createTime
+    }
 }
 
 /**
@@ -2244,7 +2304,7 @@ declare namespace order {
         /**
          * 配送员名称
          */
-        deliveryerTitle:string
+        deliveryerTitle: string
 
     }
     /**
