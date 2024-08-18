@@ -202,6 +202,7 @@ declare global {
   const unrefElement: typeof import('@vueuse/core')['unrefElement']
   const until: typeof import('@vueuse/core')['until']
   const useActiveElement: typeof import('@vueuse/core')['useActiveElement']
+  const useAddress: typeof import('../composables/business/platform/customer/useAddress')['useAddress']
   const useAdmin: typeof import('../composables/business/platform/admin/useAdmin')['useAdmin']
   const useAnimate: typeof import('@vueuse/core')['useAnimate']
   const useAnimates: typeof import('../store/modules/animate/useAnimates')['useAnimates']

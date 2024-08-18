@@ -112,3 +112,7 @@ export const deleteCommentApi = "/orderComment/delete"
  * 获取顾客列表信息
  */
 export const getCustomerListApi = "/members/getList"
+/**
+ * 获取顾客地址
+ */
+export const getCustomerAddressListApi = "/address/getList"

@@ -13,6 +13,14 @@ const customer: AuthRoute.Route[] = [{
             title: '顾客列表',
             icon: 'tabler:logs'
         }
+    }, {
+        name: "platform-customer-address",
+        path: "/platform/customer/address",
+        component: () => import('@/pages/platform/customer/address/index.vue'),
+        meta: {
+            title: '地址列表',
+            icon: 'mdi:address-marker-outline'
+        }
     }],
     meta: {
         title: '顾客信息管理',
