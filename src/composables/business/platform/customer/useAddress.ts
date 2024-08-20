@@ -14,10 +14,10 @@ export const useAddress = () => {
      */
     const pagination = reactive({
         page: 1,
-        pageSize: 10,
+        pageSize: 12,
         itemCount: 0,
         showSizePicker: true,
-        pageSizes: [10, 15, 20, 25, 30],
+        pageSizes: [12, 15, 20, 25, 30],
         onChange: (page: number) => {
             pagination.page = page
             getCustomerAddress()

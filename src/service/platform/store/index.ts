@@ -10,7 +10,7 @@ export const storeListPlatform = async (params: Record<string, any>) => await pl
  * 获取商户选择框数据
  * @returns 
  */
-export const storeListPlatformSelect = async () => await platformAxios.get(`${storeListPlatformApi}?${qs.stringify({ pageNo: 1, pageSize: 1000 })}`)
+export const storeListPlatformSelect = async () => await platformAxios.get(`${storeListPlatformApi}?${qs.stringify({ pageNo: 1, pageSize: 1000, status: 1 })}`)
 
 /**
  * 删除商户

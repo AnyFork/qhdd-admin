@@ -34,3 +34,23 @@ export enum EnumThemeAnimateMode {
   'fade-bottom' = '底部消退',
   'fade-scale' = '缩放消退'
 }
+
+/**
+ * 活动类型
+ */
+export enum ActivityType {
+  mallNewMember = "平台新用户首单立减",
+  newMember = "门店新用户立减",
+  discount = "满减优惠",
+  grant = "下单满赠",
+  deliveryFeeDiscount = "满减配送费"
+}
+
+/**
+ * 活动类型
+ */
+export const ActivityStatus = {
+  0: "已失效",
+  1: "进行中",
+  2: "待生效"
+}

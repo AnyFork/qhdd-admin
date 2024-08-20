@@ -63,3 +63,21 @@ export const storeLogOutApi = "/accMerchant/logout"
 export const scanLoginApi = "/accMerchant/qrCodeLogin"
 // 轮训获取用户信息，判断登录状态
 export const getLoginUserApi = "/accMerchant/getLoginInfo"
+
+
+/**
+ * 商户参与的活动列表
+ */
+export const getStoreActivityListApi = "/storeActivity/store/getList"
+/**
+ * 创建活动
+ */
+export const addStoreActivityApi = "/storeActivity/add"
+/**
+ * 更新活动
+ */
+export const updateActivityApi = "/storeActivity/update"
+/**
+ * 删除活动
+ */
+export const deleteActivityApi = "/storeActivity/delete"

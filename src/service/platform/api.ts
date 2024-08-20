@@ -145,3 +145,15 @@ export const deleteAdvApi = "/ad/delete"
  * 删除广告位
  */
 export const deleteAdvPositionApi = "/adPosition/delete"
+/**
+ * 获取商户活动
+ */
+export const getStoreActivityListApi = "/storeActivity/getList"
+/**
+ *  删除商户活动
+ */
+export const deleteStoreActivityApi = "/storeActivity/delete"
+/**
+ *  用户批量创建活动
+ */
+export const addActivityBatchInfoApi = "/storeActivity/addBatch"

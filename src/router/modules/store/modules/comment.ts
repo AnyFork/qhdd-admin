@@ -1,21 +1,21 @@
 import { AuthRoute } from '@/types/route'
 
 const service: AuthRoute.Route[] = [{
-    name: "platform-service",
-    path: "/platform/service",
+    name: "store-service",
+    path: "/store/service",
     component: basicLayout,
-    redirect: "/platform/service/comment",
+    redirect: "/store/service/comment",
     children: [{
-        name: "platform-service-comment",
-        path: "/platform/service/comment",
-        component: () => import('@/pages/platform/service/comment/index.vue'),
+        name: "store-service-comment",
+        path: "/store/service/comment",
+        component: () => import('@/pages/store/comment/index.vue'),
         meta: {
             title: '顾客评价',
             icon: 'material-symbols-light:comment-outline'
         }
     }],
     meta: {
-        title: '售后信息管理',
+        title: '售后管理',
         icon: 'ri:customer-service-2-line'
     }
 }]

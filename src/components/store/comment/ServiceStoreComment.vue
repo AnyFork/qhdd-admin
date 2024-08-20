@@ -57,18 +57,13 @@
             </div>
             <div v-if="data.reply" class="p-1 my-1 text-12px text-#666 bg-#cccccc40 text-left">商家回复({{ transformTimestampsToDateString(data.replytime) }})：{{ data.reply }}</div>
             <div class="flex gap-2 py-1">
-                <n-button type="primary" class="w-100px" @click="openModal('reply')"> 回复 </n-button>
-                <n-button type="success" class="w-100px" @click="openModal('positive')"> 审核通过 </n-button>
-                <n-button type="warning" class="w-100px" @click="openModal('negative')"> 审核不通过 </n-button>
-                <n-button type="error" class="w-100px" @click="openModal('delete')"> 删除 </n-button>
+                <n-button type="primary" class="w-100px" @click="openModal"> 回复 </n-button>
             </div>
         </div>
     </div>
     <n-modal v-model:show="showModal" preset="dialog" title="温馨提示" positive-text="确认" negative-text="取消" @positive-click="submitCallback">
         <div>
-            <div v-if="actions != 'reply'" class="text-12rpx text-default">{{ content }}</div>
             <n-input
-                v-else
                 v-model:value="reply"
                 type="textarea"
                 placeholder="请输入回复的内容!"
@@ -89,27 +84,15 @@ import { transformTimestampsToDateString } from '@/utils/tools/date'
 import { getAssetsImages } from '@/utils/tools/getAssetsImages'
 import { Icon } from '@iconify/vue'
 const { isAdmin } = useLoginUser()
-const { updateCommentInfo, deleteCommentInfo, message } = useComment()
+const { updateCommentInfo, message } = useStoreComment()
 const props = defineProps<{ data: order.comment }>()
 const emit = defineEmits<{ refresh: [] }>()
 const showModal = ref(false)
-const content = ref()
-const actions = ref<'reply' | 'positive' | 'negative' | 'delete'>()
 const reply = ref()
 /**
  * 打开modal
  */
-const openModal = (action: typeof actions.value) => {
-    actions.value = action
-    if (action == 'delete') {
-        content.value = '您确认要删除该评论吗？'
-    }
-    if (action == 'positive') {
-        content.value = '您确认要通过该评论吗？'
-    }
-    if (action == 'negative') {
-        content.value = '您确认要不通过该评论吗？'
-    }
+const openModal = () => {
     showModal.value = true
 }
 
@@ -117,25 +100,11 @@ const openModal = (action: typeof actions.value) => {
  * 点击弹框确认按钮触发
  */
 const submitCallback = async () => {
-    if (actions.value == 'reply') {
-        if (reply.value) {
-            await updateCommentInfo({ id: props.data.id, reply: reply.value })
-            emit('refresh')
-        } else {
-            message.error('请输入回复内容!')
-        }
-    }
-    if (actions.value == 'delete') {
-        await deleteCommentInfo(props.data.id)
+    if (reply.value) {
+        await updateCommentInfo({ id: props.data.id, reply: reply.value })
         emit('refresh')
-    }
-    if (actions.value == 'positive') {
-        await updateCommentInfo({ id: props.data.id, status: 1 })
-        emit('refresh')
-    }
-    if (actions.value == 'negative') {
-        await updateCommentInfo({ id: props.data.id, status: 2 })
-        emit('refresh')
+    } else {
+        message.error('请输入回复内容!')
     }
 }
 </script>

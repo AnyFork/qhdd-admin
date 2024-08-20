@@ -1337,6 +1337,157 @@ declare namespace store {
          */
         negativeCount: number
     }
+
+    /**
+     * 店铺活动
+     */
+    interface activity {
+        /**
+         * 活动id
+         */
+        id: number
+        /**
+         * 商户id
+         */
+        sid: number
+        /**
+         * 批量商户id
+         */
+        sids: string
+        /**
+         * 活动标题
+         */
+        title: string
+        /**
+         * 活动类型(mallNewMember=平台新用户首单立减,newMember=门店新用户立减,discount=满减优惠,grant=下单满赠,deliveryFeeDiscount="满减配送费")
+         */
+        type: "mallNewMember" | "newMember" | "discount" | "grant" | "deliveryFeeDiscount"
+        /**
+         * 外卖是否参加活动(1=是,0=否)
+         */
+        isWaimai: 0 | 1
+        /**
+         * 开始时间
+         */
+        starttime: number
+        /**
+         * 结束时间
+         */
+        endtime: number
+        /**
+         * 创建时间
+         */
+        addtime: number
+        /**
+         * 活动状态(2=待生效,1=进行中,0=已失效) 
+         */
+        status: 0 | 1 | 2
+        /**
+         * 活动详情
+         */
+        data: string
+        /**
+         * 门店新客立减
+         */
+        newMember: newMember
+        /**
+         * 满减活动
+         */
+        discount: discount[]
+        /**
+         * 满赠活动
+         */
+        grant: grant[]
+        /**
+         * 平台新用户满减
+         */
+        mallNewMember: mallNewMember
+        /**
+         * 满减配送费
+         */
+        deliveryFeeDiscount: discount[]
+        /**
+         * 门店信息
+         */
+        store: store.storeData
+    }
+
+    /**
+     * 门店新客立减
+     */
+    interface newMember {
+        /**
+         * 立减金额
+         */
+        back?: number
+        /**
+         * 平台承担费用
+         */
+        plateform_charge?: number
+        /**
+         * 门店承担费用
+         */
+        store_charge?: number
+    }
+
+    /**
+     * 满减活动
+     */
+    interface discount {
+        /**
+         * 满多少
+         */
+        condition?: number
+        /**
+         * 减多少
+         */
+        back?: number
+        /**
+         * 平台承担
+         */
+        plateform_charge?: number
+        /**
+         * 代理承担
+         */
+        agent_charge?: number
+        /**
+         * 商户承担
+         */
+        store_charge?: number
+    }
+
+    /**
+     * 满赠活动
+     */
+    interface grant {
+        /**
+         * 满多少
+         */
+        condition?: number
+        /**
+         * 赠送什么
+         */
+        back?: string
+    }
+
+    /**
+     * 平台新用户活动
+     */
+    interface mallNewMember {
+        /**
+         * 减
+         */
+        back?: number,
+        plateform_charge?: number
+        /**
+         * 代理承担
+         */
+        agent_charge?: number
+        /**
+         * 商户承担
+         */
+        store_charge?: number
+    }
 }
 
 /**

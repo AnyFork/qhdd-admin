@@ -22,6 +22,15 @@ const store: AuthRoute.Route[] = [{
             title: '标签配置',
             icon: 'fluent:tag-lock-20-regular'
         }
+    },
+    {
+        name: "platform-store-activity",
+        path: "/platform/store/activity",
+        component: () => import('@/pages/platform/store/activity/index.vue'),
+        meta: {
+            title: '商户活动',
+            icon: 'maki:gift'
+        }
     }],
     meta: {
         title: '商户信息管理',
