@@ -69,7 +69,6 @@
                 <n-checkbox-group v-model:value="moduleValue.paymentStr">
                     <n-space item-style="display: flex;">
                         <n-checkbox value="wechat" label="微信支付" />
-                        <n-checkbox value="credit" label="余额支付" />
                     </n-space>
                 </n-checkbox-group>
             </n-form-item>

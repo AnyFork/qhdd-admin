@@ -76,20 +76,43 @@ export const useStore = () => {
         locationY: undefined,
         qualificationObj: { business: { thumb: "" }, service: { thumb: "" }, more1: { thumb: "" }, more2: { thumb: "" } },
         dataObj: {
-            food_level: undefined,
+            food_level: "A",
             printer_perms: ['orderplace'],
-            auto_notice_deliveryer_time: undefined
+            auto_notice_deliveryer_time: 0,
+            picture: undefined,
+            reserve: {
+                reserve_time_limit: 0,
+                notice_clerk_before_delivery: 0
+            },
+            reserve_order_print_type: 1,
+            pack_price: {
+                type: 1,
+                fee: 0,
+                rules: []
+            },
+            order_time_placeholder: "",
+            order_note_status: 0,
+            order_form: {
+                person_num: 0
+            },
+            orderCreateNotice: {
+                text: ""
+            }
         },
         autoPrintOrder: undefined,
         autoHandelOrder: undefined,
         autoNoticeDeliveryer: undefined,
         invoiceStatus: undefined,
-        paymentStr: [],
+        paymentStr: ['wechat'],
         remindTimeLimit: undefined,
         remindTimeStart: undefined,
         remindReplyStr: [],
         commentReplyStr: [],
-        isWaimai: 1
+        isWaimai: 1,
+        deliveryWithinDays: 0,
+        deliveryReserveDays: 0,
+        restCanOrder: 1,
+        subMchId: ""
     })
     /**
      * 表单校验规则
@@ -127,12 +150,14 @@ export const useStore = () => {
             const { data: dataList } = await getStoreInfoBySid(sid.value!)
             loading.value = false
             if (dataList.code == 200) {
-                const { id, title, logo, displayorder, chainid, businessStatus, cateParentid1, cateParentid2, description, telephone, businessHours, thumbs, address, locationX, locationY, categoryList, qualification, licenseEndtime, foodcertEndtime, data } = dataList.data
+                const { id, title, logo, subMchId, displayorder, chainid, tips, businessStatus, cateParentid1, cateParentid2, description, telephone, businessHours, thumbs, address, locationX, locationY, categoryList, qualification, licenseEndtime, foodcertEndtime, data } = dataList.data
                 moduleValue.id = id
+                moduleValue.tips = tips
                 moduleValue.title = title
                 moduleValue.logo = logo
                 moduleValue.displayorder = displayorder
                 moduleValue.chainid = chainid
+                moduleValue.subMchId = subMchId
                 moduleValue.businessStatus = businessStatus
                 if (businessHours) {
                     try {
@@ -173,7 +198,6 @@ export const useStore = () => {
                     try {
                         moduleValue.dataObj = JSON.parse(data)
                     } catch (e: any) {
-                        moduleValue.dataObj!.food_level = "A"
                         console.error(e)
                     }
                 }
@@ -183,10 +207,13 @@ export const useStore = () => {
                 moduleValue.autoHandelOrder = dataList.data?.autoHandelOrder
                 moduleValue.autoNoticeDeliveryer = dataList.data?.autoNoticeDeliveryer
                 moduleValue.invoiceStatus = dataList.data?.invoiceStatus
-                moduleValue.paymentStr = dataList.data?.payment?.split(",").length == 2 ? dataList.data?.payment?.split(",") : []
+                moduleValue.paymentStr = dataList.data?.payment?.split(",").length == 2 ? dataList.data?.payment?.split(",") : ['wechat']
                 moduleValue.remindTimeLimit = dataList.data?.remindTimeLimit
                 moduleValue.remindTimeStart = dataList.data?.remindTimeStart
                 moduleValue.isWaimai = dataList.data?.isWaimai
+                moduleValue.deliveryWithinDays = dataList.data?.deliveryWithinDays || 0
+                moduleValue.deliveryReserveDays = dataList.data?.deliveryReserveDays || 0
+                moduleValue.restCanOrder = dataList.data?.restCanOrder || 0
                 if (dataList.data?.remindReply) {
                     const tmp = dataList.data?.remindReply?.split(",")
                     moduleValue.remindReplyStr = tmp?.map((item: string) => ({
@@ -199,6 +226,7 @@ export const useStore = () => {
                         text: item
                     }))
                 }
+                console.log("执行完了")
             } else {
                 message.error(dataList.msg)
             }

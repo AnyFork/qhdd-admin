@@ -468,7 +468,85 @@ declare namespace store {
              * 自动通知配送员的时间
              */
             auto_notice_deliveryer_time?: number
+            /**
+             * 门店招牌
+             */
+            picture?: string
+            /**
+             * 预订单设置
+             */
+            reserve: {
+                /**
+                 * 下单时间距离送达时间超过几分钟 属于预定单
+                 */
+                reserve_time_limit: number
+                /**
+                 * 距离送达时间几分钟 通知商户备餐
+                 */
+                notice_clerk_before_delivery: number
+            },
+            /**
+             * 预定单打印时间点(1=支付后立即打印,2=通知商户时打印)
+             */
+            reserve_order_print_type: number
+            /**
+             * 包装费计算方式
+             */
+            pack_price: {
+                /**
+                 * 1=固定金额,2=按订单金额区间计算
+                 */
+                type: 1 | 2
+                /**
+                 * 固定金额值
+                 */
+                fee: number
+                /**
+                 * 按区间计算规则
+                 */
+                rules?: {
+                    /**
+                     * 开始
+                     */
+                    start: number
+                    /**
+                     * 结束
+                     */
+                    end: number
+                    /**
+                     * 费用
+                     */
+                    fee: number
+                }[]
+            },
+            /**
+             * 订单确认页送达时间提示语
+             */
+            order_time_placeholder: string
+            /**
+             *  订单备注是否必填(1=是,0=否)
+             */
+            order_note_status: 0 | 1
+            /**
+             * 订单
+             */
+            order_form: {
+                /**
+                 * 提交订单时是否需要选择餐具数量(1=是,0=否)
+                 */
+                person_num: 0 | 1
+            }
+            /**
+             * 订单确认页公告设置
+             */
+            orderCreateNotice: {
+                /**
+                 * 订单确认页公告文本
+                 */
+                text: string
+            }
         }
+
         /**
          * 打印机打印设置，0=支付后自动打印,1=接单后自动打印,2=手动打印
          */
@@ -557,6 +635,22 @@ declare namespace store {
          * 是否收藏此店铺
          */
         isLoginMemberFavorite: 0 | 1
+        /**
+         * 可提前几天点外卖
+         */
+        deliveryWithinDays: number
+        /**
+         * 需提前几天预定外卖
+         */
+        deliveryReserveDays: number
+        /**
+         * 休息是否接单(0=不接单,1=接单)
+         */
+        restCanOrder: 0 | 1
+        /**
+         * 子商户号
+         */
+        subMchId: string
 
     }
     /**

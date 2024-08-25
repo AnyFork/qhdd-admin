@@ -12,6 +12,8 @@ export const useStoreComment = () => {
     const { storeInfo } = useStoreInfo()
     // 当前店铺id
     const sid = computed(() => storeInfo.value.id)
+    const { getOrderInfoById, orderInfo } = useStoreOrder()
+    const orderDetailModal = ref(false)
 
     /**
      * 表格分页配置
@@ -73,7 +75,12 @@ export const useStoreComment = () => {
             align: 'center',
             key: 'comment',
             render: (_rowData, _index: number) => {
-                return h(ServiceStoreComment, { data: _rowData, onRefresh: () => getCommentListInfo() }, {})
+                return h(ServiceStoreComment, {
+                    data: _rowData, onRefresh: () => getCommentListInfo(), onOrderInfo: async (orderId: number) => {
+                        await getOrderInfoById(orderId)
+                        orderDetailModal.value = true
+                    }
+                }, {})
             }
         }
     ])
@@ -130,5 +137,5 @@ export const useStoreComment = () => {
         }
     }
 
-    return { getCommentListInfo, updateCommentInfo, pagination, tableData, loading, columns, message, searchForm }
+    return { getCommentListInfo, updateCommentInfo, pagination, tableData, loading, columns, message, searchForm, orderInfo, orderDetailModal }
 }

@@ -26,12 +26,13 @@
     </n-space>
     <!--数据表格 -->
     <n-data-table :striped="striped" remote :size="size" :single-line="false" :columns="columns" :data="tableData" :pagination="pagination" :row-key="(rowData:order.comment) => `${rowData.id}`" :loading="loading" />
+    <!--订单详情-->
+    <StoreOrderDetail v-if="orderInfo" v-model:show="orderDetailModal" :order="orderInfo"></StoreOrderDetail>
 </template>
 <script setup lang="ts">
 const size = ref<'small' | 'medium' | 'large'>('medium')
 const striped = ref(true)
-const { getCommentListInfo, pagination, tableData, loading, columns, searchForm } = useStoreComment()
-const store = ref()
+const { getCommentListInfo, pagination, tableData, loading, columns, searchForm, orderDetailModal, orderInfo } = useStoreComment()
 const range = ref<[number, number]>()
 
 /**

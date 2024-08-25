@@ -31,6 +31,16 @@
                     <n-image :src="node?.url ?? getAssetsImages('nopic.jpg')" :preview-disabled="!node?.url" width="100" height="100" class="my-1 border border-solid border-#f5f5f5"></n-image>
                 </div>
             </n-form-item>
+            <n-form-item label="门店招牌">
+                <div class="selectImg">
+                    <div class="flex-row-center">
+                        <n-input v-model:value="moduleValue.dataObj!.picture" disabled learable class="!w-[625px]" placeholder="请选择门店招牌图片" />
+                        <n-button type="primary" @click="showPicture = true"> 搜索 </n-button>
+                    </div>
+                    <div class="text-#999 text-12px py-1">建议图片尺寸:750*288</div>
+                    <n-image :src="picture?.url ?? getAssetsImages('nopic.jpg')" :preview-disabled="!picture?.url" :width="picture?.url ? 300 : 100" height="100" class="my-1 border border-solid border-#f5f5f5"></n-image>
+                </div>
+            </n-form-item>
             <n-form-item label="门店描述" path="description">
                 <n-input v-model:value="moduleValue.description" clearable placeholder="请输入门店描述" class="!w-680px" />
             </n-form-item>
@@ -42,7 +52,7 @@
                     <n-button type="primary" @click="showThumb = true">选择图片</n-button>
                     <div class="text-#999 text-12px py-1">建议尺寸640*120</div>
                     <div v-if="thumbNode && thumbNode.length > 0" class="flex items-center flex-wrap gap-2">
-                        <n-image v-for="(item, index) in thumbNode" :key="'thumb' + index" :src="item?.url" :preview-disabled="!node?.url" width="640" height="120" class="my-1 border border-solid border-#f5f5f5"></n-image>
+                        <n-image v-for="(item, index) in thumbNode" :key="'thumb' + index" :src="item?.url" :preview-disabled="!item?.url" :width="item?.url ? 200 : 100" height="120" class="my-1 border border-solid border-#f5f5f5"></n-image>
                     </div>
                 </div>
             </n-form-item>
@@ -88,6 +98,8 @@
         </n-form>
         <!-- 选择门店logo对话框 -->
         <SelectImageDialog v-if="showLogo" v-model:open="showLogo" v-model:node="node"></SelectImageDialog>
+        <!-- 选择门店招牌对话框 -->
+        <SelectImageDialog v-if="showPicture" v-model:open="showPicture" v-model:node="picture"></SelectImageDialog>
         <!-- 选择门店实景图对话框 -->
         <SelectImageDialog v-if="showThumb" v-model:open="showThumb" v-model:node="thumbNode" multi></SelectImageDialog>
         <!-- 坐标选择器 -->
@@ -104,8 +116,10 @@ const { chainSelectList, chainOptions } = useChain()
 const showLogo = ref(false)
 const showThumb = ref(false)
 const locationBtn = ref(false)
+const showPicture = ref(false)
 const node = ref<Partial<system.attachment>>({})
 const thumbNode = ref<Partial<system.attachment[]>>()
+const picture = ref<Partial<system.attachment>>({})
 // 主营区域
 const categoryRef = ref<system.category[]>()
 // 所属片区
@@ -145,7 +159,7 @@ const submitCallback = (e: MouseEvent) => {
     formRef.value?.validate(async (errors) => {
         if (!errors) {
             const array = []
-            const { id, title, logo, chainid, businessStatus, cateParentid1, cateParentid2, description, telephone, businessHours, thumbs, address, locationX, locationY, shopCategory, serviceCategory, deliveryCategory, isWaimai } = moduleValue
+            const { id, title, logo, chainid, businessStatus, cateParentid1, cateParentid2, description, telephone, businessHours, thumbs, address, locationX, locationY, shopCategory, serviceCategory, deliveryCategory, isWaimai, dataObj } = moduleValue
             const time = businessHours && businessHours.length > 0 ? JSON.stringify(businessHours) : undefined
             if (shopCategory) {
                 array.push(shopCategory)
@@ -156,7 +170,7 @@ const submitCallback = (e: MouseEvent) => {
             if (serviceCategory) {
                 array.push(serviceCategory)
             }
-            await updateStoreInfo({ id, title, logo, chainid, businessStatus, isWaimai, cateParentid1, cateParentid2, description, telephone, businessHours: time, thumbs, address, locationX, locationY, serviceLabel: array.join(',') })
+            await updateStoreInfo({ id, title, logo, chainid, businessStatus, isWaimai, cateParentid1, cateParentid2, description, telephone, businessHours: time, thumbs, address, locationX, locationY, serviceLabel: array.join(','), data: JSON.stringify(dataObj) })
             getStoreDetailInfoBySid()
             // 清空表单校验
             formRef.value?.restoreValidation()
@@ -167,11 +181,18 @@ const submitCallback = (e: MouseEvent) => {
     })
 }
 watchEffect(() => {
-    moduleValue.logo = node.value?.attachment
-    const thumbs = thumbNode.value?.map((item) => {
-        return { image: item?.attachment, url: '' }
-    })
-    moduleValue.thumbs = thumbs ? JSON.stringify(thumbs) : undefined
+    if (node.value && Object.keys(node.value).length > 0) {
+        moduleValue.logo = node.value?.attachment
+    }
+    if (picture.value && Object.keys(picture.value).length > 0) {
+        moduleValue.dataObj!.picture = picture.value?.attachment
+    }
+    if (thumbNode.value && thumbNode.value.length > 0) {
+        const thumbs = thumbNode.value?.map((item) => {
+            return { image: item?.attachment, url: '' }
+        })
+        moduleValue.thumbs = thumbs ? JSON.stringify(thumbs) : undefined
+    }
 })
 onMounted(async () => {
     getStoreDetailInfoBySid()
@@ -179,7 +200,14 @@ onMounted(async () => {
     chainSelectList()
     categoryRef.value = (await storeCategoryList(1)) || []
     areaRef.value = (await storeCategoryList(2)) || []
-    moduleValue.logo ? (node.value.url = previewUrl + moduleValue.logo) : ''
+    if (moduleValue.logo) {
+        node.value.url = previewUrl + moduleValue.logo
+        node.value.attachment = moduleValue.logo
+    }
+    if (moduleValue.dataObj?.picture) {
+        picture.value.url = previewUrl + moduleValue.dataObj?.picture
+        picture.value.attachment = moduleValue.dataObj?.picture
+    }
     if (moduleValue.thumbs) {
         try {
             const temp = JSON.parse(moduleValue.thumbs)
