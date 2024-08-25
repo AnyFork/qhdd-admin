@@ -22,15 +22,14 @@
     <!--数据表格 -->
     <n-data-table :striped="striped" remote :size="size" :single-line="false" :columns="columns" :data="tableData" :pagination="pagination" :row-key="(rowData:store.clerk) => `${rowData.id}`" :loading="loading" :min-height="tableHeight" :max-height="tableHeight" />
     <!-- 编辑平台管理员dialog -->
-    <BindStoreDialog v-if="modifyShow" v-model:open="modifyShow" :storeOptions="storeOptions" :rowNode="rowNode!" @refresh="clerkList"></BindStoreDialog>
+    <BindStoreDialog v-if="modifyShow" v-model:open="modifyShow" :storeOptions="allStore" :rowNode="rowNode!" @refresh="clerkList"></BindStoreDialog>
 </template>
 <script setup lang="ts">
 const size = ref<'small' | 'medium' | 'large'>('medium')
 const striped = ref(true)
 const { height } = useWindowSize()
-const storeOptions = ref<{ label: string; value: string }[]>([])
 const { clerkList, pagination, tableData, loading, columns, modifyShow, rowNode, searchForm } = usePlatformClerk()
-const { storeSelectList } = usePlatformStore()
+const { storeSelectList, allStore } = usePlatformStore()
 // 表格高度
 const tableHeight = computed(() => height.value - 330)
 /**
@@ -51,11 +50,12 @@ const bindOptions = [
  * @param value
  */
 const changeValue = (value: number | null) => {
+    //@ts-ignore
     searchForm.bindStoreStatus = value == null ? undefined : value
 }
 
-onMounted(async () => {
+onMounted(() => {
     clerkList()
-    storeOptions.value = await storeSelectList()
+    storeSelectList()
 })
 </script>

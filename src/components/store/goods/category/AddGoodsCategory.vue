@@ -46,11 +46,11 @@
                         </div>
                     </div>
                 </n-form-item>
-                <n-form-item v-if="!props.parentNode" label="是否必填">
+                <n-form-item v-if="!props.parentNode" label="是否必点">
                     <n-radio-group v-model:value="moduleValue.isRequired">
                         <n-space>
-                            <n-radio :key="0" :value="0"> 否</n-radio>
-                            <n-radio :key="1" ::value="1">是 </n-radio>
+                            <n-radio :value="0"> 否</n-radio>
+                            <n-radio :value="1">是 </n-radio>
                         </n-space>
                     </n-radio-group>
                 </n-form-item>

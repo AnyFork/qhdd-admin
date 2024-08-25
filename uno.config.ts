@@ -35,7 +35,11 @@ export default defineConfig({
             // 主题色
             primary: '#0093e1',
             // 文本色
-            default: '#333'
+            default: '#333',
+            // 催单颜色
+            remind: "#ff3333",
+            // 退款颜色
+            refund: "#ff6700"
         }
     }
 })

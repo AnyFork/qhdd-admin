@@ -9,6 +9,8 @@ export const useComment = () => {
     const tableData = ref<order.comment[]>([])
     const message = useMessage()
     const loading = ref(false)
+    const { getOrderInfoById, orderInfo } = usePlatformOrder()
+    const orderDetailModal = ref(false)
 
     /**
      * 表格分页配置
@@ -70,7 +72,12 @@ export const useComment = () => {
             align: 'center',
             key: 'comment',
             render: (_rowData, _index: number) => {
-                return h(ServiceComment, { data: _rowData, onRefresh: () => getCommentListInfo() }, {})
+                return h(ServiceComment, {
+                    data: _rowData, onRefresh: () => getCommentListInfo(), onOrderInfo: async (orderId: number) => {
+                        await getOrderInfoById(orderId)
+                        orderDetailModal.value = true
+                    }
+                }, {})
             }
         }
     ])
@@ -148,5 +155,5 @@ export const useComment = () => {
         }
     }
 
-    return { getCommentListInfo, updateCommentInfo, deleteCommentInfo, pagination, tableData, loading, columns, message, searchForm }
+    return { getCommentListInfo, updateCommentInfo, deleteCommentInfo, pagination, tableData, loading, columns, message, searchForm, orderInfo, orderDetailModal }
 }

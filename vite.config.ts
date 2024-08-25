@@ -32,7 +32,8 @@ export default defineConfig(({ mode }: ConfigEnv) => {
           //设置vue模板中组件中无法自动加载assets资源问题,组件名称：加载assets资源key属性名称
           transformAssetUrls: {
             'el-avatar': ['src'],
-            'el-image': ['src']
+            'el-image': ['src'],
+            'img': ['src'],
           }
         }
       }),

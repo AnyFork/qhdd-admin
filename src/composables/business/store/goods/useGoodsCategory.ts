@@ -318,7 +318,7 @@ export const useStoreGoodsCategory = (): any => {
     const goodsCategoryTree = async () => {
         try {
             loading.value = true
-            const { data } = await getGoodsCategoryList({ pageNo: 1, pageSize: 1000, sid: sid.value })
+            const { data } = await getGoodsCategoryList({ pageNo: 1, pageSize: 1000, sid: sid.value, sortType: 2 })
             loading.value = false
             if (data.code == 200) {
                 flatData.value = data.data

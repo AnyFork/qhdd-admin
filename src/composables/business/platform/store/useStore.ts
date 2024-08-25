@@ -11,6 +11,7 @@ import { DataTableColumns, DataTableRowKey, FormInst, FormItemRule, NButton, NPo
 export const usePlatformStore = () => {
     const { categoryPageList, tableData: selectData } = usePlatformTag()
     const tableData = ref<store.storeData[]>([])
+    const allStore = ref<{ label: string; value: number }[]>([])
     const { routerPush } = useRouterPush()
     const dialog = useDialog()
     const { $axios } = useInstance()
@@ -220,7 +221,7 @@ export const usePlatformStore = () => {
         },
         {
             title() {
-                return renderEditableTitle("应用状态", "可编辑列")
+                return renderEditableTitle("营业状态", "可编辑列")
             },
             width: 120,
             align: 'center',
@@ -707,13 +708,13 @@ export const usePlatformStore = () => {
     /**
      * 获取商户选择框数据
      */
-    const storeSelectList = async () => {
+    const storeSelectList = async (params?: Partial<order.orderInfo>) => {
         try {
             loading.value = true
-            const { data } = await storeListPlatformSelect()
+            const { data } = await storeListPlatformSelect(params ?? { status: 1 })
             loading.value = false
             if (data.code == 200) {
-                return data.data?.map((item: store.storeData) => {
+                allStore.value = data.data?.map((item: store.storeData) => {
                     return {
                         label: item.title,
                         value: item.id
@@ -840,6 +841,6 @@ export const usePlatformStore = () => {
         checkedRowKeysRef.value = rowKeys
     }
 
-    return { storeListData, pagination, updateStoreStatusBatch, tableData, loading, columns, formRef, moduleValue, rules, addStoreInfo, $axios, message, CreateShow, searchForm, handleCheck, checkedRowKeysRef, shopOption, deliveryOption, serviceOption, categoryPageList, storeSelectList }
+    return { storeListData, pagination, updateStoreStatusBatch, tableData, loading, columns, formRef, moduleValue, rules, addStoreInfo, $axios, message, CreateShow, searchForm, handleCheck, checkedRowKeysRef, shopOption, deliveryOption, serviceOption, categoryPageList, storeSelectList, allStore }
 }
 

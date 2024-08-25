@@ -157,3 +157,83 @@ export const deleteStoreActivityApi = "/storeActivity/delete"
  *  用户批量创建活动
  */
 export const addActivityBatchInfoApi = "/storeActivity/addBatch"
+
+/**
+ * 查询所有订单信息
+ */
+export const searchAllOrdersInfoApi = "/order/getList"
+
+/**
+ * 平台回复催单
+ */
+export const replyRemindInfoApi = "/order/replyRemind"
+
+/**
+ * 平台修改订单信息
+ */
+export const updateOrderInfoApi = "/order/update"
+
+/**
+ * 平台打印订单
+ */
+export const printOderInfoApi = "/order/print"
+
+/**
+ * 平台取消订单
+ */
+export const cancelOrderInfoApi = "/order/cancel"
+
+/**
+ * 平台查询订单信息
+ */
+export const getOrderInfoByIdInfoApi = "/order/getById"
+
+/**
+ * 平台管理员接单
+ */
+export const handleOrderInfoApi = "/order/store/handle"
+
+/**
+ * 管理员通知配送员抢单
+ */
+export const notifyCollectInfoApi = "/order/store/notifyCollect"
+
+/**
+ * 通知商户接单
+ */
+export const noticeStoreOrderInfoApi = "/order/admin/notifyStoreHandle"
+
+/**
+ * 管理员调度骑手接单
+ */
+export const assignOrderInfoApi = "/order/deliver/assign"
+
+/**
+ * 管理员重新将订单列入待抢列表
+ */
+export const resetAssignOrderInfoApi = "/order/admin/toDeliveryWait"
+
+/**
+ * 管理员完成订单
+ */
+export const finishSendOrderInfoApi = "/order/deliver/finish"
+
+/**
+ * 管理员介入退单纠纷
+ */
+export const arbitratingOrderInfoApi = "/orderRefund/admin/arbitrating"
+
+/**
+ * 平台驳回退款申请
+ */
+export const overruleRefundInfoApi = "/orderRefund/admin/overrule"
+
+/**
+ * 平台同意退款
+ */
+export const agreeRefundInfoApi = "/orderRefund/store/agree"
+
+/**
+ * 平台拒绝退款
+ */
+export const rejectRefundInfoApi = "/orderRefund/store/reject"

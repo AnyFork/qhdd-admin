@@ -105,7 +105,7 @@
                     </n-radio-group>
                 </n-form-item>
                 <n-space v-if="redirectStore == '2'" vertical>
-                    <n-transfer v-model:value="sidArray" virtual-scroll :options="(store as any)" source-filterable target-filterable source-filter-placeholder="请筛选指定的店铺" target-filter-placeholder="请筛选过滤后的店铺" />
+                    <n-transfer v-model:value="sidArray" virtual-scroll :options="store" source-filterable target-filterable source-filter-placeholder="请筛选指定的店铺" target-filter-placeholder="请筛选过滤后的店铺" />
                 </n-space>
             </n-form>
             <template #footer>
@@ -117,7 +117,7 @@
 
 <script setup lang="ts">
 const active = defineModel<boolean>('active')
-defineProps<{ store: store.storeData[] }>()
+defineProps<{ store: { label: string; value: number }[] }>()
 // 时间反问
 const range = ref<[number, number]>()
 // 同步方式

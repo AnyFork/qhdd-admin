@@ -1678,6 +1678,43 @@ declare namespace goodCar {
          * 店铺信息
          */
         store: store.storeData
+        /**
+         * 订单信息
+         */
+        orderCartDataList: storeCarGoodsAttr[]
+        /**
+         * 活动信息
+         */
+        usedActivityMap: {
+            /**
+             * 满减配送费
+             */
+            deliveryFeeDiscount: store.discount
+            /**
+             * 门店新客
+             */
+            newMember: store.newMember
+            /**
+             * 满减
+             */
+            discount: store.discount
+            /**
+             * 平台新客
+             */
+            mallNewMember: store.mallNewMember
+            /**
+             * 满赠
+             */
+            grant: store.grant
+            /**
+             * 活动减免（除配送费）总金额  （不包含减免配送费）
+             */
+            discountExceptDeliveryFee: number
+            /**
+             * 活动减配送费总金额
+             */
+            discountDeliveryFee: number
+        }
 
     }
     interface storeCarGoodsAttr {
@@ -2137,17 +2174,69 @@ declare namespace order {
          */
         haveRefund: 0 | 1
         /**
-         * 最终费用
+         * 最终费用，顾客实际支付费用
          */
         finalFee: number
         /**
-         * 总费用
+         * 总费用,包含商品费+ 配送费 + 餐盒费 + 包装费
          */
         totalFee: number
         /**
-         * 折扣费用
+         * 折扣费用,优惠费用
          */
         discountFee: number
+        /**
+         * 用户本店下单次数
+         */
+        memberBuyTimes: number
+        /**
+         * 支付时间
+         */
+        paytime: number
+        /**
+         * 配送员id
+         */
+        deliveryerId: number
+        /**
+         * 餐盒费
+         */
+        boxPrice: number
+        /**
+         * 平台预估收益
+         */
+        plateformServeFee: number
+        /**
+         * 分账状态
+         */
+        profitSharing: 0 | 1
+        /**
+         * 最终退费
+         */
+        refundFee: number
+        /**
+         * 退款详情
+         */
+        orderRefundList: orderRefund[]
+        /**
+         * 状态开始范围
+         */
+        statusStart: number
+        /**
+         * 状态结束范围
+         */
+        statusEnd: number
+        /**
+         * 支付，微信订单号
+         */
+        transactionId: string
+        /**
+         * 支付-系统内部的订单号
+         */
+        outTradeNo: string
+        /**
+         * 打包费
+         */
+        packFee: number
     }
 
     /**
@@ -2230,6 +2319,14 @@ declare namespace order {
          * 标题
          */
         title: string
+        /**
+         * 操作角色
+         */
+        roleCn: string
+        /**
+         * 操作角色
+         */
+        role: string
     }
 
     /**
@@ -2643,6 +2740,14 @@ declare namespace order {
          * 添加时间
          */
         addtime: number
+        /**
+         * 角色
+         */
+        role: string
+        /**
+         * 角色名称
+         */
+        roleCn: string
 
     }
 }
@@ -2791,3 +2896,10 @@ declare namespace userInfo {
         addtime: number
     }
 }
+/**
+ * 订单操作类型 replyRemind=回复催单 updateOrder=更改订单 printOrder=打印订单 cancelOrder=取消订单  orderInfo=订单详情 handleOrder=接单 noticeOrder=通知骑手抢单 noticeStoreOrder=通知店铺接单 
+ * assignOrder=调度骑手接单 resetAssignOrder=重置订单待抢状态 assignOrderAgain=重新调度 finishOrder=完成订单 
+ * arbitratingOrder=介入退单纠纷 overruleRefund=驳回申请 agreeRefund=同意退款 rejectRefund=拒绝退款
+ */
+type orderAction = 'replyRemind' | 'updateOrder' | 'printOrder' | 'cancelOrder' | 'orderInfo' | 'handleOrder' | 'noticeOrder' | 'noticeStoreOrder' | 'assignOrder' | 'resetAssignOrder' | 'assignOrderAgain' | 'finishOrder'
+    | 'arbitratingOrder' | 'overruleRefund' | 'agreeRefund' | 'rejectRefund'

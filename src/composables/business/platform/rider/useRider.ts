@@ -5,7 +5,8 @@ import { DataTableColumns, NAvatar, NButton, NPopconfirm, NPopover, NSwitch } fr
  * @returns 
  */
 export const usePlatformRider = () => {
-    const tableData = ref([])
+    const tableData = ref<rider.riderInfo[]>([])
+    const allRider = ref<rider.riderInfo[]>([])
     const message = useMessage()
     const loading = ref(false)
     const { isAdmin } = useLoginUser()
@@ -293,8 +294,28 @@ export const usePlatformRider = () => {
             const { data } = await getRiderList({ pageNo: pagination.page, pageSize: pagination.pageSize, ...searchForm })
             loading.value = false
             if (data.code == 200) {
-                tableData.value = data.data
+                tableData.value = data.data as rider.riderInfo[]
                 pagination.itemCount = data.dataCount
+            } else {
+                message.error(data.msg)
+            }
+        } catch (e: any) {
+            loading.value = false
+            message.error(e.message as string)
+            console.log(e)
+        }
+    }
+
+    /**
+     * 获取所有配送员列表
+     */
+    const selectRiderList = async () => {
+        try {
+            loading.value = true
+            const { data } = await getRiderList({ pageNo: 1, pageSize: 1000, status: 1 })
+            loading.value = false
+            if (data.code == 200) {
+                allRider.value = data.data as rider.riderInfo[]
             } else {
                 message.error(data.msg)
             }
@@ -355,5 +376,5 @@ export const usePlatformRider = () => {
         }
     }
 
-    return { riderList, updateRider, deleteRider, pagination, tableData, loading, columns, message, rowNode, modifyShow, searchForm }
+    return { riderList, updateRider, deleteRider, pagination, tableData, loading, columns, message, rowNode, modifyShow, searchForm, selectRiderList, allRider }
 }

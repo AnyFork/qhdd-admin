@@ -393,7 +393,7 @@ export const useStoreGoods = () => {
     const goodsListData = async () => {
         try {
             loading.value = true
-            const { data } = await goodsList({ pageNo: pagination.page, pageSize: pagination.pageSize, sid: sid.value, ...searchForm })
+            const { data } = await goodsList({ pageNo: pagination.page, pageSize: pagination.pageSize, sid: sid.value, sortType: 2, ...searchForm })
             loading.value = false
             if (data.code == 200) {
                 console.log(data)

@@ -11,7 +11,7 @@
                 <n-select v-model:value="searchForm.status" :options="status" placeholder="请选择审核状态" clearable class="w-180px" />
             </n-form-item>
             <n-form-item label="店铺">
-                <n-select v-model:value="searchForm.sid" :options="store" placeholder="请选择需要查询的店铺" clearable class="w-190px" />
+                <n-select v-model:value="searchForm.sid" :options="allStore" placeholder="请选择需要查询的店铺" clearable class="w-190px" />
             </n-form-item>
             <n-form-item label="配送员姓名">
                 <n-input v-model:value="searchForm.deliveryerTitle" placeholder="请输入配送员姓名" clearable class="w-180px" />
@@ -29,13 +29,14 @@
     </n-space>
     <!--数据表格 -->
     <n-data-table :striped="striped" remote :size="size" :single-line="false" :columns="columns" :data="tableData" :pagination="pagination" :row-key="(rowData:order.comment) => `${rowData.id}`" :loading="loading" />
+    <!--订单详情-->
+    <OrderDetail v-if="orderInfo" v-model:show="orderDetailModal" :order="orderInfo"></OrderDetail>
 </template>
 <script setup lang="ts">
 const size = ref<'small' | 'medium' | 'large'>('medium')
 const striped = ref(true)
-const { getCommentListInfo, pagination, tableData, loading, columns, searchForm } = useComment()
-const store = ref()
-const { storeSelectList } = usePlatformStore()
+const { getCommentListInfo, pagination, tableData, loading, columns, searchForm, orderInfo, orderDetailModal } = useComment()
+const { storeSelectList, allStore } = usePlatformStore()
 const range = ref<[number, number]>()
 
 /**
@@ -82,9 +83,9 @@ const serviceOption = [
     }
 ]
 
-onMounted(async () => {
+onMounted(() => {
     getCommentListInfo()
-    store.value = await storeSelectList()
+    storeSelectList()
 })
 
 watchEffect(() => {

@@ -121,7 +121,7 @@ export const usePlatformActivity = () => {
                             title: '温馨提示',
                             content: '您确定要撤销此店铺的活动吗?',
                             positiveText: '确定',
-                            negativeText: '算了',
+                            negativeText: '取消',
                             onPositiveClick: () => {
                                 deleteActivityInfo(_rowData.id!)
                             }

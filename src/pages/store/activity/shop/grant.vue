@@ -113,7 +113,7 @@ const deleteActivity = () => {
         title: '温馨提示',
         content: '您确定要删除满赠活动吗?',
         positiveText: '确定',
-        negativeText: '算了',
+        negativeText: '取消',
         onPositiveClick: () => {
             deleteActivityInfo(model.id!)
         }

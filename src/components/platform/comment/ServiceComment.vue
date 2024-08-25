@@ -31,7 +31,7 @@
                         <span>{{ data?.deliveryer?.mobile }}</span>
                     </div>
                 </div>
-                <n-tag type="primary" size="small">查看订单</n-tag>
+                <n-tag type="primary" size="small" @click="emit('orderInfo', data.oid)">查看订单</n-tag>
             </div>
             <div class="flex-row-between py-1">
                 <div class="flex-row-center gap-4 font-bold text-default">{{ data.note }}</div>
@@ -91,7 +91,7 @@ import { Icon } from '@iconify/vue'
 const { isAdmin } = useLoginUser()
 const { updateCommentInfo, deleteCommentInfo, message } = useComment()
 const props = defineProps<{ data: order.comment }>()
-const emit = defineEmits<{ refresh: [] }>()
+const emit = defineEmits<{ refresh: []; orderInfo: [orderId: number] }>()
 const showModal = ref(false)
 const content = ref()
 const actions = ref<'reply' | 'positive' | 'negative' | 'delete'>()

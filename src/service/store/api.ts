@@ -81,3 +81,53 @@ export const updateActivityApi = "/storeActivity/update"
  * 删除活动
  */
 export const deleteActivityApi = "/storeActivity/delete"
+
+/**
+ * 商户获取所有订单
+ */
+export const getAllOrderInfoApi = "/order/store/getList"
+
+/**
+ * 商户管理员接单
+ */
+export const handleOrderInfoApi = "/order/store/handle"
+
+/**
+ * 商户取消订单
+ */
+export const cancelOrderInfoApi = "/order/cancel"
+
+/**
+ * 商户打印订单
+ */
+export const printOderInfoApi = "/order/print"
+
+/**
+ *商家通知配送员抢单
+ */
+export const notifyCollectInfoApi = "/order/store/notifyCollect"
+
+/**
+ * 商户与顾客退款沟通
+ */
+export const chatWithRefundInfoApi = "/orderRefund/consult"
+
+/**
+ * 商户同意退款
+ */
+export const agreeRefundInfoApi = "/orderRefund/store/agree"
+
+/**
+ * 商户拒绝退款
+ */
+export const rejectRefundInfoApi = "/orderRefund/store/reject"
+
+/**
+ * 查询订单信息
+ */
+export const getOrderInfoByIdInfoApi = "/order/getById"
+
+/**
+ * 回复催单
+ */
+export const replyRemindInfoApi = "/order/replyRemind"
