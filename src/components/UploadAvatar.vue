@@ -86,5 +86,6 @@ const finish = ({ file, event }: { file: UploadFileInfo; event?: ProgressEvent }
 onMounted(() => {
     const tokenInfo = storeInfoFrom.value == 1 ? getPlatformToken() : getStoreToken()
     token.value = tokenInfo ? JSON.parse(tokenInfo) : undefined
+    console.log(token.value, storeInfoFrom.value)
 })
 </script>

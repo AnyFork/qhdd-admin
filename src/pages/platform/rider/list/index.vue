@@ -22,7 +22,7 @@
     <!--数据表格 -->
     <n-data-table :striped="striped" remote :size="size" :single-line="false" :columns="columns" :data="tableData" :pagination="pagination" :row-key="(rowData:store.clerk) => `${rowData.id}`" :loading="loading" :min-height="tableHeight" :max-height="tableHeight" />
     <!--设置配送员-->
-    <SettingRider v-if="modifyShow" v-model:open="modifyShow" v-model="rowNode!" @refresh="riderList"></SettingRider>
+    <SettingRider v-if="modifyShow && rowNode" v-model:open="modifyShow" v-model="rowNode" @refresh="riderList"></SettingRider>
 </template>
 <script setup lang="ts">
 const size = ref<'small' | 'medium' | 'large'>('medium')

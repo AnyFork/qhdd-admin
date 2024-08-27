@@ -439,7 +439,7 @@ onMounted(() => {
     moduleValue.isHot = props.data.isHot
     moduleValue.content = props.data.content
     moduleValue.singleStatus = props.data.singleStatus
-    moduleValue.weekStr = props.data.week?.split(',')?.filter((item) => item != '')
+    moduleValue.weekStr = props.data.week?.split(',')?.filter((item) => item != '') as any
     moduleValue.unitnum = props.data.unitnum
     moduleValue.optionTitle = props.data.optionTitle
     moduleValue.materialTitle = props.data.materialTitle

@@ -6,7 +6,7 @@
                 <n-input v-model:value="moduleValue.subMchId" placeholder="请输入商户账号" class="!w-300px" />
             </n-form-item>
             <n-form-item>
-                <n-button type="primary" class="w-360px ml-200px mt-100px" @click="submitCallback" :loading="loading">保存</n-button>
+                <n-button type="primary" class="w-360px ml-200px mt-100px" @click="submitCallback" :loading="loading" :disabled="!isAdmin">保存</n-button>
             </n-form-item>
         </n-form>
     </n-spin>
@@ -14,6 +14,7 @@
 
 <script setup lang="ts">
 const emit = defineEmits<{ refresh: [] }>()
+const { isAdmin } = useLoginUser()
 const { formRef, moduleValue, getStoreDetailInfoBySid, loading, message, updateStoreInfo } = useStore()
 /**
  * 表单校验

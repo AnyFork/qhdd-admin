@@ -16,7 +16,7 @@
         </n-form>
     </n-space>
     <n-space align="center" justify="space-between" class="mb-2">
-        <n-button type="primary" @click="addModal = true">创建广告</n-button>
+        <n-button type="primary" @click="addModal = true" :disabled="!isAdmin">创建广告</n-button>
         <TableHeaderOperation v-model:columns="columns" v-model:size="size" v-model:striped="striped" :loading="loading" @refresh="getAdvListInfo"></TableHeaderOperation>
     </n-space>
     <!--数据表格 -->
@@ -31,6 +31,7 @@ const size = ref<'small' | 'medium' | 'large'>('medium')
 const striped = ref(true)
 const { getAdvListInfo, pagination, tableData, loading, columns, searchForm, addModal, editModal, moduleValue } = useAdv()
 const { allAdv, getAllAdvPosition } = useAdvPosition()
+const { isAdmin } = useLoginUser()
 const status = [
     {
         label: '上架',

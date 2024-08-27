@@ -9,6 +9,7 @@ export const usePlatformActivity = () => {
     const message = useMessage()
     const loading = ref(false)
     const dialog = useDialog()
+    const { isAdmin } = useLoginUser()
     const createDrawer = ref(false)
 
     /**
@@ -116,7 +117,9 @@ export const usePlatformActivity = () => {
             align: 'center',
             render(_rowData) {
                 return h(NButton, {
-                    color: '#ff4d4f', onClick: () => {
+                    color: '#ff4d4f',
+                    disabled: !isAdmin.value,
+                    onClick: () => {
                         dialog.warning({
                             title: '温馨提示',
                             content: '您确定要撤销此店铺的活动吗?',

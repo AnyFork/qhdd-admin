@@ -65,7 +65,7 @@ export const useRiderComment = () => {
             title: '配送员图像',
             align: 'center',
             key: 'avatar',
-            render: (_rowData, index: number) => {
+            render: (_rowData, _index: number) => {
                 return h(NAvatar, { src: _rowData?.deliveryer?.avatar, round: true, fallbackSrc: getAssetsImages('empty-user.png') }, {})
             }
         },
@@ -73,7 +73,7 @@ export const useRiderComment = () => {
             title: '配送员姓名',
             align: 'center',
             key: 'deliveryer',
-            render: (rowData, index: number) => {
+            render: (rowData, _index: number) => {
                 return rowData?.deliveryer?.title || "-"
             }
         },
@@ -91,7 +91,7 @@ export const useRiderComment = () => {
             title: '评价星级',
             align: 'center',
             key: 'level',
-            render: (rowData, index: number) => {
+            render: (rowData, _index: number) => {
                 return h(NRate, { size: "small", defaultValue: rowData?.deliveryService }, {})
             }
         },

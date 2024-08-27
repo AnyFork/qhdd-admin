@@ -1,5 +1,5 @@
 <template>
-    <n-upload :show-file-list="false" action="/apis/upload/file" :data="{ groupId: currentGroupId }" :on-finish="finish" :on-before-upload="beforeUpload" :headers="{ satoken: token?.tokenValue }">
+    <n-upload :show-file-list="false" action="/apis/upload/file" :data="{ groupId: currentGroupId as unknown as string }" :on-finish="finish" :on-before-upload="beforeUpload" :headers="{ satoken: token?.tokenValue }">
         <n-button type="primary">
             {{ text }}
             <template #icon>

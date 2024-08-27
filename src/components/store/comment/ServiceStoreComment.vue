@@ -57,7 +57,7 @@
             </div>
             <div v-if="data.reply" class="p-1 my-1 text-12px text-#666 bg-#cccccc40 text-left">商家回复({{ transformTimestampsToDateString(data.replytime) }})：{{ data.reply }}</div>
             <div class="flex gap-2 py-1">
-                <n-button type="primary" class="w-100px" @click="openModal"> 回复 </n-button>
+                <n-button type="primary" class="w-100px" @click="openModal" :disabled="!isAdmin"> 回复 </n-button>
             </div>
         </div>
     </div>

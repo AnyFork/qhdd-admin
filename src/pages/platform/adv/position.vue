@@ -1,6 +1,6 @@
 <template>
     <n-space align="center" justify="space-between" class="mb-2">
-        <n-button type="primary" @click="openModal = true">创建广告位</n-button>
+        <n-button type="primary" @click="openModal = true" :disabled="!isAdmin">创建广告位</n-button>
         <TableHeaderOperation v-model:columns="columns" v-model:size="size" v-model:striped="striped" :loading="loading" @refresh="getAdvPosition"></TableHeaderOperation>
     </n-space>
     <!--数据表格 -->
@@ -25,6 +25,7 @@ const size = ref<'small' | 'medium' | 'large'>('medium')
 const striped = ref(true)
 const { getAdvPosition, pagination, tableData, loading, columns, message, addAdvPositionInfo, openModal } = useAdvPosition()
 const formRef = ref()
+const { isAdmin } = useLoginUser()
 const moduleValue = reactive({
     name: '',
     positionKey: ''

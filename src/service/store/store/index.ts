@@ -6,13 +6,13 @@ import { getStoreInfoBySidApi, updateStoreInfoBySidApi } from '../api'
  * @param id 商户id
  * @returns 
  */
-export const getStoreInfoBySid = async (id: number) => await platformAxios.get(`${getStoreInfoBySidApi}?${qs.stringify({ id })}`)
+export const getStoreInfoBySid = async (id: number) => await storeAxios.get(`${getStoreInfoBySidApi}?${qs.stringify({ id })}`)
 
 
 /**
  * 修改商户信息
  * @returns 
  */
-export const updateStoreInfoBySid = async (params: Partial<store.storeData>) => await platformAxios.post(updateStoreInfoBySidApi, params)
+export const updateStoreInfoBySid = async (params: Partial<store.storeData>) => await storeAxios.post(updateStoreInfoBySidApi, params)
 
 

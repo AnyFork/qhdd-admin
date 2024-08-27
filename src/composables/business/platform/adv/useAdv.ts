@@ -143,7 +143,7 @@ export const useAdv = () => {
             title: '上架状态',
             align: 'center',
             key: 'status',
-            render: (rowData, index: number) => {
+            render: (rowData, _index: number) => {
                 if (isAdmin.value) {
                     return h(
                         NPopconfirm,

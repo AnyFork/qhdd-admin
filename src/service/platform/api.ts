@@ -237,3 +237,33 @@ export const agreeRefundInfoApi = "/orderRefund/store/agree"
  * 平台拒绝退款
  */
 export const rejectRefundInfoApi = "/orderRefund/store/reject"
+
+/**
+ * 获取平台设置列表
+ */
+export const getPlatformSettingsListApi = "/settings/getList"
+
+/**
+ * 修改平台设置
+ */
+export const updateSettingsInfoApi = "/settings/update"
+
+/**
+ * 获取平台公告信息
+ */
+export const getNoticeListApi = "/notice/getList"
+
+/**
+ * 创建公告
+ */
+export const addNoticeInfoApi = "/notice/add"
+
+/**
+ * 修改公告
+ */
+export const updateNoticeApi = "/notice/update"
+
+/**
+ * 删除公告
+ */
+export const deleteNoticeApi = "/notice/delete"

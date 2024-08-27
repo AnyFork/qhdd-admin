@@ -44,7 +44,7 @@ export const usePlatformCategory = () => {
     const rules = {
         title: [
             {
-                validator(rule: FormItemRule, value: string) {
+                validator(_rule: FormItemRule, value: string) {
                     if (!value) {
                         return new Error('请输入分类名称')
                     }
@@ -63,7 +63,7 @@ export const usePlatformCategory = () => {
             align: 'center',
             key: 'thumb',
             className: "flex-row-center",
-            render: (rowData, index: number) => {
+            render: (rowData, _index: number) => {
                 return rowData.thumb ? h(NImage, { src: previewUrl + rowData.thumb, width: "100%", height: "100%", style: { width: "50px", height: "50px", borderRadius: "6px" } }) : "";
             }
         },
@@ -81,7 +81,7 @@ export const usePlatformCategory = () => {
             title: '小程序显示状态',
             key: 'status',
             align: 'center',
-            render: (rowData, index: number) => {
+            render: (rowData, _index: number) => {
                 if (isAdmin.value) {
                     return h(
                         NPopconfirm,

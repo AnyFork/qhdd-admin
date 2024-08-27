@@ -1,6 +1,6 @@
 <template>
     <n-space justify="space-between" class="mb-2">
-        <n-button type="primary" class="w-100px" @click="createDrawer = true">创建活动</n-button>
+        <n-button type="primary" class="w-100px" @click="createDrawer = true" :disabled="!isAdmin">创建活动</n-button>
         <div>
             <n-form :show-feedback="false" :size="size" inline :model="searchForm" label-placement="left" class="justify-end mb-2">
                 <n-form-item label="店铺名称">
@@ -23,6 +23,7 @@
 </template>
 <script setup lang="ts">
 import { activityTypeOptions } from '@/utils/order/index'
+const { isAdmin } = useLoginUser()
 const size = ref<'small' | 'medium' | 'large'>('medium')
 const striped = ref(true)
 const { getStoreActivityListInfo, pagination, tableData, loading, columns, searchForm, createDrawer } = usePlatformActivity()

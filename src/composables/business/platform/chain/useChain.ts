@@ -67,5 +67,5 @@ export const useChain = () => {
         }
     }
 
-    return { chainSelectList, chainOptions }
+    return { chainSelectList, chainOptions, chainPageList }
 }

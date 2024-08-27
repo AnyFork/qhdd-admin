@@ -45,8 +45,8 @@
                 </div>
             </n-form-item>
             <div class="my-20 px-100px flex gap-6">
-                <n-button type="primary" class="w-200px" :loading="loading" @click="submitActivity">{{ isEdit ? '编辑活动' : '创建活动' }}</n-button>
-                <n-button v-if="isEdit" type="error" class="w-200px" :loading="loading" @click="deleteActivity">删除活动</n-button>
+                <n-button type="primary" class="w-200px" :loading="loading" :disabled="!isAdmin" @click="submitActivity">{{ isEdit ? '编辑活动' : '创建活动' }}</n-button>
+                <n-button v-if="isEdit" type="error" class="w-200px" :loading="loading" :disabled="!isAdmin" @click="deleteActivity">删除活动</n-button>
             </div>
         </n-form>
     </div>
@@ -59,6 +59,7 @@ const range = ref<[number, number]>()
 const { storeInfo } = useStoreInfo()
 const isEdit = ref(false)
 const dialog = useDialog()
+const { isAdmin } = useLoginUser()
 /**
  * 表单数据
  */

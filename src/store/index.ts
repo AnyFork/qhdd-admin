@@ -6,9 +6,9 @@ pinia.use(
   /**pinia 全局持久化配置，会覆盖默认配置，但也会被单个store的persist配置覆盖 */
   createPersistedState({
     storage: sessionStorage,
-    beforeRestore: (context) => {
+    beforeRestore: (_context) => {
     },
-    afterRestore: (context) => {
+    afterRestore: (_context) => {
     }
   })
 )

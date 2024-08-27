@@ -5,6 +5,7 @@
     </div>
 </template>
 <script setup lang="ts">
+//@ts-ignore
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 import type { IToolbarConfig, IEditorConfig, IDomEditor } from '@wangeditor/editor'
 const { storeInfoFrom } = useStoreInfo()
@@ -60,7 +61,7 @@ const editorConfig: Partial<IEditorConfig> = {
         // 上传图片,详细配置参考：https://www.wangeditor.com/v5/menu-config.html#%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%9C%B0%E5%9D%80
         uploadImage: {
             // 服务端地址
-            server: `${import.meta.env.VITE_BASIC_API_URL + '/apis/upload/avatar'}`,
+            server: `${import.meta.env.VITE_BASIC_API_URL + '/apis/upload/file'}`,
             // 超时时间，5s
             timeout: 5 * 1000,
             // 上传时文件入参名称

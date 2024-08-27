@@ -53,7 +53,7 @@
                     <n-image :src="image4.node?.url ?? getAssetsImages('nopic.jpg')" :preview-disabled="!image4.node?.url" width="100" height="100" class="my-1 border border-solid border-#f5f5f5"></n-image>
                 </div>
             </n-form-item>
-            <n-button type="primary" class="w-620px ml-100px" @click="submitCallback" :loading="loading">保存</n-button>
+            <n-button type="primary" class="w-620px ml-100px" @click="submitCallback" :loading="loading" :disabled="!isAdmin">保存</n-button>
         </n-form>
         <!-- 营业执照对话框 -->
         <SelectImageDialog v-if="image1.show" v-model:open="image1.show" v-model:node="image1.node"></SelectImageDialog>
@@ -69,6 +69,7 @@
 <script setup lang="ts">
 import { getAssetsImages } from '@/utils/tools/getAssetsImages'
 const emit = defineEmits<{ refresh: [] }>()
+const { isAdmin } = useLoginUser()
 const { formRef, moduleValue, getStoreDetailInfoBySid, loading, message, updateStoreInfo } = useStore()
 type node = {
     show: boolean

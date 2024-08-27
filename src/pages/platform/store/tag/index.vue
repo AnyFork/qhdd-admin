@@ -1,6 +1,6 @@
 <template>
     <n-space align="center" justify="space-between" class="mb-2">
-        <n-button type="primary" @click="addTag">创建标签</n-button>
+        <n-button type="primary" @click="addTag" :disabled="!isAdmin">创建标签</n-button>
         <n-form :show-feedback="false" inline :model="searchForm" label-placement="left" class="justify-end">
             <n-form-item label="标签类型">
                 <n-select v-model:value="searchForm.type" :options="option" placeholder="请选择标签类型" clearable class="w-180px" />
@@ -16,6 +16,7 @@
 <script setup lang="ts">
 const { categoryPageList, pagination, tableData, loading, columns, pageChange, searchForm } = usePlatformTag()
 const { height } = useWindowSize()
+const { isAdmin } = useLoginUser()
 // 表格高度
 const tableHeight = computed(() => height.value - 370)
 /**

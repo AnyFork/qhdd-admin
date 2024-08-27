@@ -6,10 +6,9 @@ import { logOutPlatform } from "@/service/platform/system/login";
  */
 export const usePlatformLogOut = () => {
     const { routerReplace } = useRouterPush()
-    const message = useMessage()
-    const dialog = useDialog()
     const logOut = () => {
-        dialog.warning({
+        //@ts-ignore
+        window.$dialog.warning({
             title: '系统温馨提示?',
             content: '您确定要退出系统吗?',
             positiveText: '确定',
@@ -23,7 +22,8 @@ export const usePlatformLogOut = () => {
                     sessionStorage.clear()
                     routerReplace('/login/platform')
                 } catch (err: any) {
-                    message.error(err.message)
+                    //@ts-ignore
+                    window.$message.error(err.message)
                 }
             }
         })

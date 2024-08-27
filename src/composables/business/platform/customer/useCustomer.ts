@@ -1,4 +1,4 @@
-import { DataTableColumns, NAvatar, NButton } from 'naive-ui'
+import { DataTableColumns, NAvatar } from 'naive-ui'
 import { getCustomerList } from '@/service/platform/customer';
 /**
  * 顾客模块
@@ -99,16 +99,6 @@ export const useCustomer = () => {
             render(rowData, _rowIndex) {
                 return rowData.addtime ? transformTimestampsToDateString(rowData.addtime) : "-"
             },
-        },
-        {
-            title: '操作',
-            key: 'actions',
-            align: 'center',
-            fixed: 'right',
-            width: 180,
-            render(_rowData) {
-                return h(NButton, { type: 'primary' }, { default: () => "收货地址" })
-            }
         }
     ])
 

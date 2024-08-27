@@ -1,7 +1,7 @@
 <template>
     <n-space align="center" justify="space-between" class="my-2">
         <div class="flex-row-center gap-2">
-            <n-button type="primary" @click="CreateShow = true">添加设备</n-button>
+            <n-button type="primary" @click="CreateShow = true" :disabled="!isAdmin">添加设备</n-button>
         </div>
         <TableHeaderOperation v-model:columns="columns" v-model:size="size" v-model:striped="striped" :loading="loading" @refresh="printerListInfo"></TableHeaderOperation>
     </n-space>
@@ -17,6 +17,7 @@ const size = ref<'small' | 'medium' | 'large'>('medium')
 const striped = ref(true)
 const { printerListInfo, tableData, loading, columns, CreateShow, rowNode, UpdateShow } = useStoreDevice()
 const { height } = useWindowSize()
+const { isAdmin } = useLoginUser()
 // 表格高度
 const tableHeight = computed(() => height.value - 390)
 

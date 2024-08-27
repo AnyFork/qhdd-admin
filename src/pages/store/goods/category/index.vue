@@ -1,6 +1,6 @@
 <template>
     <n-space align="center" justify="space-between" class="mb-2">
-        <n-button type="primary" @click="openCategory">添加分类</n-button>
+        <n-button  type="primary" @click="openCategory" :disabled="!isAdmin">创建分类</n-button>
         <TableHeaderOperation v-model:columns="columns" v-model:size="size" v-model:striped="striped" :loading="loading" @refresh="goodsCategoryTree"></TableHeaderOperation>
     </n-space>
     <!--数据表格 -->
@@ -14,6 +14,7 @@
 const size = ref<'small' | 'medium' | 'large'>('medium')
 const striped = ref(true)
 const { height } = useWindowSize()
+const { isAdmin } = useLoginUser()
 const { goodsCategoryTree, tableData, loading, columns, createShow, rowNode, modifyShow, parentNode } = useStoreGoodsCategory()
 // 表格高度
 const tableHeight = computed(() => height.value - 340)

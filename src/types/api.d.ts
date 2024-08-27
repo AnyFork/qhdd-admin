@@ -1,3 +1,11 @@
+/**
+ * 订单操作类型 replyRemind=回复催单 updateOrder=更改订单 printOrder=打印订单 cancelOrder=取消订单  orderInfo=订单详情 handleOrder=接单 noticeOrder=通知骑手抢单 noticeStoreOrder=通知店铺接单 
+ * assignOrder=调度骑手接单 resetAssignOrder=重置订单待抢状态 assignOrderAgain=重新调度 finishOrder=完成订单 
+ * arbitratingOrder=介入退单纠纷 overruleRefund=驳回申请 agreeRefund=同意退款 rejectRefund=拒绝退款
+ */
+type orderAction = 'replyRemind' | 'updateOrder' | 'printOrder' | 'cancelOrder' | 'orderInfo' | 'handleOrder' | 'noticeOrder' | 'noticeStoreOrder' | 'assignOrder' | 'resetAssignOrder' | 'assignOrderAgain' | 'finishOrder'
+    | 'arbitratingOrder' | 'overruleRefund' | 'agreeRefund' | 'rejectRefund'
+
 /** 后端返回的用户权益相关类型 */
 declare namespace ApiAuth {
     /** 返回的token和刷新token */
@@ -2990,10 +2998,374 @@ declare namespace userInfo {
         addtime: number
     }
 }
+
 /**
- * 订单操作类型 replyRemind=回复催单 updateOrder=更改订单 printOrder=打印订单 cancelOrder=取消订单  orderInfo=订单详情 handleOrder=接单 noticeOrder=通知骑手抢单 noticeStoreOrder=通知店铺接单 
- * assignOrder=调度骑手接单 resetAssignOrder=重置订单待抢状态 assignOrderAgain=重新调度 finishOrder=完成订单 
- * arbitratingOrder=介入退单纠纷 overruleRefund=驳回申请 agreeRefund=同意退款 rejectRefund=拒绝退款
+ * 系统配置
  */
-type orderAction = 'replyRemind' | 'updateOrder' | 'printOrder' | 'cancelOrder' | 'orderInfo' | 'handleOrder' | 'noticeOrder' | 'noticeStoreOrder' | 'assignOrder' | 'resetAssignOrder' | 'assignOrderAgain' | 'finishOrder'
-    | 'arbitratingOrder' | 'overruleRefund' | 'agreeRefund' | 'rejectRefund'
+declare namespace setting {
+
+    /**
+     * 配置返回数据类型
+     */
+    interface result {
+        /**
+         * 模块
+         */
+        module: modules
+        /**
+         * 配置
+         */
+        config: string
+        /**
+         * 备注
+         */
+        remark: string
+    }
+
+    /**
+     * 配置模块
+     */
+    type modules = "platform_info" | "store_delivery" | "store_serve_fee" | "takeout_order"
+
+    /**
+     * 平台基础设置
+     */
+    interface platform_info {
+        /**
+         * 平台名称
+         */
+        platform_name: string
+        /**
+         * 平台LOGO
+         */
+        platform_logo: string
+        /**
+         * 商户排序方式 默认值为1; 1=按照排序大小 2=按照热度排序 3=离我最近 4=销量最高 5=评分最高 6=商户排序规则 7=先按照排序大小，在按照距离 8=先按照排序大小，在按照销量
+         */
+        store_orderby_type: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8
+        /**
+         * 超出商家配送范围是否显示，默认值1； 0 不展示 1 展示
+         */
+        store_overradius_display: 0 | 1
+        /**
+         * 顾客端定位地址不在区域范围内时跳转到暂无服务页 默认0; 0否 1是
+         */
+        not_in_area2noservice: 0 | 1
+        /**
+         * 配送方名称
+         */
+        delivery_title: string
+    }
+
+    /**
+     * 外卖配置
+     */
+    interface takeout_order {
+        /**
+          * 通知店员规则
+        */
+        notify_rule_clerk: {
+            /**
+             * 下单后多少分钟后通知商户,如需下单后立即通知店员接单，可设置为0; 注意：商家设置了自动接单后，只会通知一次; 注意:通知频率最低为1分钟 如果一个订单只需要通知一次，需要将总通知次数设置为1
+             */
+            notify_delay: number
+            /**
+             * 通知频率，几分钟通知一次
+             */
+            notify_frequency: number
+            /**
+             * 总共通知次数
+             */
+            notify_total: number
+            /**
+             * 通知第几次，电话通知，如需下单后立即电话通知店员接单，可设置为0
+             */
+            notify_phonecall_time: number
+        }
+        /**
+         * 通知配送员规则
+         */
+        notify_rule_deliveryer: {
+            /**
+            * 下单后多少分钟后未接单，通知配送员,
+            */
+            notify_delay: number
+            /**
+             * 通知频率，几分钟通知一次
+             */
+            notify_frequency: number
+            /**
+             * 总共通知次数
+             */
+            notify_total: number
+            /**
+             * 通知第几次，电话通知，如需下单后立即电话通知配送员接单，可设置为0
+             */
+            notify_phonecall_time: number
+        }
+        /**
+         * 支付时间限制，分钟
+         */
+        pay_time_limit: number
+        /**
+         * 未支付提醒
+         */
+        pay_time_notice: number
+        /**
+         * 催单时间限制
+         */
+        deliveryer_remind_time_start: number
+        /**
+         * 催单时间
+         */
+        deliveryer_remind_time_limit: number
+        /**
+         * 订单支付后是否允许顾客修改收货地址
+         */
+        orderPayAllowCustomerChangeAddress: 0 | 1
+        /**
+         * 支付后至商户未接单允许顾客取消订单 0 否 1是
+         */
+        cancel_order_before_accept_order: 0 | 1
+        /**
+         * 商家接单后至通知配送之前顾客取消订单时间限制
+         */
+        cancel_after_handle: number
+        /**
+         * 订单通知配送至订单完成之前顾客取消订单方式 1 整单取消 2 部分退款 3 不允许
+         */
+        customerCancelOrderTypeBeforeFinish: 1 | 2 | 3
+        /**
+         * 订单完成后顾客取消订单方式 1 部分退单 2 不允许
+         */
+        customerCancelOrderTypeAfterOrderFinish: 1 | 2
+        /**
+         * 顾客申请退款后自动同意时间
+         */
+        customer_refund_auto_audittime: number
+        /**
+         * 是否允许商户设置自动接单方式 0 否 1 是
+         */
+        allowStoreAutoAcceptOrder: 0 | 1
+        /**
+         * 是否允许商户设置接单后自动通知配送员 0 否 1 是
+         */
+        allowStoreAutoNotifyDeliveryer: 0 | 1
+        /**
+         * 商家接单后是否允许商户取消订单 0 否 1 是
+         */
+        allowStoreCancelOrder: 0 | 1
+        /**
+         * 商家接单时间限制
+         */
+        handle_time_limit: number
+        /**
+         * 订单完成后是否允许商家发起部分退款 0 否 1 是
+         */
+        allowStorePartRefund: 0 | 1
+        /**
+         * 商户隐藏后是否可以继续下单 0 否 1 是
+         */
+        allowOrderAfterStoreHidden: 0 | 1
+        /**
+         * 配送员接单时间限制,配送员接单时间限制  (0=不限制) 
+         */
+        deliveryer_collect_time_limit: number
+        /**
+         * 配送员转单理由,多个理由都会分隔
+         */
+        deliveryer_transfer_reason: string
+        /**
+         * 配送员取消订单理由,多个理由都会分隔
+         */
+        deliveryer_cancel_reason: string
+        /**
+         * 预订单是否自动通知配送员 0 否 1 是
+         */
+        preOrder_auto_notify_deliveryer: 0 | 1
+        /**
+         * 配送员接单后是否通知商户 0 否 1 是
+         */
+        deliveryer_notify_store: 0 | 1
+        /**
+         * 外卖订单自动完成时间节点 1 超过商户接单多久后自动完成  2 超过订单预计送达时间多久后自动完成。
+         */
+        takeout_order_auto_finish_time: 1 | 2
+        /**
+         * 外卖订单自动完成时间 单位小时
+         */
+        takeout_order_auto_finish_time_limit: number
+        /**
+         * 系统/商家/顾客取消订单是否自动退款 0否 1 是
+         */
+        auto_refund_after_cancel: 0 | 1
+        /**
+         * 系统/商家/顾客取消订单是否打印订单 0否 1 是
+         */
+        auto_print_order_after_cancel: 0 | 1
+        /**
+         * 订单完成后，可评价的时间，单位天
+         */
+        comment_day_limit: number
+        /**
+         * 订单完成后，用户可退单天数限制
+         */
+        customer_refund_time_limit: number
+    }
+
+
+    /**
+     * 配送模式
+     */
+    interface store_delivery {
+        /**
+         * 预计送达时间
+         */
+        delivery_time: number
+        /**
+         * 服务半径
+         */
+        serve_radius: number
+        /**
+         * 在配送半径外，是否允许下单
+         */
+        not_in_serve_radius: 0 | 1
+        /**
+         * 配送费模式(1=固定金额,2=按距离收取,3=按区域收取)
+         */
+        delivery_fee_mode: 1 | 2 | 3
+        /**
+         * 起送价
+         */
+        send_price: number
+        /**
+         * 满减配送费
+         */
+        delivery_free_price: number
+        /**
+         * 配送费
+         */
+        delivery_fee: number
+        /**
+         * 配送附加费
+         */
+        delivery_extra: {
+            /**
+             * 商家额外承担配送费每单?元
+             */
+            store_bear_deliveryprice: number
+            /**
+             * 满金额免配送费由谁承担,plateform=平台,store=商家
+             */
+            delivery_free_bear: "plateform" | "store"
+            /**
+             * 平台额外补贴配送员每单?元 
+             */
+            plateform_bear_deliveryprice: number
+            /**
+             * 配送时间段 间隔?分钟生成配送时间段  
+             */
+            delivery_time_interval: number
+        },
+        /**
+         * 预定设置
+         */
+        reserve: {
+            /**
+             * 非营业时间下单(0=不可非营业时间下单,1=可非营业时间下单)
+             */
+            rest_can_order: 0 | 1
+            /**
+             * 下单时间距离送达时间超过?分钟 属于预定单
+             */
+            reserve_time_limit: number
+            /**
+             * 距离送达时间?分钟通知商户备餐
+             */
+            notice_clerk_before_delivery: number
+        }
+    }
+    /**
+     * 服务费
+     */
+    interface store_serve_fee {
+        /**
+         *  佣金抽成比例
+         */
+        fee_rate: number
+        /**
+         * 佣金抽成项目("price,box_price,pack_fee")
+         */
+        fee_items: string
+        /**
+         * 最低抽成金额
+         */
+        min_fee_rate: number
+        /**
+         * 提现金额最低金额 */
+        get_cash_fee_limit: number
+        /**
+         * 提现金额最高金额
+         */
+        get_cash_fee_limit_max: number
+        /**
+         * 提现费率
+         */
+        get_cash_fee_rate: number
+        /**
+         * 提现费用最低
+         */
+        get_cash_fee_min: number
+        /**
+         * 提现费用最高
+         */
+        get_cash_fee_max: number
+        /**
+         * 提现周期
+         */
+        fee_period: number
+        /**
+         * 提现到账周期 (0=管理员审核,1=极速到账)
+         */
+        get_cash_period: 0 | 1
+    }
+}
+
+/**
+ * 平台公告
+ */
+interface notice {
+    /**
+     * id
+     */
+    id: number
+    /**
+     * 类型(memmber=默认) 
+     */
+    type: number
+    /**
+     * 公告名称 
+     */
+    title: string
+    /**
+     * 公告描述
+     */
+    description: string
+    /**
+     * 公告内容
+     */
+    content: string
+    /**
+     * 公告排序 
+     */
+    displayorder: number
+    /**
+     * 是否启用(1=启用,0=不启用) 
+     */
+    status: 0 | 1
+    /**
+     * 添加时间 
+     */
+    addtime: number
+}
+

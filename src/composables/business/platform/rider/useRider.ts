@@ -71,7 +71,7 @@ export const usePlatformRider = () => {
             title: '微信图像',
             align: 'center',
             key: 'avatar',
-            render: (_rowData, index: number) => {
+            render: (_rowData, _index: number) => {
                 return h(NAvatar, { src: _rowData.avatar, round: true, fallbackSrc: getAssetsImages('empty-user.png') }, {})
             }
         },

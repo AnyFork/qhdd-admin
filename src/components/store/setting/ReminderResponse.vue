@@ -30,13 +30,14 @@
                     <n-button type="primary" @click="moduleValue.remindReplyStr!.push({ text: '' })">添加催单回复</n-button>
                 </div>
             </n-form-item>
-            <n-button type="primary" class="w-520px ml-100px mt-100px" @click="submitCallback" :loading="loading">保存</n-button>
+            <n-button type="primary" class="w-520px ml-100px mt-100px" @click="submitCallback" :loading="loading" :disabled="!isAdmin">保存</n-button>
         </n-form>
     </n-spin>
 </template>
 
 <script setup lang="ts">
 const emit = defineEmits<{ refresh: [] }>()
+const { isAdmin } = useLoginUser()
 const { formRef, moduleValue, getStoreDetailInfoBySid, loading, message, updateStoreInfo } = useStore()
 
 /**

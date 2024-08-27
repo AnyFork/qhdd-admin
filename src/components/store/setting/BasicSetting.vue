@@ -93,7 +93,7 @@
                 <n-select v-model:value="moduleValue.serviceCategory" :options="serviceOption" placeholder="请选择服务标签" clearable class="w-680px" />
             </n-form-item>
             <n-form-item>
-                <n-button type="primary" class="w-680px ml-200px" @click="submitCallback" :loading="loading">保存</n-button>
+                <n-button type="primary" class="w-680px ml-200px" @click="submitCallback" :loading="loading" :disabled="!isAdmin">保存</n-button>
             </n-form-item>
         </n-form>
         <!-- 选择门店logo对话框 -->
@@ -113,6 +113,7 @@ const emit = defineEmits<{ refresh: [] }>()
 const { formRef, moduleValue, rules, getStoreDetailInfoBySid, loading, message, categoryPageList, serviceOption, shopOption, deliveryOption, updateStoreInfo, removeBusinessHours, addBusinessHours } = useStore()
 const { storeCategoryList } = usePlatformCategory()
 const { chainSelectList, chainOptions } = useChain()
+const { isAdmin } = useLoginUser()
 const showLogo = ref(false)
 const showThumb = ref(false)
 const locationBtn = ref(false)

@@ -1,5 +1,5 @@
 import { bindStoreClerkInfo, removeStoreClerkInfo, storeClerkList, updateBindStoreClerkInfo, updateStoreAccountStatus } from '@/service/store/storeClerk'
-import { DataTableColumns, FormInst, FormItemRule, NAvatar, NButton, NPopconfirm, NPopover, NSwitch, NTag } from 'naive-ui'
+import { DataTableColumns, FormInst, FormItemRule, NButton, NPopconfirm, NPopover, NSwitch, NTag } from 'naive-ui'
 /**
  * 店员店铺管理信息
  * @returns 

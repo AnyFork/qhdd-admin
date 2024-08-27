@@ -8,6 +8,7 @@ export const usePlatformLogin = () => {
     const { loginUserType } = useLoginType()
     const message = useMessage();
     const { routerPush } = useRouterPush()
+    const { storeInfoFrom } = useStoreInfo()
     const userInfo = ref<{
         userAccount: string;
         userPassword: string;
@@ -59,6 +60,7 @@ export const usePlatformLogin = () => {
                     setPlatformToken(JSON.stringify(data.data.tokenInfo))
                     setPlatformUserInfo(data.data.admin)
                     loginUserType.value = 1
+                    storeInfoFrom.value = 1
                     message.success("登录成功!", {
                         onLeave: () => {
                             routerPush(import.meta.env.VITE_PLATFORM_ROUTE_HOME_PATH)

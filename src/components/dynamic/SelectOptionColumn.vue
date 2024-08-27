@@ -6,7 +6,6 @@
 </template>
 
 <script setup lang="ts">
-import { store } from '@/types/api'
 const props = defineProps<{
     value: store.category['type']
     bgColor: string

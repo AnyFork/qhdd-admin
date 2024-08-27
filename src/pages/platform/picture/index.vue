@@ -17,7 +17,7 @@
         </n-grid-item>
         <n-grid-item span="20">
             <n-flex class="p-2" justify="space-between">
-                <div class="flex items-center gap-2">
+                <div v-if="isAdmin" class="flex items-center gap-2">
                     <UploadGroupImage v-model:currentGroupId="currentGroupId" text="本地上传" @refresh="attachmentInfoList"></UploadGroupImage>
                     <n-button v-if="currentGroupId != 0" type="error" @click="deleteBatch">
                         删除选中
@@ -87,6 +87,7 @@
     <ModifyPicture v-if="modifyPicture" v-model:open="modifyPicture" :node="modifyPictureNode!" @refresh="attachmentInfoList"></ModifyPicture>
 </template>
 <script setup lang="ts">
+const { isAdmin } = useLoginUser()
 const {
     loading,
     attachmentGroup,

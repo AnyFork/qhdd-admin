@@ -33,12 +33,12 @@
     </n-flex>
     <n-space align="center" justify="space-between" class="mb-2">
         <div class="flex-row-center gap-2">
-            <n-button type="primary" @click="CreateShow = true">创建商户</n-button>
-            <n-dropdown trigger="hover" :options="options">
-                <n-button type="error">批量处理店铺状态</n-button>
+            <n-button type="primary" @click="CreateShow = true" :disabled="!isAdmin">创建商户</n-button>
+            <n-dropdown trigger="hover" :options="options" >
+                <n-button type="error" :disabled="!isAdmin">批量处理店铺状态</n-button>
             </n-dropdown>
             <n-dropdown trigger="hover" :options="chain">
-                <n-button type="warning">批量处理连锁店</n-button>
+                <n-button type="warning" :disabled="!isAdmin">批量处理连锁店</n-button>
             </n-dropdown>
         </div>
         <TableHeaderOperation v-model:columns="columns" v-model:size="size" v-model:striped="striped" :loading="loading" @refresh="storeListData"></TableHeaderOperation>
@@ -50,6 +50,7 @@
 </template>
 <script setup lang="ts">
 const size = ref<'small' | 'medium' | 'large'>('medium')
+const { isAdmin } = useLoginUser()
 const striped = ref(true)
 // 主营区域
 const categoryRef = ref<system.category[]>()

@@ -45,10 +45,10 @@ const AMap = ref()
 const initMap = async () => {
     try {
         window._AMapSecurityConfig = {
-            securityJsCode: '9a87a4d8a033c1fff71b6f3b06b09768'
+            securityJsCode: 'd209eca72be9dfabec49bc245b2a64fd'
         }
         AMap.value = await AMapLoader.load({
-            key: 'f085a29f63f9d47fde8042a2d9297fb9',
+            key: '6c1018edd336f138abcc1e9e06e77ead',
             version: '2.0',
             plugins: ['AMap.ToolBar', 'AMap.Scale', 'AMap.Geocoder', 'AMap.Geolocation', 'AMap.PlaceSearch', 'AMap.AutoComplete', 'AMap.CitySearch']
         })
@@ -117,7 +117,7 @@ const handleMapClick = (e: { lnglat: { lng: number; lat: number } }) => {
  * @param {*} location 经纬度
  */
 const reverseGeocode = (location: string) => {
-    const url = `https://restapi.amap.com/v3/geocode/regeo?output=JSON&location=${location}&key=bb71dc5aa6fe6531a6468430d2af881f&radius=1000&extensions=base`
+    const url = `https://restapi.amap.com/v3/geocode/regeo?output=JSON&location=${location}&key=e27ddfffd8bc38c20bc6eeb38f3ec0e2&radius=1000&extensions=base`
     axios.get(url).then((res) => {
         const result = res.data
         address.value = result.regeocode.formatted_address

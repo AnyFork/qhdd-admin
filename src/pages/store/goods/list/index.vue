@@ -18,7 +18,7 @@
     </n-flex>
     <n-space align="center" justify="space-between" class="my-2">
         <div class="flex-row-center gap-2">
-            <n-button type="primary" @click="CreateShow = true">创建商品</n-button>
+            <n-button type="primary" @click="CreateShow = true" :disabled="!isAdmin">创建商品</n-button>
         </div>
         <TableHeaderOperation v-model:columns="columns" v-model:size="size" v-model:striped="striped" :loading="loading" @refresh="goodsListData"></TableHeaderOperation>
     </n-space>
@@ -32,6 +32,7 @@
 <script setup lang="ts">
 import { CascaderOption } from 'naive-ui'
 const size = ref<'small' | 'medium' | 'large'>('medium')
+const { isAdmin } = useLoginUser()
 const striped = ref(true)
 const { goodsListData, pagination, tableData, loading, columns, CreateShow, searchForm, rowNode, UpdateShow, goodsCategoryTree, data } = useStoreGoods()
 const { height } = useWindowSize()

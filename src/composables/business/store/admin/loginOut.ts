@@ -5,12 +5,12 @@ import { storeLogOut } from "@/service/store/system/login";
  * @returns 
  */
 export const useStoreLogOut = () => {
-    const { routerReplace } = useRouterPush()
-    const message = useMessage()
-    const dialog = useDialog()
     const route = useRouteStore()
+    const router = useRouter()
+    console.log(router)
     const logOut = () => {
-        dialog.warning({
+        //@ts-ignore
+        window.$dialog.warning({
             title: '系统温馨提示?',
             content: '您确定要退出系统吗?',
             positiveText: '确定',
@@ -23,11 +23,11 @@ export const useStoreLogOut = () => {
                     clearStoreAuthStorage()
                     sessionStorage.clear()
                     route.isInitAuthRoute = false
-                    routerReplace('/login/store')
+                    router.replace('/login/store')
                 } catch (err: any) {
-                    message.error(err.message)
+                    //@ts-ignore
+                    window.$message.error(err.message)
                 }
-
             }
         })
     }
