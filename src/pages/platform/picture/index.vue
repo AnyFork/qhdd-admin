@@ -19,6 +19,7 @@
             <n-flex class="p-2" justify="space-between">
                 <div v-if="isAdmin" class="flex items-center gap-2">
                     <UploadGroupImage v-model:currentGroupId="currentGroupId" text="本地上传" @refresh="attachmentInfoList"></UploadGroupImage>
+                    <UploadGroupBatchImage v-model:currentGroupId="currentGroupId" text="批量上传" btnType="success" @refresh="attachmentInfoList"></UploadGroupBatchImage>
                     <n-button v-if="currentGroupId != 0" type="error" @click="deleteBatch">
                         删除选中
                         <template #icon>

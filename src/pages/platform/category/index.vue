@@ -1,5 +1,5 @@
 <template>
-    <n-alert type="warning" class="my-2"> 小程序导航按照排序值倒序排列 </n-alert>
+    <n-alert type="warning" class="my-2"> 小程序导航按照排序值倒序排列， 不区分类别， 值越大越靠前。 </n-alert>
     <n-space align="center" justify="end" class="mb-2">
         <TableHeaderOperation v-model:columns="columns" v-model:size="size" v-model:striped="striped" :loading="loading" @refresh="storeCategoryListTree"></TableHeaderOperation>
     </n-space>

@@ -285,7 +285,11 @@ export const usePlatformCategory = () => {
             const { data } = await updatePlatformCategory(params)
             loading.value = false
             if (data.code == 200) {
-                message.success('修改成功!')
+                message.success('修改成功!', {
+                    onLeave() {
+                        storeCategoryListTree()
+                    }
+                })
             } else {
                 message.error(data.msg)
             }
