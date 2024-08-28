@@ -5,6 +5,15 @@
                 <n-form-item show-require-mark label="门店名称" path="title">
                     <n-input v-model:value="moduleValue.title" clearable placeholder="请输入商户名称" />
                 </n-form-item>
+                <n-form-item show-require-mark label="图标" path="logo">
+                    <div class="selectImg">
+                        <div class="flex-row-center">
+                            <n-input v-model:value="moduleValue.logo" disabled learable class="!w-[255px]" placeholder="请选择Logo" />
+                            <n-button type="primary" @click="show = true"> 搜索 </n-button>
+                        </div>
+                        <n-image :src="node?.url ?? getAssetsImages('nopic.jpg')" :preview-disabled="!node?.url" width="100" height="100" class="my-1 border border-solid border-#f5f5f5"></n-image>
+                    </div>
+                </n-form-item>
                 <n-form-item show-require-mark label="门店类型">
                     <n-radio-group v-model:value="moduleValue.isWaimai">
                         <n-space>
@@ -21,15 +30,6 @@
                 </n-form-item>
                 <n-form-item label="所属连锁店">
                     <n-select v-model:value="moduleValue.chainid" :options="chainOptions" placeholder="请选择连锁店" clearable class="w-180px" />
-                </n-form-item>
-                <n-form-item label="图标">
-                    <div class="selectImg">
-                        <div class="flex-row-center">
-                            <n-input v-model:value="moduleValue.logo" disabled learable class="!w-[255px]" placeholder="请选择Logo" />
-                            <n-button type="primary" @click="show = true"> 搜索 </n-button>
-                        </div>
-                        <n-image :src="node?.url ?? getAssetsImages('nopic.jpg')" :preview-disabled="!node?.url" width="100" height="100" class="my-1 border border-solid border-#f5f5f5"></n-image>
-                    </div>
                 </n-form-item>
                 <n-form-item label="排序">
                     <n-input-number v-model:value="moduleValue.displayorder" clearable :min="0" :max="9999" placeholder="请输入排序" />

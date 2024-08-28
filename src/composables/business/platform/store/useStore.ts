@@ -139,6 +139,16 @@ export const usePlatformStore = () => {
                 },
                 trigger: ['input', 'blur']
             }
+        ],
+        logo: [
+            {
+                validator(_rule: FormItemRule, value: string) {
+                    if (!value) {
+                        return new Error('请现在门店logo')
+                    }
+                },
+                trigger: ['input', 'blur']
+            }
         ]
     }
     /**
@@ -593,8 +603,30 @@ export const usePlatformStore = () => {
             width: 180,
             render(rowData) {
                 if (isAdmin.value) {
-                    return [
-                        h(
+                    if (rowData.status == 4) {
+                        return [h(
+                            NPopconfirm,
+                            {
+                                onPositiveClick: () => {
+                                    updateStoreInfo({ id: rowData.id, status: 1 })
+                                }
+                            },
+                            {
+                                default: () => '您确定要恢复此商户吗',
+                                trigger: () =>
+                                    h(
+                                        NButton,
+                                        {
+                                            size: 'small',
+                                            type: 'primary',
+                                            style: {
+                                                marginLeft: '10px'
+                                            }
+                                        },
+                                        { default: () => '恢复数据' }
+                                    )
+                            }
+                        ), h(
                             NPopconfirm,
                             {
                                 onPositiveClick: () => {
@@ -602,7 +634,7 @@ export const usePlatformStore = () => {
                                 }
                             },
                             {
-                                default: () => '您确定要删除此商户吗?',
+                                default: () => '您确定要彻底删除此商户吗',
                                 trigger: () =>
                                     h(
                                         NButton,
@@ -613,55 +645,60 @@ export const usePlatformStore = () => {
                                                 marginLeft: '10px'
                                             }
                                         },
-                                        { default: () => '删除' }
+                                        { default: () => '彻底删除' }
                                     )
                             }
-                        ),
-                        h(
-                            NButton,
-                            {
-                                size: 'small',
-                                type: 'primary',
-                                style: {
-                                    marginLeft: '10px'
+                        )]
+                    } else {
+                        return [
+                            h(
+                                NPopconfirm,
+                                {
+                                    onPositiveClick: () => {
+                                        updateStoreInfo({ id: rowData.id, status: 4 })
+                                    }
                                 },
-                                onClick: () => {
-                                    storeInfo.value = rowData
-                                    storeInfoFrom.value = 1
-                                    routerPush('/store/shop/settings/list', true)
+                                {
+                                    default: () => '您确定要删除此商户吗,删除后用户将进入回收站',
+                                    trigger: () =>
+                                        h(
+                                            NButton,
+                                            {
+                                                size: 'small',
+                                                type: 'error',
+                                                style: {
+                                                    marginLeft: '10px'
+                                                }
+                                            },
+                                            { default: () => '删除' }
+                                        )
                                 }
-                            },
-                            { default: () => '管理' }
-                        )
-                    ]
+                            ),
+                            h(
+                                NButton,
+                                {
+                                    size: 'small',
+                                    type: 'primary',
+                                    style: {
+                                        marginLeft: '10px'
+                                    },
+                                    onClick: () => {
+                                        storeInfo.value = rowData
+                                        storeInfoFrom.value = 1
+                                        routerPush('/store/shop/settings/list', true)
+                                    }
+                                },
+                                { default: () => '管理' }
+                            )
+                        ]
+                    }
                 } else {
-                    return [
-                        h(
+                    if (rowData.status == 4) {
+                        return [h(
                             NPopover,
                             {},
                             {
                                 default: () => '非系统管理员账号禁止删除',
-                                trigger: () =>
-                                    h(
-                                        NButton,
-                                        {
-                                            size: 'small',
-                                            type: 'error',
-                                            style: {
-                                                marginLeft: '10px',
-                                                cursor: 'not-allowed',
-                                                opacity: 0.5
-                                            }
-                                        },
-                                        { default: () => '删除' }
-                                    )
-                            }
-                        ),
-                        h(
-                            NPopover,
-                            {},
-                            {
-                                default: () => '非管理员账号禁止操作',
                                 trigger: () =>
                                     h(
                                         NButton,
@@ -674,11 +711,75 @@ export const usePlatformStore = () => {
                                                 opacity: 0.5
                                             }
                                         },
-                                        { default: () => '配置' }
+                                        { default: () => '恢复数据' }
                                     )
-                            }
-                        )
-                    ]
+                            }), h(
+                                NPopover,
+                                {},
+                                {
+                                    default: () => '非系统管理员账号禁止删除',
+                                    trigger: () =>
+                                        h(
+                                            NButton,
+                                            {
+                                                size: 'small',
+                                                type: 'primary',
+                                                style: {
+                                                    marginLeft: '10px',
+                                                    cursor: 'not-allowed',
+                                                    opacity: 0.5
+                                                }
+                                            },
+                                            { default: () => '彻底删除' }
+                                        )
+                                })]
+                    } else {
+                        return [
+                            h(
+                                NPopover,
+                                {},
+                                {
+                                    default: () => '非系统管理员账号禁止删除',
+                                    trigger: () =>
+                                        h(
+                                            NButton,
+                                            {
+                                                size: 'small',
+                                                type: 'error',
+                                                style: {
+                                                    marginLeft: '10px',
+                                                    cursor: 'not-allowed',
+                                                    opacity: 0.5
+                                                }
+                                            },
+                                            { default: () => '删除' }
+                                        )
+                                }
+                            ),
+                            h(
+                                NPopover,
+                                {},
+                                {
+                                    default: () => '非管理员账号禁止操作',
+                                    trigger: () =>
+                                        h(
+                                            NButton,
+                                            {
+                                                size: 'small',
+                                                type: 'primary',
+                                                style: {
+                                                    marginLeft: '10px',
+                                                    cursor: 'not-allowed',
+                                                    opacity: 0.5
+                                                }
+                                            },
+                                            { default: () => '配置' }
+                                        )
+                                }
+                            )
+                        ]
+                    }
+
                 }
             }
         }

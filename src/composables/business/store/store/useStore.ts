@@ -138,7 +138,17 @@ export const useStore = () => {
                 },
                 trigger: ['input', 'blur']
             }
-        ]
+        ],
+        logo: [
+            {
+                validator(_rule: FormItemRule, value: string) {
+                    if (!value) {
+                        return new Error('请上传门店logo')
+                    }
+                },
+                trigger: ['input', 'blur']
+            }
+        ],
     }
 
     /**
@@ -156,7 +166,8 @@ export const useStore = () => {
                 moduleValue.title = title
                 moduleValue.logo = logo
                 moduleValue.displayorder = displayorder
-                moduleValue.chainid = chainid
+                // 处理连锁店id为0时，不展示
+                moduleValue.chainid = chainid == 0 ? undefined : chainid
                 moduleValue.subMchId = subMchId
                 moduleValue.businessStatus = businessStatus
                 if (businessHours) {

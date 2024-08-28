@@ -35,7 +35,7 @@ const submitCallback = (e: MouseEvent) => {
     formRef.value?.validate(async (errors) => {
         if (!errors) {
             const { id, name, avatar, phone, password } = moduleValue
-            await updateAdminInfo({ id, name, avatar, phone, password })
+            await updateAdminInfo({ id, name, avatar, phone, newPassword: password })
             open.value = false
             //清除表单数据
             moduleValue.id = undefined

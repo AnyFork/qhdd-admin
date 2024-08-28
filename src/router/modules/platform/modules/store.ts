@@ -15,6 +15,15 @@ const store: AuthRoute.Route[] = [{
         }
     },
     {
+        name: "platform-store-recycle",
+        path: "/platform/store/recycle",
+        component: () => import('@/pages/platform/store/recycle/index.vue'),
+        meta: {
+            title: '商户回收站',
+            icon: 'tabler:logs'
+        }
+    },
+    {
         name: "platform-store-tag",
         path: "/platform/store/tag",
         component: () => import('@/pages/platform/store/tag/index.vue'),

@@ -106,6 +106,10 @@ declare namespace system {
          * 角色名称
          */
         roleName: string
+        /**
+         * 新密码
+         */
+        newPassword:string
     }
     /**
     * 附件分组
@@ -306,7 +310,7 @@ declare namespace system {
         /**
          * 创建时间
          */
-        createTime
+        createTime: number
     }
 }
 

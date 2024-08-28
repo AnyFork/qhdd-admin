@@ -1,9 +1,10 @@
 <template>
+    <n-alert type="warning" class="my-2"> 小程序导航按照排序值倒序排列 </n-alert>
     <n-space align="center" justify="end" class="mb-2">
         <TableHeaderOperation v-model:columns="columns" v-model:size="size" v-model:striped="striped" :loading="loading" @refresh="storeCategoryListTree"></TableHeaderOperation>
     </n-space>
     <!--数据表格 -->
-    <n-data-table :striped="striped" :expanded-row-keys="[1, 2, 5]" remote :size="size" :columns="columns" :data="tableData" :row-key="(rowData:store.category) => rowData.id!" :loading="loading" />
+    <n-data-table :striped="striped" remote :size="size" :columns="columns" :data="tableData" :row-key="(rowData:store.category) => rowData.id!" :loading="loading" />
     <!-- 增加子分类-->
     <CreateCategoryDialog v-if="CreateShow" v-model:open="CreateShow" :pid="moduleValue.parentid!" :ptitle="moduleValue.title!" :type="moduleValue.type!" @refresh="storeCategoryListTree"></CreateCategoryDialog>
     <!--修改分类-->

@@ -16,13 +16,7 @@
             <n-form-item show-require-mark label="主营品类" path="cateParentid1">
                 <n-select v-model:value="moduleValue.cateParentid1" :options="shopCategoryOption" placeholder="请选择商户标签" clearable class="w-680px" />
             </n-form-item>
-            <n-form-item label="所属片区">
-                <n-select v-model:value="moduleValue.cateParentid2" :options="shopAreaOption" placeholder="请选择商户标签" clearable class="w-680px" />
-            </n-form-item>
-            <n-form-item label="所属连锁店">
-                <n-select v-model:value="moduleValue.chainid" :options="chainOptions" placeholder="请选择连锁店" clearable class="w-680px" />
-            </n-form-item>
-            <n-form-item label="门店图标">
+            <n-form-item show-require-mark label="门店图标" path="logo">
                 <div class="selectImg">
                     <div class="flex-row-center">
                         <n-input v-model:value="moduleValue.logo" disabled learable class="!w-[625px]" placeholder="请选择Logo" />
@@ -30,6 +24,12 @@
                     </div>
                     <n-image :src="node?.url ?? getAssetsImages('nopic.jpg')" :preview-disabled="!node?.url" width="100" height="100" class="my-1 border border-solid border-#f5f5f5"></n-image>
                 </div>
+            </n-form-item>
+            <n-form-item label="所属片区">
+                <n-select v-model:value="moduleValue.cateParentid2" :options="shopAreaOption" placeholder="请选择商户标签" clearable class="w-680px" />
+            </n-form-item>
+            <n-form-item label="所属连锁店">
+                <n-select v-model:value="moduleValue.chainid" :options="chainOptions" placeholder="请选择连锁店" clearable class="w-680px" />
             </n-form-item>
             <n-form-item label="门店招牌">
                 <div class="selectImg">
@@ -125,6 +125,7 @@ const picture = ref<Partial<system.attachment>>({})
 const categoryRef = ref<system.category[]>()
 // 所属片区
 const areaRef = ref<system.category[]>()
+
 /**
  * 主营分类
  */
@@ -171,7 +172,7 @@ const submitCallback = (e: MouseEvent) => {
             if (serviceCategory) {
                 array.push(serviceCategory)
             }
-            await updateStoreInfo({ id, title, logo, chainid, businessStatus, isWaimai, cateParentid1, cateParentid2, description, telephone, businessHours: time, thumbs, address, locationX, locationY, serviceLabel: array.join(','), data: JSON.stringify(dataObj) })
+            await updateStoreInfo({ id, title, logo, chainid: chainid ?? 0, businessStatus, isWaimai, cateParentid1, cateParentid2, description, telephone, businessHours: time, thumbs, address, locationX, locationY, serviceLabel: array.join(','), data: JSON.stringify(dataObj) })
             getStoreDetailInfoBySid()
             // 清空表单校验
             formRef.value?.restoreValidation()

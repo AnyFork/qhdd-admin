@@ -57,6 +57,10 @@ export const useChain = () => {
                         value: item.id
                     }
                 })
+                // chainOptions.value.unshift({
+                //     label: '',
+                //     value: 0
+                // })
             } else {
                 message.error(data.msg)
             }

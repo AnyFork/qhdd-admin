@@ -13,7 +13,10 @@
                         <n-input v-model:value="moduleValue.thumb" disabled learable class="!w-[255px]" placeholder="请选择图标" />
                         <n-button type="primary" @click="show = true"> 搜索 </n-button>
                     </div>
-                    <n-image :src="node?.url ?? getAssetsImages('nopic.jpg')" :preview-disabled="!node?.url" width="100%" height="100%" class="my-1 w-[100px] h-[100px] rounded-[6px] border border-solid border-#f5f5f5"></n-image>
+                    <div class="flex gap-2 py-2">
+                        <n-image :src="node?.url ?? getAssetsImages('nopic.jpg')" :preview-disabled="!node?.url" width="100" height="100" class="my-1 border border-solid border-#f5f5f5"></n-image>
+                        <Icon v-if="node?.url" icon="carbon:close-outline" @click="removeImage"></Icon>
+                    </div>
                 </div>
             </n-form-item>
             <n-form-item label="显示状态">
@@ -31,6 +34,7 @@
     <SelectImageDialog v-if="show" v-model:open="show" v-model:node="node"></SelectImageDialog>
 </template>
 <script setup lang="ts">
+import { Icon } from '@iconify/vue'
 import { NButton } from 'naive-ui'
 import { getAssetsImages } from '@/utils/tools/getAssetsImages'
 const { formRef, rules, moduleValue, updateCategoryInfo, loading, message, previewUrl } = usePlatformCategory()
@@ -48,10 +52,20 @@ const pNodes = computed(() =>
     })
 )
 watchEffect(() => {
-    console.log(node)
-    moduleValue.thumb = node.value?.attachment
+    if (node.value?.attachment) {
+        moduleValue.thumb = node.value?.attachment
+    } else {
+        moduleValue.thumb = ''
+    }
 })
 
+/**
+ * 移除图片
+ */
+const removeImage = () => {
+    //@ts-ignore
+    node.value = undefined
+}
 /**
  * 表单校验
  * @param e
