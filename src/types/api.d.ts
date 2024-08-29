@@ -3223,6 +3223,10 @@ declare namespace setting {
      */
     interface store_delivery {
         /**
+         * 配送模式(1=店内配送员,2=平台配送员)
+         */
+        delivery_mode: 1 | 2
+        /**
          * 预计送达时间
          */
         delivery_time: number

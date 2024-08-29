@@ -2,6 +2,14 @@
     <n-spin :show="loading" description="loading">
         <n-form ref="formRef" :label-width="250" :model="delivery" size="medium" label-placement="left" style="margin-top: 20px">
             <div class="flex items-center text-16px p-2 my-2 h-40px bg-#eee before:content-[''] before:w-5px before:h-20px before:bg-primary before:inline-flex before:mr-2">配送模式</div>
+            <n-form-item label="配送模式">
+                <n-radio-group v-model:value="delivery.delivery_mode">
+                    <n-space>
+                        <n-radio :value="1">店内配送员</n-radio>
+                        <n-radio :value="2">平台配送员</n-radio>
+                    </n-space>
+                </n-radio-group>
+            </n-form-item>
             <n-form-item label="预计送达时间">
                 <n-input-number v-model:value="delivery.delivery_time" :min="0" clearable placeholder="">
                     <template #suffix>
@@ -145,6 +153,7 @@ const { isAdmin } = useLoginUser()
 const { configData, getPlatformSettings, message, loading, updateSettings } = useSettings()
 
 const delivery = ref<setting.store_delivery>({
+    delivery_mode:2,
     delivery_time: 30,
     serve_radius: 1,
     not_in_serve_radius: 0,
