@@ -20,6 +20,9 @@
                     <p class="py-2 text-14px text-#999">订单确认页送达时间的提示信息</p>
                 </div>
             </n-form-item>
+            <n-form-item label="店铺公告">
+                <n-input v-model:value="moduleValue.notice" type="textarea" placeholder="店铺公告信息" maxlength="30" :autosize="{ minRows: 3 }" show-count class="!w-600px" />
+            </n-form-item>
             <n-form-item label="订单备注是否必填">
                 <n-radio-group v-model:value="moduleValue.dataObj!.order_note_status">
                     <n-space>
@@ -55,8 +58,8 @@ const submitCallback = (e: MouseEvent) => {
     e.preventDefault
     formRef.value?.validate(async (errors) => {
         if (!errors) {
-            const { id, tips, dataObj } = moduleValue
-            await updateStoreInfo({ id, tips, data: JSON.stringify(dataObj) })
+            const { id, tips, dataObj, notice } = moduleValue
+            await updateStoreInfo({ id, tips, data: JSON.stringify(dataObj), notice: notice })
             getStoreDetailInfoBySid()
             // 清空表单校验
             formRef.value?.restoreValidation()

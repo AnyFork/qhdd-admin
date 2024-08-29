@@ -40,6 +40,7 @@
             <n-dropdown trigger="hover" :options="chain">
                 <n-button type="warning" :disabled="!isAdmin">批量处理连锁店</n-button>
             </n-dropdown>
+            <div class="text-14px text-primary">页面排序规则：优先展示营业中店铺，然后按照排序值从大到小规则进行展示，与顾客端小程序展示效果一致。</div>
         </div>
         <TableHeaderOperation v-model:columns="columns" v-model:size="size" v-model:striped="striped" :loading="loading" @refresh="storeListData"></TableHeaderOperation>
     </n-space>

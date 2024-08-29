@@ -89,7 +89,7 @@ export const usePlatformStore = () => {
         status: undefined,
         serviceLabel: undefined,
         isWaimai: undefined,
-        sortType: 0
+        sortType: 5
     })
     /**
      * 新增dialog状态

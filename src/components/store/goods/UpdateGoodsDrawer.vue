@@ -222,7 +222,7 @@
                     </n-radio-group>
                 </n-form-item>
                 <n-form-item label="商品详情" label-placement="top" :label-width="120">
-                    <DefaultEditor v-model="moduleValue.content"></DefaultEditor>
+                    <DefaultEditor v-if="moduleValue.content" v-model="moduleValue.content"></DefaultEditor>
                 </n-form-item>
             </n-form>
             <template #footer>
@@ -438,6 +438,7 @@ onMounted(() => {
     moduleValue.status = props.data.status
     moduleValue.isHot = props.data.isHot
     moduleValue.content = props.data.content
+    console.log(moduleValue.content, props.data.content)
     moduleValue.singleStatus = props.data.singleStatus
     moduleValue.weekStr = props.data.week?.split(',')?.filter((item) => item != '') as any
     moduleValue.unitnum = props.data.unitnum

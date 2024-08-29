@@ -160,11 +160,12 @@ export const useStore = () => {
             const { data: dataList } = await getStoreInfoBySid(sid.value!)
             loading.value = false
             if (dataList.code == 200) {
-                const { id, title, logo, subMchId, displayorder, chainid, tips, businessStatus, cateParentid1, cateParentid2, description, telephone, businessHours, thumbs, address, locationX, locationY, categoryList, qualification, licenseEndtime, foodcertEndtime, data } = dataList.data
+                const { id, title, logo, subMchId, notice, displayorder, chainid, tips, businessStatus, cateParentid1, cateParentid2, description, telephone, businessHours, thumbs, address, locationX, locationY, categoryList, qualification, licenseEndtime, foodcertEndtime, data } = dataList.data
                 moduleValue.id = id
                 moduleValue.tips = tips
                 moduleValue.title = title
                 moduleValue.logo = logo
+                moduleValue.notice = notice
                 moduleValue.displayorder = displayorder
                 // 处理连锁店id为0时，不展示
                 moduleValue.chainid = chainid == 0 ? undefined : chainid
@@ -183,13 +184,13 @@ export const useStore = () => {
                 moduleValue.telephone = telephone
                 if (categoryList) {
                     categoryList.forEach((element: store.category) => {
-                        if (element.type == "TY_store_label") {
+                        if (element?.type == "TY_store_label") {
                             moduleValue.shopCategory = element.id
                         }
-                        if (element.type == "TY_delivery_label") {
+                        if (element?.type == "TY_delivery_label") {
                             moduleValue.deliveryCategory = element.id
                         }
-                        if (element.type == "TY_service_label") {
+                        if (element?.type == "TY_service_label") {
                             moduleValue.serviceCategory = element.id
                         }
                     });
