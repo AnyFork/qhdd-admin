@@ -90,3 +90,21 @@ export const storeStatus = {
   2: "营业中",
 }
 
+
+/**
+ * 协议类型
+ */
+export enum AgreementType {
+  agreement_settle = "商户入驻协议",
+  agreement_member_delete = "用户注销协议",
+  member_agreement = "顾客服务协议",
+  member_privacy_policy = "顾客隐私政策",
+  manager_agreement = "商户服务协议",
+  manager_privacy_policy = "商户隐私政策",
+  agreement_delivery = "配送员入驻协议",
+  deliveryer_agreement = "配送员隐私协议",
+  deliveryer_privacy_policy = "配送员隐私政策",
+  plateform_privacy_policy = "平台隐私政策",
+  plateform_agreement = "平台服务协议"
+}
+

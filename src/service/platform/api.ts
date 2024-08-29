@@ -267,3 +267,13 @@ export const updateNoticeApi = "/notice/update"
  * 删除公告
  */
 export const deleteNoticeApi = "/notice/delete"
+
+/**
+ * 获取协议列表
+ */
+export const getAgreementListApi = "/text/getList"
+
+/**
+ * 更新协议数据
+ */
+export const updateAgreementApi = "/text/update"

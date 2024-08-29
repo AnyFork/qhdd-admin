@@ -109,7 +109,7 @@ declare namespace system {
         /**
          * 新密码
          */
-        newPassword:string
+        newPassword: string
     }
     /**
     * 附件分组
@@ -3373,3 +3373,28 @@ interface notice {
     addtime: number
 }
 
+/**
+ * 协议
+ */
+interface agreement {
+    /**
+     * 协议id
+     */
+    id: number
+    /**
+     * 协议名称
+     */
+    name: keyof typeof import('../utils/enum').AgreementType
+    /**
+     * 协议标题
+     */
+    title: string
+    /**
+     * 图文内容
+     */
+    value: string
+    /**
+     * 添加时间
+     */
+    addtime: number
+}

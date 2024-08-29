@@ -10,5 +10,5 @@ dayjs.locale()
  * @returns 
  */
 export const transformTimestampsToDateString = (timestamp: number, format = "YYYY-MM-DD HH:mm:ss") => {
-    return dayjs.unix(timestamp).format(format)
+    return timestamp ? dayjs.unix(timestamp).format(format) : timestamp
 }

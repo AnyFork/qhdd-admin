@@ -7,6 +7,7 @@ export {}
 declare global {
   const ActivityStatus: typeof import('../utils/enum/system')['ActivityStatus']
   const ActivityType: typeof import('../utils/enum/system')['ActivityType']
+  const AgreementType: typeof import('../utils/enum/system')['AgreementType']
   const EffectScope: typeof import('vue')['EffectScope']
   const EnumContentType: typeof import('../utils/enum/common')['EnumContentType']
   const EnumDataType: typeof import('../utils/enum/common')['EnumDataType']
@@ -217,6 +218,7 @@ declare global {
   const useAdmin: typeof import('../composables/business/platform/admin/useAdmin')['useAdmin']
   const useAdv: typeof import('../composables/business/platform/adv/useAdv')['useAdv']
   const useAdvPosition: typeof import('../composables/business/platform/adv/useAdvPosition')['useAdvPosition']
+  const useAgreement: typeof import('../composables/business/platform/agreement/useAgreement')['useAgreement']
   const useAnimate: typeof import('@vueuse/core')['useAnimate']
   const useAnimates: typeof import('../store/modules/animate/useAnimates')['useAnimates']
   const useAppInfo: typeof import('../utils/settings/system/index')['useAppInfo']
@@ -464,6 +466,6 @@ declare global {
   export type { EnumContentType, EnumStorageKey, EnumDataType, EnumContentType, EnumStorageKey, EnumDataType } from '../utils/enum/common'
   import('../utils/enum/common')
   // @ts-ignore
-  export type { EnumLayoutComponentName, EnumThemeLayoutMode, EnumThemeTabMode, EnumThemeHorizontalMenuPosition, EnumThemeAnimateMode, ActivityType, EnumLayoutComponentName, EnumThemeLayoutMode, EnumThemeTabMode, EnumThemeHorizontalMenuPosition, EnumThemeAnimateMode, ActivityType } from '../utils/enum/system'
+  export type { EnumLayoutComponentName, EnumThemeLayoutMode, EnumThemeTabMode, EnumThemeHorizontalMenuPosition, EnumThemeAnimateMode, ActivityType, AgreementType, EnumLayoutComponentName, EnumThemeLayoutMode, EnumThemeTabMode, EnumThemeHorizontalMenuPosition, EnumThemeAnimateMode, ActivityType, AgreementType } from '../utils/enum/system'
   import('../utils/enum/system')
 }
