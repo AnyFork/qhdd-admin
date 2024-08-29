@@ -24,8 +24,8 @@ const uploadFiles = (event: any) => {
         message.error('请选择要上传的文件')
         return
     }
-    if (files.length > 5) {
-        message.error('最多只能上传5个文件')
+    if (files.length > 10) {
+        message.error('最多只能上传10个文件')
         return
     }
     for (var i = 0; i < files.length; i++) {

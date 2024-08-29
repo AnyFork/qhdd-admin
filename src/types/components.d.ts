@@ -20,7 +20,6 @@ declare module 'vue' {
     ColorCheckbox: typeof import('./../layouts/components/GlobalDrawer/ThemeColorSelect/components/ColorCheckbox.vue')['default']
     ColorModal: typeof import('./../layouts/components/GlobalDrawer/ThemeColorSelect/components/ColorModal.vue')['default']
     ContextMenu: typeof import('./../layouts/components/GlobalTab/components/TabDetail/components/ContextMenu.vue')['default']
-    copy: typeof import('./../components/UploadGroupImage copy.vue')['default']
     CreateActivityDrawer: typeof import('./../components/platform/activity/CreateActivityDrawer.vue')['default']
     CreateAdminDialog: typeof import('./../components/platform/admin/CreateAdminDialog.vue')['default']
     CreateAdvDialog: typeof import('./../components/platform/adv/CreateAdvDialog.vue')['default']
