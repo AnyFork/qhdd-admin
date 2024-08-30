@@ -7,7 +7,7 @@
                         <n-input v-model:value="searchForm.ordersn" placeholder="请输入订单编号" clearable class="!w-200px" />
                     </n-form-item>
                     <n-form-item label="店铺名称">
-                        <n-select v-model:value="searchForm.sid" :options="allStore" placeholder="请选择店铺名称" clearable class="w-200px" />
+                        <n-select v-model:value="searchForm.sid" :options="allStore" filterable placeholder="请选择店铺名称" clearable class="w-200px" />
                     </n-form-item>
                     <n-form-item label="活动类型">
                         <n-select v-model:value="searchForm.activityType" :options="activityTypeOptions" placeholder="请选择活动类型" clearable class="w-200px" />

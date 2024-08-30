@@ -4,7 +4,7 @@
         <div>
             <n-form :show-feedback="false" :size="size" inline :model="searchForm" label-placement="left" class="justify-end mb-2">
                 <n-form-item label="店铺名称">
-                    <n-select v-model:value="searchForm.sid" :options="allStore" placeholder="请选择店铺名称" clearable class="w-300px" />
+                    <n-select v-model:value="searchForm.sid" :options="allStore" filterable placeholder="请选择店铺名称" clearable class="w-300px" />
                 </n-form-item>
                 <n-form-item label="活动类型">
                     <n-select v-model:value="searchForm.type" :options="activityTypeOptions" placeholder="请选择活动类型" clearable class="w-190px" />

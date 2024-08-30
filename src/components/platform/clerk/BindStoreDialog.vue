@@ -5,7 +5,7 @@
                 <div>{{ rowNode.title }}({{ rowNode.mobile }})</div>
             </n-form-item>
             <n-form-item label="绑定门店">
-                <n-select v-model:value="moduleValue.sid" :options="storeOptions" clearable placeholder="请选择门店" />
+                <n-select v-model:value="moduleValue.sid" :options="storeOptions" filterable clearable placeholder="请选择门店" />
             </n-form-item>
         </n-form>
         <template #action>

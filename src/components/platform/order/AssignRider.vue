@@ -2,7 +2,7 @@
     <!--调度骑手接单-->
     <n-modal v-model:show="show" preset="dialog" title="请选择调度的骑手">
         <div class="py-4">
-            <n-select v-model:value="deliveryerId" :options="(allRider as any)" label-field="title" value-field="id" placeholder="请选择配送员名称" clearable />
+            <n-select v-model:value="deliveryerId" :options="(allRider as any)" filterable label-field="title" value-field="id" placeholder="请选择配送员名称" clearable />
         </div>
         <template #action>
             <div>
