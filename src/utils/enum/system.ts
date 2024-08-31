@@ -107,4 +107,3 @@ export enum AgreementType {
   plateform_privacy_policy = "平台隐私政策",
   plateform_agreement = "平台服务协议"
 }
-

@@ -34,7 +34,7 @@
     <n-space align="center" justify="space-between" class="mb-2">
         <div class="flex-row-center gap-2">
             <n-button type="primary" @click="CreateShow = true" :disabled="!isAdmin">创建商户</n-button>
-            <n-dropdown trigger="hover" :options="options" >
+            <n-dropdown trigger="hover" :options="options">
                 <n-button type="error" :disabled="!isAdmin">批量处理店铺状态</n-button>
             </n-dropdown>
             <n-dropdown trigger="hover" :options="chain">
@@ -45,9 +45,11 @@
         <TableHeaderOperation v-model:columns="columns" v-model:size="size" v-model:striped="striped" :loading="loading" @refresh="storeListData"></TableHeaderOperation>
     </n-space>
     <!--数据表格 -->
-    <n-data-table :single-line="false" :striped="striped" remote :scroll-x="2800" :size="size" :columns="columns" :data="tableData" :pagination="pagination" :row-key="(rowData:store.storeData) => `${rowData.id}`" :loading="loading" :max-height="tableHeight" @update:checked-row-keys="handleCheck" />
+    <n-data-table :single-line="false" :striped="striped" remote :scroll-x="3200" :size="size" :columns="columns" :data="tableData" :pagination="pagination" :row-key="(rowData:store.storeData) => `${rowData.id}`" :loading="loading" :max-height="tableHeight" @update:checked-row-keys="handleCheck" />
     <!-- 增加商户 -->
-    <CreateStoreDrawer v-model:active="CreateShow" :shopOption="shopOption!" :serviceOption="serviceOption" :deliveryOption="deliveryOption" :shopCategoryOption="shopCategoryOption" :shopAreaOption="shopAreaOption" :chainOptions="chainOptions" @refresh="storeListData"></CreateStoreDrawer>
+    <CreateStoreDrawer v-if="CreateShow" v-model:active="CreateShow" :shopOption="shopOption!" :serviceOption="serviceOption" :deliveryOption="deliveryOption" :shopCategoryOption="shopCategoryOption" :shopAreaOption="shopAreaOption" :chainOptions="chainOptions" @refresh="storeListData"></CreateStoreDrawer>
+    <!-- 设置服务费 -->
+    <SettingServiceFee v-if="feeModal&&rowNode" v-model:open="feeModal" v-model="rowNode"></SettingServiceFee>
 </template>
 <script setup lang="ts">
 const size = ref<'small' | 'medium' | 'large'>('medium')
@@ -64,7 +66,7 @@ const tagRef = ref<
         value: number
     }[]
 >()
-const { storeListData, pagination, tableData, updateStoreStatusBatch, loading, columns, message, CreateShow, searchForm, handleCheck, checkedRowKeysRef, shopOption, deliveryOption, serviceOption, categoryPageList } = usePlatformStore()
+const { storeListData, pagination, tableData, updateStoreStatusBatch, loading, columns, message, CreateShow, searchForm, handleCheck, checkedRowKeysRef, shopOption, deliveryOption, serviceOption, categoryPageList, rowNode, feeModal } = usePlatformStore()
 const { storeCategoryList } = usePlatformCategory()
 const { chainSelectList, chainOptions } = useChain()
 const { height } = useWindowSize()

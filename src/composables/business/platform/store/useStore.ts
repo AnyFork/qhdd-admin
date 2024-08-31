@@ -21,6 +21,16 @@ export const usePlatformStore = () => {
     const checkedRowKeysRef = ref<DataTableRowKey[]>([])
     const { storeInfo, storeInfoFrom } = useStoreInfo()
     /**
+     * 服务费modal
+     */
+    const feeModal = ref(false)
+
+    /**
+     * 店铺信息
+     */
+    const rowNode = ref<store.storeData>()
+
+    /**
      * 表格分页配置
      */
     const pagination = reactive({
@@ -177,6 +187,7 @@ export const usePlatformStore = () => {
             title: '商户LOGO',
             width: 120,
             align: 'center',
+            fixed: 'left',
             className: 'flex-row-center',
             key: 'logo',
             render: (rowData, _index: number) => {
@@ -189,6 +200,7 @@ export const usePlatformStore = () => {
             title: '商户名称',
             width: 160,
             align: 'center',
+            fixed: 'left',
             key: 'title'
         },
         {
@@ -596,11 +608,85 @@ export const usePlatformStore = () => {
             }
         },
         {
+            title: '平台服务费支付方式',
+            width: 180,
+            align: 'center',
+            key: 'serverFee',
+            render(rowData, _rowIndex) {
+                try {
+                    if (rowData.data) {
+                        const obj = JSON.parse(rowData.data)
+                        if (obj.platformServiceFee == undefined) {
+                            return "未设置"
+                        } else {
+                            if (obj.platformServiceFee.feePayType == 1) {
+                                return "固定金额"
+                            }
+                            if (obj.platformServiceFee.feePayType == 2) {
+                                return "固定费率"
+                            }
+                            if (obj.platformServiceFee.feePayType == 3) {
+                                return "固定金额 + 固定费率"
+                            }
+                        }
+                    } else {
+                        return "未设置"
+                    }
+                } catch (err) {
+                    return "未设置"
+                }
+            }
+        },
+        {
+            title: '平台固定服务费(元)',
+            width: 140,
+            align: 'center',
+            key: 'feeMoney',
+            render(rowData, _rowIndex) {
+                try {
+                    if (rowData.data) {
+                        const obj = JSON.parse(rowData.data)
+                        if (obj.platformServiceFee == undefined) {
+                            return "未设置"
+                        } else {
+                            return obj.platformServiceFee.feePayMoney
+                        }
+                    } else {
+                        return "未设置"
+                    }
+                } catch (err) {
+                    return "未设置"
+                }
+            }
+        },
+        {
+            title: '平台服务费费率(%)',
+            width: 140,
+            align: 'center',
+            key: 'feePercent',
+            render(rowData, _rowIndex) {
+                try {
+                    if (rowData.data) {
+                        const obj = JSON.parse(rowData.data)
+                        if (obj.platformServiceFee == undefined) {
+                            return "未设置"
+                        } else {
+                            return obj.platformServiceFee.feePayPercent
+                        }
+                    } else {
+                        return "未设置"
+                    }
+                } catch (err) {
+                    return "未设置"
+                }
+            }
+        },
+        {
             title: '操作',
             key: 'actions',
             align: 'center',
             fixed: 'right',
-            width: 180,
+            width: 200,
             render(rowData) {
                 if (isAdmin.value) {
                     if (rowData.status == 4) {
@@ -651,6 +737,29 @@ export const usePlatformStore = () => {
                         )]
                     } else {
                         return [
+                            h(
+                                NButton,
+                                {
+                                    size: 'small',
+                                    type: 'success',
+                                    onClick: () => {
+                                        if (rowData.data) {
+                                            let temp = JSON.parse(rowData.data)
+                                            if (temp.platformServiceFee == undefined) {
+                                                temp.platformServiceFee = {
+                                                    feePayType: 1,
+                                                    feePayMoney: 0,
+                                                    feePayPercent: 0
+                                                }
+                                            }
+                                            rowData.dataObj = temp
+                                        }
+                                        rowNode.value = rowData
+                                        feeModal.value = true
+                                    }
+                                },
+                                { default: () => '服务费' }
+                            ),
                             h(
                                 NPopconfirm,
                                 {
@@ -942,6 +1051,10 @@ export const usePlatformStore = () => {
         checkedRowKeysRef.value = rowKeys
     }
 
-    return { storeListData, pagination, updateStoreStatusBatch, tableData, loading, columns, formRef, moduleValue, rules, addStoreInfo, $axios, message, CreateShow, searchForm, handleCheck, checkedRowKeysRef, shopOption, deliveryOption, serviceOption, categoryPageList, storeSelectList, allStore }
+    return {
+        storeListData, pagination, updateStoreStatusBatch, tableData, loading, columns, formRef, moduleValue, rules, updateStoreInfo,
+        addStoreInfo, $axios, message, CreateShow, searchForm, handleCheck, checkedRowKeysRef, shopOption, deliveryOption,
+        serviceOption, categoryPageList, storeSelectList, allStore, rowNode, feeModal
+    }
 }
 

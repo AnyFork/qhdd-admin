@@ -97,7 +97,9 @@ export const useStore = () => {
             },
             orderCreateNotice: {
                 text: ""
-            }
+            },
+            //@ts-ignore
+            platformServiceFee: undefined
         },
         autoPrintOrder: undefined,
         autoHandelOrder: undefined,

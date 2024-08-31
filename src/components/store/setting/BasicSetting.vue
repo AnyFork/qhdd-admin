@@ -92,6 +92,28 @@
             <n-form-item label="服务标签">
                 <n-select v-model:value="moduleValue.serviceCategory" :options="serviceOption" placeholder="请选择服务标签" clearable class="w-680px" />
             </n-form-item>
+            <n-form-item label="平台服务费计算方式">
+                <n-radio-group v-if="moduleValue?.dataObj?.platformServiceFee != undefined" v-model:value="moduleValue.dataObj.platformServiceFee.feePayType" disabled>
+                    <n-space>
+                        <n-radio :value="1">固定金额 </n-radio>
+                        <n-radio :value="2">费率</n-radio>
+                        <n-radio :value="3">固定金额 + 费率</n-radio>
+                    </n-space>
+                </n-radio-group>
+                <span v-else>未设置</span>
+            </n-form-item>
+            <n-form-item label="平台服务费">
+                <n-input-number v-if="moduleValue?.dataObj?.platformServiceFee != undefined" v-model:value="moduleValue.dataObj.platformServiceFee.feePayMoney" :min="0" disabled placeholder="请输入平台服务费">
+                    <template #suffix>元</template>
+                </n-input-number>
+                <span v-else>未设置</span>
+            </n-form-item>
+            <n-form-item label="服务费率">
+                <n-input-number v-if="moduleValue?.dataObj?.platformServiceFee != undefined" v-model:value="moduleValue.dataObj.platformServiceFee.feePayPercent" :min="0" disabled placeholder="请输入服务费率">
+                    <template #suffix>%</template>
+                </n-input-number>
+                <span v-else>未设置</span>
+            </n-form-item>
             <n-form-item>
                 <n-button type="primary" class="w-680px ml-200px" @click="submitCallback" :loading="loading" :disabled="!isAdmin">保存</n-button>
             </n-form-item>

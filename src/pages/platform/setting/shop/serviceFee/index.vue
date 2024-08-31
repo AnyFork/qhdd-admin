@@ -1,30 +1,6 @@
 <template>
     <n-spin :show="loading" description="loading">
         <n-form ref="formRef" :label-width="250" :model="serve_fee" size="medium" label-placement="left" style="margin-top: 20px">
-            <div class="flex items-center text-16px p-2 my-2 h-40px bg-#eee before:content-[''] before:w-5px before:h-20px before:bg-primary before:inline-flex before:mr-2">服务费率</div>
-            <n-form-item label="抽成项目">
-                <n-checkbox-group v-model:value="fee_items">
-                    <n-space>
-                        <n-checkbox value="price">商品费用</n-checkbox>
-                        <n-checkbox value="box_price">餐盒费</n-checkbox>
-                        <n-checkbox value="pack_fee">包装费</n-checkbox>
-                    </n-space>
-                </n-checkbox-group>
-            </n-form-item>
-            <n-form-item label="抽成比例">
-                <n-input-number v-model:value="serve_fee.fee_rate" :min="0" clearable placeholder="">
-                    <template #suffix>
-                        <span class="text-14px text-#999">%</span>
-                    </template>
-                </n-input-number>
-            </n-form-item>
-            <n-form-item label="最低抽成金额">
-                <n-input-number v-model:value="serve_fee.min_fee_rate" :min="0" clearable placeholder="">
-                    <template #suffix>
-                        <span class="text-14px text-#999">元</span>
-                    </template>
-                </n-input-number>
-            </n-form-item>
             <div class="flex items-center text-16px p-2 my-2 h-40px bg-#eee before:content-[''] before:w-5px before:h-20px before:bg-primary before:inline-flex before:mr-2">提现设置</div>
             <n-form-item label="提现金额">
                 <div>
@@ -116,11 +92,7 @@ const formRef = ref<FormInst | null>(null)
 const emit = defineEmits<{ refresh: [] }>()
 const { configData, getPlatformSettings, message, loading, updateSettings } = useSettings()
 const { isAdmin } = useLoginUser()
-const fee_items = ref(['price', 'box_price', 'pack_fee'])
 const serve_fee = ref<setting.store_serve_fee>({
-    fee_rate: 4,
-    fee_items: '',
-    min_fee_rate: 0,
     get_cash_fee_limit: 1,
     get_cash_fee_limit_max: 0,
     get_cash_fee_rate: 0,
@@ -138,7 +110,6 @@ const submitCallback = (e: MouseEvent) => {
     e.preventDefault
     formRef.value?.validate(async (errors) => {
         if (!errors) {
-            serve_fee.value.fee_items = fee_items.value.join(',')
             await updateSettings({ module: 'store_serve_fee', config: JSON.stringify(serve_fee.value), remark: '商户-服务费' })
             // 清空表单校验
             formRef.value?.restoreValidation()
@@ -152,8 +123,5 @@ const submitCallback = (e: MouseEvent) => {
 onMounted(async () => {
     await getPlatformSettings('store_serve_fee')
     serve_fee.value = JSON.parse(configData.value!.config)
-    if (serve_fee.value.fee_items) {
-        fee_items.value = serve_fee.value.fee_items.split(',')
-    }
 })
 </script>

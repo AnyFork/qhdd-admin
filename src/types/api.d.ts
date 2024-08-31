@@ -556,6 +556,23 @@ declare namespace store {
                  * 订单确认页公告文本
                  */
                 text: string
+            },
+            /**
+             * 平台服务费
+             */
+            platformServiceFee: {
+                /**
+                 * 平台服务器支付方式 1 固定金额 2 固定费率  3 固定金额 + 固定费率
+                 */
+                feePayType: 1 | 2 | 3
+                /**
+                 * 平台服务费金额
+                 */
+                feePayMoney: number
+                /**
+                 * 平台服务费费率
+                 */
+                feePayPercent: number
             }
         }
 
@@ -3297,18 +3314,6 @@ declare namespace setting {
      * 服务费
      */
     interface store_serve_fee {
-        /**
-         *  佣金抽成比例
-         */
-        fee_rate: number
-        /**
-         * 佣金抽成项目("price,box_price,pack_fee")
-         */
-        fee_items: string
-        /**
-         * 最低抽成金额
-         */
-        min_fee_rate: number
         /**
          * 提现金额最低金额 */
         get_cash_fee_limit: number

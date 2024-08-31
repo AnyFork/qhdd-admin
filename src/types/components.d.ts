@@ -172,6 +172,7 @@ declare module 'vue' {
     ServiceStoreComment: typeof import('./../components/store/comment/ServiceStoreComment.vue')['default']
     SettingMenu: typeof import('./../layouts/components/GlobalDrawer/SettingMenu/index.vue')['default']
     SettingRider: typeof import('./../components/platform/rider/SettingRider.vue')['default']
+    SettingServiceFee: typeof import('./../components/platform/store/SettingServiceFee.vue')['default']
     StoreCancelOrder: typeof import('./../components/store/order/StoreCancelOrder.vue')['default']
     StoreLogo: typeof import('./../components/dynamic/StoreLogo.vue')['default']
     StoreOrderDetail: typeof import('./../components/store/order/StoreOrderDetail.vue')['default']
