@@ -113,16 +113,6 @@ export const useStoreDevice = () => {
                 },
                 trigger: ['input', 'blur']
             }
-        ],
-        qrcodeLink: [
-            {
-                validator(_rule: FormItemRule, value: string) {
-                    if (!value) {
-                        return new Error('请输入打印机二维码链接地址')
-                    }
-                },
-                trigger: ['input', 'blur']
-            }
         ]
     }
 

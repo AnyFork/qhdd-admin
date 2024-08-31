@@ -56,7 +56,6 @@ export const useNotice = () => {
      * 表单数据
      */
     const moduleValue = ref<Partial<notice>>({
-        description: undefined,
         content: undefined,
         title: undefined,
         status: 1,
@@ -78,22 +77,11 @@ export const useNotice = () => {
                 trigger: ['input', 'blur']
             }
         ],
-        description: [
-            {
-                validator(_rule: FormItemRule, value: string) {
-                    if (!value) {
-                        return new Error('请输入公告描述')
-                    }
-                    return true
-                },
-                trigger: ['input', 'blur']
-            }
-        ],
         content: [
             {
                 validator(_rule: FormItemRule, value: string) {
                     if (!value) {
-                        return new Error('请输入内容')
+                        return new Error('请输入公告内容')
                     }
                     return true
                 },
@@ -119,11 +107,6 @@ export const useNotice = () => {
             title: '公告名称',
             align: 'center',
             key: 'title'
-        },
-        {
-            title: '公告公告描述',
-            align: 'center',
-            key: 'description'
         },
         {
             title: '上架状态',

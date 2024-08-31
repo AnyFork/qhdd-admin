@@ -81,7 +81,7 @@
                         </n-space>
                     </n-radio-group>
                 </n-form-item>
-                <n-form-item show-require-mark label="二维码链接地址" path="qrcodeLink">
+                <n-form-item label="二维码链接地址">
                     <n-input v-model:value="moduleValue.qrcodeLink" clearable placeholder="请输入打印机二维码链接地址" />
                 </n-form-item>
             </n-form>

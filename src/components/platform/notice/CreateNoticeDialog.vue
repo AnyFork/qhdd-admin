@@ -5,9 +5,6 @@
                 <n-form-item show-require-mark label="公告标题" path="title">
                     <n-input v-model:value="moduleValue.title" clearable placeholder="请输入公告名称" maxlength="50" show-count />
                 </n-form-item>
-                <n-form-item show-require-mark label="公告描述" path="description">
-                    <n-input v-model:value="moduleValue.description" type="textarea" :autosize="{ minRows: 3 }" maxlength="100" show-count clearable placeholder="请输入公告名称" />
-                </n-form-item>
                 <n-form-item show-require-mark label="公告详情" path="content">
                     <DefaultEditor v-model="moduleValue.content"></DefaultEditor>
                 </n-form-item>

@@ -3356,10 +3356,6 @@ interface notice {
      */
     title: string
     /**
-     * 公告描述
-     */
-    description: string
-    /**
      * 公告内容
      */
     content: string
