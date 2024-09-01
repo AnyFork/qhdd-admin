@@ -45,11 +45,35 @@
         <TableHeaderOperation v-model:columns="columns" v-model:size="size" v-model:striped="striped" :loading="loading" @refresh="storeListData"></TableHeaderOperation>
     </n-space>
     <!--数据表格 -->
-    <n-data-table :single-line="false" :striped="striped" remote :scroll-x="3200" :size="size" :columns="columns" :data="tableData" :pagination="pagination" :row-key="(rowData:store.storeData) => `${rowData.id}`" :loading="loading" :max-height="tableHeight" @update:checked-row-keys="handleCheck" />
+    <n-data-table
+        :single-line="false"
+        :striped="striped"
+        remote
+        :scroll-x="3200"
+        :size="size"
+        :columns="columns"
+        :data="tableData"
+        :pagination="pagination"
+        :row-key="(rowData:store.storeData) => `${rowData.id}`"
+        :loading="loading"
+        :max-height="tableHeight"
+        :checked-row-keys="checkedRowKeysRef"
+        @update:checked-row-keys="handleCheck"
+    />
     <!-- 增加商户 -->
-    <CreateStoreDrawer v-if="CreateShow" v-model:active="CreateShow" :shopOption="shopOption!" :serviceOption="serviceOption" :deliveryOption="deliveryOption" :shopCategoryOption="shopCategoryOption" :shopAreaOption="shopAreaOption" :chainOptions="chainOptions" @refresh="storeListData"></CreateStoreDrawer>
+    <CreateStoreDrawer
+        v-if="CreateShow"
+        v-model:active="CreateShow"
+        :shopOption="shopOption!"
+        :serviceOption="serviceOption"
+        :deliveryOption="deliveryOption"
+        :shopCategoryOption="shopCategoryOption"
+        :shopAreaOption="shopAreaOption"
+        :chainOptions="chainOptions"
+        @refresh="storeListData"
+    ></CreateStoreDrawer>
     <!-- 设置服务费 -->
-    <SettingServiceFee v-if="feeModal&&rowNode" v-model:open="feeModal" v-model="rowNode"></SettingServiceFee>
+    <SettingServiceFee v-if="feeModal && rowNode" v-model:open="feeModal" v-model="rowNode"></SettingServiceFee>
 </template>
 <script setup lang="ts">
 const size = ref<'small' | 'medium' | 'large'>('medium')
@@ -187,7 +211,7 @@ const chain = computed(() => {
                 props: {
                     onClick: () => {
                         if (checkedRowKeysRef.value && checkedRowKeysRef.value.length > 0) {
-                            updateStoreStatusBatch({ ids: checkedRowKeysRef.value.join(','), chainid: element.id })
+                            updateStoreStatusBatch({ ids: checkedRowKeysRef.value.join(','), chainid: element.value })
                             checkedRowKeysRef.value = []
                         } else {
                             message.error('请先选择一项')

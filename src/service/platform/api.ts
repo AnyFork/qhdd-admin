@@ -277,3 +277,43 @@ export const getAgreementListApi = "/text/getList"
  * 更新协议数据
  */
 export const updateAgreementApi = "/text/update"
+
+/**
+ * 获取连锁店管理员
+ */
+export const getChainAdminListApi = "/chainer/getList"
+
+/**
+ * 更新连锁店管理员信息
+ */
+export const updateChainAdminApi = "/chainer/update"
+
+/**
+ * 删除连锁店管理员
+ */
+export const deleteChainAdminApi = "/chainer/delete"
+
+/**
+ * 增加连锁店管理员
+ */
+export const addChainAdminApi = "/chainer/add"
+
+/**
+ * 获取连锁店列表
+ */
+export const getChainListApi = "/chain/getList"
+
+/**
+ * 删除连锁店
+ */
+export const deleteChainApi = "/chain/delete"
+
+/**
+ * 增加连锁店
+ */
+export const addChainApi = "/chain/add"
+
+/**
+ * 修改连锁店
+ */
+export const updateChainApi = "/chain/update"

@@ -38,7 +38,7 @@ export const usePlatformStore = () => {
         pageSize: 10,
         itemCount: 0,
         showSizePicker: true,
-        pageSizes: [10, 15, 20, 25, 30],
+        pageSizes: [10, 15, 20, 25, 30, 50, 100, 200, 1000],
         onChange: (page: number) => {
             pagination.page = page
             storeListData()

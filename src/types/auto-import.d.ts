@@ -249,6 +249,7 @@ declare global {
   const useCached: typeof import('@vueuse/core')['useCached']
   const useCategory: typeof import('../composables/business/platform/categoty/useCategory')['useCategory']
   const useChain: typeof import('../composables/business/platform/chain/useChain')['useChain']
+  const useChainAdmin: typeof import('../composables/business/platform/chain/useChainAdmin')['useChainAdmin']
   const useClerk: typeof import('../composables/business/platform/clerk/useClerk')['useClerk']
   const useClipboard: typeof import('@vueuse/core')['useClipboard']
   const useClipboardItems: typeof import('@vueuse/core')['useClipboardItems']

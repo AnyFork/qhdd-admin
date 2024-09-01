@@ -10,5 +10,5 @@ export const getChainPageList = async (params: Record<string, any>) => await sto
  * 获取连锁店下拉框
  * @returns 
  */
-export const getChainPageListSelect = async () => await storeAxios.get(`${getChainListApi}?${qs.stringify({ pageNo: 1, pageSize: 100, status: 1 })}`)
+export const getChainPageListSelect = async () => await storeAxios.get(`${getChainListApi}?${qs.stringify({ pageNo: 1, pageSize: 100, status: 1, isDelete: 0 })}`)
 

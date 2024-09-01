@@ -1,15 +1,13 @@
-import { addChain, deleteChain, getChainList, updateChain } from "@/service/platform/chain"
-import { getChainPageList, getChainPageListSelect } from "@/service/store/chain"
-import { DataTableColumns, NPopconfirm, NPopover, NSwitch, NButton, FormItemRule, NImage } from "naive-ui"
+import { addChainAdmin, deleteChainAdmin, getChainAdminList, updateChainAdmin } from "@/service/platform/chain"
+import { DataTableColumns, NPopconfirm, NPopover, NSwitch, NButton, FormItemRule } from "naive-ui"
 import InputNumberColumn from '@/components/dynamic/InputNumberColumn.vue'
 
 /**
- * 连锁店模块
+ * 连锁店管理员
  * @returns 
  */
-export const useChain = () => {
-    const tableData = ref([])
-    const chainOptions = ref()
+export const useChainAdmin = () => {
+    const tableData = ref<chain.chainAdmin[]>([])
     const message = useMessage()
     const loading = ref(false)
     const { isAdmin } = useLoginUser()
@@ -35,15 +33,15 @@ export const useChain = () => {
     /**
      * 当前选中row的对象
      */
-    const rowNode = ref<chain.chainInfo>()
+    const rowNode = ref<chain.chainAdmin>()
 
     /**
      * 表单对象
      */
-    const model = reactive<Partial<chain.chainInfo>>({
-        title: undefined,
-        logo: undefined,
-        chainerId: undefined,
+    const model = reactive<Partial<chain.chainAdmin>>({
+        realname: '',
+        mobile: '',
+        password: '',
         status: 1,
         displayorder: 0
     })
@@ -51,10 +49,10 @@ export const useChain = () => {
     /**
      * 查询条件
      */
-    const searchForm = reactive<Partial<chain.chainInfo>>({
+    const searchForm = reactive<Partial<chain.chainAdmin>>({
         isDelete: undefined,
-        title: undefined,
-        chainerId: undefined,
+        realname: undefined,
+        mobile: undefined,
         status: undefined
     })
 
@@ -62,29 +60,35 @@ export const useChain = () => {
      * 表单校验规则
      */
     const rules = {
-        title: [
+        realname: [
             {
                 validator(_rule: FormItemRule, value: string) {
                     if (!value) {
-                        return new Error('请输入连锁店名称')
+                        return new Error('请输入管理员名称')
                     }
                 },
                 trigger: ['input', 'blur']
             }
         ],
-        logo: [{
-            validator(_rule: FormItemRule, value: string) {
+        mobile: [{
+            required: true,
+            trigger: ['input', 'blur'],
+            validator: (_rule: FormItemRule, value: string) => {
                 if (!value) {
-                    return new Error('请选择连锁店LOGO')
+                    return new Error('管理员电话号码不能为空')
+                } else if (!/^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/.test(value)) {
+                    // 电话号码正则校验
+                    return new Error('请输入合法的电话号码')
+                } else {
+                    return true
                 }
-            },
-            trigger: ['input', 'blur']
+            }
         }],
-        chainerId: [
+        password: [
             {
                 validator(_rule: FormItemRule, value: string) {
                     if (!value) {
-                        return new Error('请选择连锁店')
+                        return new Error('请输入登录密码')
                     }
                 },
                 trigger: ['input', 'blur']
@@ -95,7 +99,7 @@ export const useChain = () => {
     /**
      * 表格列
      */
-    const columns = ref<DataTableColumns<chain.chainInfo>>([
+    const columns = ref<DataTableColumns<chain.chainAdmin>>([
         {
             title: '序号',
             width: 70,
@@ -112,41 +116,15 @@ export const useChain = () => {
             key: 'id'
         },
         {
-            title: '连锁店Logo',
+            title: '管理员姓名',
             align: 'center',
-            key: 'logo',
-            render: (rowData, _index: number) => {
-                return h(NImage, { src: previewUrl + rowData.logo, width: 80, height: 80, lazy: true, imgProps: { style: { borderRadius: '5px' } } }, { default: () => "" })
-            }
+            className: 'flex-row-center',
+            key: 'realname'
         },
         {
-            title: '连锁店名称',
+            title: '手机号码',
             align: 'center',
-            key: 'title'
-        },
-        {
-            title: '账户余额',
-            align: 'center',
-            key: 'amount',
-            render: (rowData, _index: number) => {
-                return h('div', { class: 'text-primary' }, { default: () => rowData.amount })
-            }
-        },
-        {
-            title: '管理员名称',
-            align: 'center',
-            key: 'realname',
-            render: (_rowData, _index: number) => {
-                return "缺少参数"
-            }
-        },
-        {
-            title: '管理员电话',
-            align: 'center',
-            key: 'mobile',
-            render: (_rowData, _index: number) => {
-                return "缺少参数"
-            }
+            key: 'mobile'
         },
         {
             title() {
@@ -161,14 +139,14 @@ export const useChain = () => {
                         {
                             onPositiveClick: () => {
                                 if (rowData.status == 0) {
-                                    updateChainInfo({ id: rowData.id, status: 1 }, () => getChainListInfo())
+                                    updateChainAdminInfo({ id: rowData.id, status: 1 }, () => chainAdminList())
                                 } else {
-                                    updateChainInfo({ id: rowData.id, status: 0 }, () => getChainListInfo())
+                                    updateChainAdminInfo({ id: rowData.id, status: 0 }, () => chainAdminList())
                                 }
                             }
                         },
                         {
-                            default: () => (rowData.status == 1 ? '您确定禁用吗?' : '您确定启用吗?'),
+                            default: () => (rowData.status == 1 ? '您确定禁用吗,禁用后将无法在连锁店平台登录' : '您确定启用吗,启用将正常在连锁店平台登录'),
                             trigger: () => h(NSwitch, { checkedValue: 1, uncheckedValue: 0, value: rowData.status }, {
                                 checked: () => "启用",
                                 unchecked: () => "禁用"
@@ -193,7 +171,7 @@ export const useChain = () => {
                         editable: false,
                         onUpdateValue: (value: number) => {
                             if (rowData.displayorder !== value) {
-                                updateChainInfo({ id: rowData.id, displayorder: value }, () => getChainListInfo())
+                                updateChainAdminInfo({ id: rowData.id, displayorder: value }, () => chainAdminList())
                             }
                         }
                     })
@@ -215,11 +193,11 @@ export const useChain = () => {
                             NPopconfirm,
                             {
                                 onPositiveClick: () => {
-                                    updateChainInfo({ id: rowData.id, isDelete: 0 }, () => getChainListInfo())
+                                    updateChainAdminInfo({ id: rowData.id, isDelete: 0 }, () => chainAdminList())
                                 }
                             },
                             {
-                                default: () => '您确定要从回收站回收连锁店吗',
+                                default: () => '您确定要从回收站回收管理员账号吗',
                                 trigger: () =>
                                     h(
                                         NButton,
@@ -237,11 +215,11 @@ export const useChain = () => {
                             NPopconfirm,
                             {
                                 onPositiveClick: () => {
-                                    deleteChainInfo(rowData.id!)
+                                    deleteChainAdminInfo(rowData.id!)
                                 }
                             },
                             {
-                                default: () => '您确定要彻底删除此连锁店吗',
+                                default: () => '您确定要彻底删除此账户吗',
                                 trigger: () =>
                                     h(
                                         NButton,
@@ -262,11 +240,11 @@ export const useChain = () => {
                                 NPopconfirm,
                                 {
                                     onPositiveClick: () => {
-                                        updateChainInfo({ id: rowData.id, isDelete: 1 }, () => getChainListInfo())
+                                        updateChainAdminInfo({ id: rowData.id, isDelete: 1 }, () => chainAdminList())
                                     }
                                 },
                                 {
-                                    default: () => '您确定要删除此连锁店吗,删除后连锁店将进入回收站',
+                                    default: () => '您确定要删除此账户吗,删除后用户将进入回收站',
                                     trigger: () =>
                                         h(
                                             NButton,
@@ -390,16 +368,17 @@ export const useChain = () => {
         }
     ])
 
+
     /**
-     * 商户端获取连锁店列表
+     * 获取连锁店管理员列表
      */
-    const chainPageList = async () => {
+    const chainAdminList = async () => {
         try {
             loading.value = true
-            const { data } = await getChainPageList({ pageNo: pagination.page, pageSize: pagination.pageSize, ...searchForm, isDelete: 0 })
+            const { data } = await getChainAdminList({ pageNo: pagination.page, pageSize: pagination.pageSize, sortType: 3, ...searchForm })
             loading.value = false
             if (data.code == 200) {
-                tableData.value = data.data
+                tableData.value = data.data as chain.chainAdmin[]
                 pagination.itemCount = data.dataCount
             } else {
                 message.error(data.msg)
@@ -410,40 +389,19 @@ export const useChain = () => {
             console.log(e)
         }
     }
-
     /**
-     * 平台获取连锁店列表
-     */
-    const getChainListInfo = async () => {
+    * 获取连锁店管理员下拉列表
+    */
+    const chainAdminSelect = async () => {
         try {
             loading.value = true
-            const { data } = await getChainList({ pageNo: pagination.page, pageSize: pagination.pageSize, ...searchForm })
+            const { data } = await getChainAdminList({ pageNo: 1, pageSize: 1000, sortType: 3, isDelete: 0 })
             loading.value = false
             if (data.code == 200) {
-                tableData.value = data.data
-                pagination.itemCount = data.dataCount
-            } else {
-                message.error(data.msg)
-            }
-        } catch (e: any) {
-            loading.value = false
-            message.error(e.message)
-            console.log(e)
-        }
-    }
-
-    /**
-     * 获取连锁店下拉列表
-     */
-    const chainSelectList = async () => {
-        try {
-            loading.value = true
-            const { data } = await getChainPageListSelect()
-            loading.value = false
-            if (data.code == 200) {
-                chainOptions.value = data.data.map((item: any) => {
+                const temp = data.data as chain.chainAdmin[]
+                return temp.map(item => {
                     return {
-                        label: item.title,
+                        label: item.realname,
                         value: item.id
                     }
                 })
@@ -458,12 +416,12 @@ export const useChain = () => {
     }
 
     /**
-     * 修改连锁店信息
-     */
-    const updateChainInfo = async (params: Partial<chain.chainInfo>, fn?: Function) => {
+    * 修改连锁店管理员信息
+    */
+    const updateChainAdminInfo = async (params: Partial<chain.chainAdmin>, fn?: Function) => {
         try {
             loading.value = true
-            const { data } = await updateChain(params)
+            const { data } = await updateChainAdmin(params)
             loading.value = false
             if (data.code == 200) {
                 message.success("修改成功", {
@@ -482,12 +440,12 @@ export const useChain = () => {
     }
 
     /**
-     * 新增连锁店信息
+     * 新增连锁店管理员信息
      */
-    const addChainInfo = async (params: Partial<chain.chainInfo>) => {
+    const addChainAdminInfo = async (params: Partial<chain.chainAdmin>) => {
         try {
             loading.value = true
-            const { data } = await addChain(params)
+            const { data } = await addChainAdmin(params)
             loading.value = false
             if (data.code == 200) {
                 message.success("新增成功")
@@ -502,17 +460,17 @@ export const useChain = () => {
     }
 
     /**
-     * 彻底删除连锁店信息
+     * 彻底删除连锁店管理员信息
      */
-    const deleteChainInfo = async (id: number) => {
+    const deleteChainAdminInfo = async (id: number) => {
         try {
             loading.value = true
-            const { data } = await deleteChain(id)
+            const { data } = await deleteChainAdmin(id)
             loading.value = false
             if (data.code == 200) {
                 message.success("删除成功", {
                     onLeave() {
-                        getChainListInfo()
+                        chainAdminList()
                     },
                 })
             } else {
@@ -525,8 +483,5 @@ export const useChain = () => {
         }
     }
 
-    return {
-        chainSelectList, chainOptions, chainPageList, getChainListInfo, rowNode, createModal, updateModal, searchForm, tableData,
-        loading, pagination, columns, model, rules, addChainInfo, message, updateChainInfo
-    }
+    return { chainAdminList, searchForm, tableData, message, loading, pagination, columns, updateChainAdminInfo, rowNode, createModal, updateModal, addChainAdminInfo, model, rules, chainAdminSelect }
 }

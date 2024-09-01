@@ -3403,3 +3403,83 @@ interface agreement {
      */
     addtime: number
 }
+
+/**
+ * 连锁店
+ */
+declare namespace chain {
+
+    /**
+     * 连锁店id
+     */
+    interface chainInfo {
+        /**
+         * 连锁店id
+         */
+        id: number
+        /**
+         * 管理员id
+         */
+        chainerId: number
+        /**
+         * 连锁店名称
+         */
+        title: string
+        /**
+         * 状态(0=禁用,1=启用) 
+         */
+        status: 0 | 1
+        /**
+         * 排序
+         */
+        displayorder: number
+        /**
+         * 是否删除(1=已删除,0=未删除) 
+         */
+        isDelete: 0 | 1
+        /**
+         * 账户余额
+         */
+        amount: string
+        /**
+         * 连锁店logo
+         */
+        logo: string
+    }
+
+    /**
+     * 连锁店管理员
+     */
+    interface chainAdmin {
+        /**
+         * 管理员id
+         */
+        id: number
+        /**
+         * 管理员真实姓名
+         */
+        realname: string
+        /**
+         * 管理员手机号码
+         */
+        mobile: string
+        /**
+         * 密码
+         */
+        password: string
+        /**
+         * 管理员状态
+         */
+        status: 0 | 1
+        /**
+         * 排序
+         */
+        displayorder: number
+        /**
+         * 0未删除 1已删除 
+         */
+        isDelete: 0 | 1
+
+    }
+
+} 
