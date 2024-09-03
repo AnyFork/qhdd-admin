@@ -50,6 +50,25 @@ export const constantRoutes: RouteRecordRaw[] = [
         }
     },
     {
+        name: 'aut-confirm',
+        path: '/auth/confirm',
+        component: blankLayout,
+        redirect: "/auth",
+        children: [
+            {
+                name: 'auth',
+                path: '/auth',
+                component: () => import('@/pages/auth/index.vue'),
+                meta: {
+                    title: '平台授权'
+                }
+            }
+        ],
+        meta: {
+            title: '平台授权'
+        }
+    },
+    {
         name: 'no-permission-parent',
         path: '/no-permission/parent',
         component: blankLayout,
