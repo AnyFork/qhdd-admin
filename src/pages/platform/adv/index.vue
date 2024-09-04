@@ -16,7 +16,10 @@
         </n-form>
     </n-space>
     <n-space align="center" justify="space-between" class="mb-2">
-        <n-button type="primary" @click="addModal = true" :disabled="!isAdmin">创建广告</n-button>
+        <div>
+            <n-button type="primary" @click="addModal = true" :disabled="!isAdmin">创建广告</n-button>
+            <span class="text-primary ml-10">管理后台和小程序广告展示规则一致，广告排序按照排序值递减排序</span>
+        </div>
         <TableHeaderOperation v-model:columns="columns" v-model:size="size" v-model:striped="striped" :loading="loading" @refresh="getAdvListInfo"></TableHeaderOperation>
     </n-space>
     <!--数据表格 -->

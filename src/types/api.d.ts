@@ -311,6 +311,10 @@ declare namespace system {
          * 创建时间
          */
         createTime: number
+        /**
+         * 排序
+         */
+        sortType: number
     }
 }
 

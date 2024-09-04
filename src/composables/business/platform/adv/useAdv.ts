@@ -1,5 +1,6 @@
 import { addAdv, updateAdv, getAdvList, deleteAdv } from '@/service/platform/adv'
 import { DataTableColumns, FormItemRule, NImage, NPopconfirm, NSwitch, NPopover, NButton } from 'naive-ui'
+import InputNumberColumn from '@/components/dynamic/InputNumberColumn.vue'
 /**
  * 广告模块
  * @returns 
@@ -50,6 +51,7 @@ export const useAdv = () => {
         positionKey: undefined,
         title: undefined,
         status: undefined,
+        sortType: 5
     })
 
     /**
@@ -135,12 +137,32 @@ export const useAdv = () => {
             }
         },
         {
-            title: '广告地址',
+            title() {
+                return renderEditableTitle("排序", "可编辑列")
+            },
+            width: 160,
             align: 'center',
-            key: 'link'
+            key: 'displayorder',
+            render: (rowData, _index: number) => {
+                if (isAdmin.value) {
+                    return h(InputNumberColumn, {
+                        value: rowData.displayorder,
+                        editable: false,
+                        onUpdateValue: (value: number) => {
+                            if (rowData.displayorder !== value) {
+                                updateAdvInfo({ id: rowData.id, displayorder: value })
+                            }
+                        }
+                    })
+                } else {
+                    return rowData.displayorder
+                }
+            }
         },
         {
-            title: '上架状态',
+            title() {
+                return renderEditableTitle("上架状态", "可编辑列")
+            },
             align: 'center',
             key: 'status',
             render: (rowData, _index: number) => {
@@ -177,7 +199,6 @@ export const useAdv = () => {
             title: '操作',
             key: 'actions',
             align: 'center',
-            className: 'flex-row-center',
             render(rowData) {
                 if (isAdmin.value) {
                     return h('div', {}, {
@@ -279,7 +300,7 @@ export const useAdv = () => {
     const getAdvListInfo = async () => {
         try {
             loading.value = true
-            const { data } = await getAdvList({ pageNo: pagination.page, pageSize: pagination.pageSize })
+            const { data } = await getAdvList({ pageNo: pagination.page, pageSize: pagination.pageSize, ...searchForm.value })
             loading.value = false
             if (data.code == 200) {
                 tableData.value = data.data as system.adv[]

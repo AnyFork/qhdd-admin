@@ -16,7 +16,7 @@
                 <n-radio-group v-model:value="moduleValue.autoPrintOrder">
                     <n-space item-style="display: flex;">
                         <n-radio :value="0" label="支付后立即打印" />
-                        <n-radio :value="1" label="接单号自动打印" />
+                        <n-radio :value="1" label="接单后自动打印" />
                         <n-radio :value="2" label="手动打印" />
                     </n-space>
                 </n-radio-group>
