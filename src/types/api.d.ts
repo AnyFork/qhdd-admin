@@ -3357,7 +3357,7 @@ interface notice {
      */
     id: number
     /**
-     * 类型(memmber=默认) 
+     * 类型(member=默认) 
      */
     type: number
     /**

@@ -188,7 +188,6 @@ export const usePlatformStore = () => {
             width: 120,
             align: 'center',
             fixed: 'left',
-            className: 'flex-row-center',
             key: 'logo',
             render: (rowData, _index: number) => {
                 const node = rowData.categoryList?.find((item: { type: string }) => item?.type == "TY_store_label")

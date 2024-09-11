@@ -19,6 +19,7 @@
     <n-space align="center" justify="space-between" class="my-2">
         <div class="flex-row-center gap-2">
             <n-button type="primary" @click="CreateShow = true" :disabled="!isAdmin">创建商品</n-button>
+            <div class="text-14px text-primary">商品展示按照排序值从大到小规则进行展示，与顾客端小程序展示效果一致。</div>
         </div>
         <TableHeaderOperation v-model:columns="columns" v-model:size="size" v-model:striped="striped" :loading="loading" @refresh="goodsListData"></TableHeaderOperation>
     </n-space>

@@ -1,6 +1,7 @@
 
 import { addGoods, goodsList, removeGoods, updateGoods } from '@/service/store/goods/goods'
 import { DataTableColumns, FormInst, FormItemRule, NButton, NImage, NPopover, NSwitch, NTag } from 'naive-ui'
+import InputNumberColumn from '@/components/dynamic/InputNumberColumn.vue'
 
 /**
  * 商家商品
@@ -173,6 +174,7 @@ export const useStoreGoods = () => {
         },
         {
             title: '商品图标',
+            fixed: 'left',
             width: 160,
             align: 'center',
             className: 'flex-row-center',
@@ -184,6 +186,7 @@ export const useStoreGoods = () => {
         },
         {
             title: '商品名称',
+            fixed: 'left',
             width: 200,
             align: 'center',
             key: 'title'
@@ -295,10 +298,28 @@ export const useStoreGoods = () => {
             key: 'auditStatus'
         },
         {
-            title: "排序",
-            width: 120,
+            title() {
+                return renderEditableTitle("排序", "可编辑列")
+            },
             align: 'center',
-            key: 'displayorder'
+            key: 'displayorder',
+            render: (rowData, _index: number) => {
+                if (isAdmin.value) {
+                    return h(InputNumberColumn, {
+                        value: rowData.displayorder,
+                        editable: false,
+                        onUpdateValue: async (value: number) => {
+                            if (rowData.displayorder !== value) {
+                                await updateGoodsInfo({ id: rowData.id, displayorder: value })
+                                // 刷新数据
+                                goodsListData()
+                            }
+                        }
+                    })
+                } else {
+                    return rowData.displayorder
+                }
+            }
         },
         {
             title: '操作',
@@ -393,7 +414,7 @@ export const useStoreGoods = () => {
     const goodsListData = async () => {
         try {
             loading.value = true
-            const { data } = await goodsList({ pageNo: pagination.page, pageSize: pagination.pageSize, sid: sid.value, sortType: 2, ...searchForm })
+            const { data } = await goodsList({ pageNo: pagination.page, pageSize: pagination.pageSize, sid: sid.value, sortType: 3, ...searchForm })
             loading.value = false
             if (data.code == 200) {
                 console.log(data)

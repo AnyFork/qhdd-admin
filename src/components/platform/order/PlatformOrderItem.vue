@@ -11,7 +11,7 @@
                     <span class="text-16px font-bold">{{ order?.store.title }}</span>
                     <span class="pr-2">({{ order.store.telephone }})</span>
                     <n-tag :color="{ borderColor: dynamicColor, textColor: dynamicColor }">{{ storeStatus[order.store.businessStatus] }}</n-tag>
-                    <span class="pl-6" :style="{ color: dynamicColor }">{{ transformTimestampsToDateString(order.deliverytime, 'YYYY-MM-DD') }}</span>
+                    <span class="pl-6 pr-2" :style="{ color: dynamicColor }">{{ transformTimestampsToDateString(order.deliverytime, 'YYYY-MM-DD') }}</span>
                     <span class="pr-2" :style="{ color: dynamicColor }">{{ order.deliveryTime }}</span>
                 </div>
             </div>
@@ -395,7 +395,11 @@ const serialSn = computed(() => {
         if (order.status == 6 && order.isPay == 1) {
             return order.serialSn + '退款'
         } else {
-            return order.serialSn
+            if (order.isReserve == 1) {
+                return order.serialSn + '预订单'
+            } else {
+                return order.serialSn
+            }
         }
     }
 })

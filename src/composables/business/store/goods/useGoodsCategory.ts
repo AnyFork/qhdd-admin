@@ -1,5 +1,6 @@
 import { addGoodsCategory, getGoodsCategoryList, removeGoodsCategory, updateGoodsCategory } from '@/service/store/goods/category'
 import { DataTableColumns, FormInst, FormItemRule, NButton, NPopover, NSwitch } from 'naive-ui'
+import InputNumberColumn from '@/components/dynamic/InputNumberColumn.vue'
 
 /**
  * 店铺商品分类
@@ -201,9 +202,28 @@ export const useStoreGoodsCategory = (): any => {
             key: 'title'
         },
         {
-            title: '排序',
+            title() {
+                return renderEditableTitle("排序", "可编辑列")
+            },
             align: 'center',
-            key: 'displayorder'
+            key: 'displayorder',
+            render: (rowData, _index: number) => {
+                if (isAdmin.value) {
+                    return h(InputNumberColumn, {
+                        value: rowData.displayorder,
+                        editable: false,
+                        onUpdateValue: async (value: number) => {
+                            if (rowData.displayorder !== value) {
+                                await updateCategory({ id: rowData.id, displayorder: value })
+                                // 刷新数据
+                                goodsCategoryTree()
+                            }
+                        }
+                    })
+                } else {
+                    return rowData.displayorder
+                }
+            }
         },
         {
             title() {
@@ -318,7 +338,7 @@ export const useStoreGoodsCategory = (): any => {
     const goodsCategoryTree = async () => {
         try {
             loading.value = true
-            const { data } = await getGoodsCategoryList({ pageNo: 1, pageSize: 1000, sid: sid.value, sortType: 2 })
+            const { data } = await getGoodsCategoryList({ pageNo: 1, pageSize: 1000, sid: sid.value, sortType: 3 })
             loading.value = false
             if (data.code == 200) {
                 flatData.value = data.data

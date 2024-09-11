@@ -1,6 +1,9 @@
 <template>
     <n-space align="center" justify="space-between" class="mb-2">
-        <n-button  type="primary" @click="openCategory" :disabled="!isAdmin">创建分类</n-button>
+        <div class="flex items-center gap-2">
+            <n-button type="primary" @click="openCategory" :disabled="!isAdmin">创建分类</n-button>
+            <div class="text-14px text-primary">分类按照排序值从大到小规则进行展示，与顾客端小程序展示效果一致。</div>
+        </div>
         <TableHeaderOperation v-model:columns="columns" v-model:size="size" v-model:striped="striped" :loading="loading" @refresh="goodsCategoryTree"></TableHeaderOperation>
     </n-space>
     <!--数据表格 -->
