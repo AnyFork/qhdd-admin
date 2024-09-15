@@ -317,3 +317,8 @@ export const addChainApi = "/chain/add"
  * 修改连锁店
  */
 export const updateChainApi = "/chain/update"
+
+/**
+ * 商户导出订单
+ */
+export const exportOrderInfoApi = "/stat/store/orderExport"

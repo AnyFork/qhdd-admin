@@ -131,3 +131,18 @@ export const getOrderInfoByIdInfoApi = "/order/getById"
  * 回复催单
  */
 export const replyRemindInfoApi = "/order/replyRemind"
+
+/**
+ * 商户导出订单
+ */
+export const exportOrderInfoApi = "/stat/store/orderExport"
+
+/**
+ * 今日数据统计
+ */
+export const todayStatInfoApi = "/stat/store/todayDatas"
+
+/**
+ * 历史数据统计
+ */
+export const historyStatInfoApi = "/stat/store/histDatas"

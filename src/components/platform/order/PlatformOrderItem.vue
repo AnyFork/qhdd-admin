@@ -22,7 +22,7 @@
                 <!--退款中-->
                 <img v-if="order.refundStatus == 1 || order.refundStatus == 2 || order.refundStatus == 7 || order.refundStatus == 8" src="/images/refunding.png" />
                 <!--退款失败 -->
-                <img v-if="order.status == 4" src="/images/failRefund.png" />
+                <img v-if="order.refundStatus == 4" src="/images/failRefund.png" />
                 <!--退款成功 -->
                 <img v-if="order.refundStatus == 3" src="/images/refundOk.png" />
             </div>
@@ -278,7 +278,7 @@
                                                                 <span v-if="goods.titleDetail">({{ goods.titleDetail }})</span>
                                                             </div>
                                                             <div class="w-150px">
-                                                                <span class="pr-2">退: x{{ goods.reufundNum }}份</span>
+                                                                <span class="pr-2">退: x{{ goods.num }}份</span>
                                                                 <span>金额: ¥{{ goods.price }}</span>
                                                             </div>
                                                             <div>

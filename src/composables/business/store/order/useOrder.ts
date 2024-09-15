@@ -1,4 +1,4 @@
-import { chatWithRefundInfo, searchAllStoreOrdersInfo, storeAgreeRefundInfo, storeCancelOrderInfo, storeGetOrderInfoByIdInfo, storeHandleOrderInfo, storeNotifyCollectInfo, storePrintOderInfo, storeRejectRefundInfo, storeReplyRemindInfo } from "@/service/store/order"
+import { chatWithRefundInfo, historyStatInfo, searchAllStoreOrdersInfo, storeAgreeRefundInfo, storeCancelOrderInfo, storeGetOrderInfoByIdInfo, storeHandleOrderInfo, storeNotifyCollectInfo, storePrintOderInfo, storeRejectRefundInfo, storeReplyRemindInfo, todayStatInfo } from "@/service/store/order"
 
 /**
  * 订单模块
@@ -8,6 +8,16 @@ export const useStoreOrder = () => {
     const message = useMessage()
     const loading = ref(false)
     const { storeInfo } = useStoreInfo()
+
+    /**
+     * 今日订单信息统计
+     */
+    const todayStatData = ref<stat.todayDataStat>()
+
+    /**
+     * 今日订单信息统计
+     */
+    const historyStatData = ref<stat.todayDataStat>()
 
     /**
      * 当前店铺id
@@ -106,7 +116,7 @@ export const useStoreOrder = () => {
     const replyRemind = async (oid: number, note: string) => {
         try {
             loading.value = true
-            const { data } = await storeReplyRemindInfo(oid, note,sid.value!)
+            const { data } = await storeReplyRemindInfo(oid, note, sid.value!)
             loading.value = false
             if (data.code == 200) {
                 message.success("催单回复成功")
@@ -287,8 +297,49 @@ export const useStoreOrder = () => {
     }
 
 
+    /**
+     * 店铺今日订单数据
+     */
+    const todayStat = async () => {
+        try {
+            loading.value = true
+            const { data } = await todayStatInfo(sid.value!)
+            loading.value = false
+            if (data.code == 200) {
+                todayStatData.value = data.data
+            } else {
+                message.error(data.msg)
+            }
+        } catch (e: any) {
+            loading.value = false
+            message.error(e.message as string)
+            console.log(e)
+        }
+    }
+
+    /**
+    * 店铺历史订单数据
+    */
+    const historyStat = async (statDayStart?: number, statDayEnd?: number) => {
+        try {
+            loading.value = true
+            const { data } = await historyStatInfo(sid.value!, statDayStart, statDayEnd)
+            loading.value = false
+            if (data.code == 200) {
+                historyStatData.value = data.data
+            } else {
+                message.error(data.msg)
+            }
+        } catch (e: any) {
+            loading.value = false
+            message.error(e.message as string)
+            console.log(e)
+        }
+    }
+
+
     return {
-        getAllList, tableData, loading, message, searchForm, pagination, replyRemind,
+        getAllList, tableData, loading, message, searchForm, pagination, replyRemind, todayStat, todayStatData, historyStat, historyStatData,
         printOder, cancelOrder, getOrderInfoById, orderInfo, handleOrder, notifyCollect, arbitratingOrder, agreeRefund, rejectRefund
     }
 

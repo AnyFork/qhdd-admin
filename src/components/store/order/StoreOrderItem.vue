@@ -267,7 +267,7 @@
                                                                 <span v-if="goods.titleDetail">({{ goods.titleDetail }})</span>
                                                             </div>
                                                             <div class="w-150px">
-                                                                <span class="pr-2">退: x{{ goods.reufundNum }}份</span>
+                                                                <span class="pr-2">退: x{{ goods.num }}份</span>
                                                                 <span>金额: ¥{{ goods.price }}</span>
                                                             </div>
                                                             <div>

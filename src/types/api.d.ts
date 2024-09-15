@@ -684,7 +684,6 @@ declare namespace store {
          * 子商户号
          */
         subMchId: string
-
     }
     /**
      * 商户标签
@@ -2364,6 +2363,14 @@ declare namespace order {
          * 打包费
          */
         packFee: number
+        /**
+         * 商家补贴
+         */
+        storeDiscountFee: number
+        /**
+         * 连锁店
+         */
+        chainid: number
     }
 
     /**
@@ -3486,4 +3493,56 @@ declare namespace chain {
 
     }
 
-} 
+}
+
+/**
+ * 订单数据统计
+ */
+declare namespace stat {
+
+    /**
+     * 今日订单数据统计
+     */
+    interface todayDataStat {
+        /**
+         * 预计收入(统计时间内,商家的实际入账)
+         */
+        todayIncome: number
+        /**
+         * 有效订单(统计时间内,已完成状态的订单数量)
+         */
+        finishedCount: number
+        /**
+         * 进行中的订单收入
+         */
+        goingIncome: number
+        /**
+         * 进行中单数
+         */
+        goingCount: number
+        /**
+         * 退款金额(统计时间内,退款金额)
+         */
+        refundAmount: number
+        /**
+         * 退款单数(退款金额、或退款状态不为0的订单数量)
+         */
+        refundCount: number
+        /**
+         * 营业额(营业时间内,顾客支付金额总和)
+         */
+        businessAmount: number
+        /**
+         * 新订单数量
+         */
+        newCount: number
+        /**
+         * 退款中单数
+         */
+        refundingCount: number
+        /**
+         * 已取消单数
+         */
+        cancleCount: number
+    }
+}

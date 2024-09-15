@@ -1,5 +1,5 @@
 import qs from 'qs'
-import { agreeRefundInfoApi, cancelOrderInfoApi, chatWithRefundInfoApi, getAllOrderInfoApi, getOrderInfoByIdInfoApi, handleOrderInfoApi, notifyCollectInfoApi, printOderInfoApi, rejectRefundInfoApi, replyRemindInfoApi } from '../api'
+import { agreeRefundInfoApi, cancelOrderInfoApi, chatWithRefundInfoApi, exportOrderInfoApi, getAllOrderInfoApi, getOrderInfoByIdInfoApi, handleOrderInfoApi, historyStatInfoApi, notifyCollectInfoApi, printOderInfoApi, rejectRefundInfoApi, replyRemindInfoApi, todayStatInfoApi } from '../api'
 
 /**
  * 获取所有订单信息
@@ -58,10 +58,31 @@ export const storeAgreeRefundInfo = async (refundId: number, sid: number) => awa
  */
 export const storeRejectRefundInfo = async (refundId: number, note: string, sid: number) => await storeAxios.post(`${rejectRefundInfoApi}`, { refundId, note, sid })
 
-
-
 /**
  * 退款沟通
  * @returns
  */
 export const chatWithRefundInfo = async (refundId: number, note: string, sid: number) => await storeAxios.post(`${chatWithRefundInfoApi}`, { refundId, note, sid })
+
+
+/**
+ * 导出订单
+ * @returns
+ */
+export const exportOrderInfo = async (params: { sid: number; statDayStart?: number; statDayEnd?: number }) => await storeAxios.get(`${exportOrderInfoApi}?${qs.stringify(params)}`, {
+    responseType: 'blob',
+})
+
+/**
+ * 今日订单数据统计
+ * @returns 
+ */
+export const todayStatInfo = async (sid: number) => await storeAxios.get(`${todayStatInfoApi}?${qs.stringify({ sid })}`)
+
+
+/**
+ * 历史数据统计
+ * @returns 
+ */
+export const historyStatInfo = async (sid: number, statDayStart?: number, statDayEnd?: number) => await storeAxios.get(`${historyStatInfoApi}?${qs.stringify({ statDayStart, statDayEnd, sid })}`)
+

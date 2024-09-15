@@ -1,5 +1,5 @@
 import qs from 'qs'
-import { searchAllOrdersInfoApi, replyRemindInfoApi, updateOrderInfoApi, printOderInfoApi, cancelOrderInfoApi, getOrderInfoByIdInfoApi, handleOrderInfoApi, notifyCollectInfoApi, noticeStoreOrderInfoApi, assignOrderInfoApi, resetAssignOrderInfoApi, finishSendOrderInfoApi, arbitratingOrderInfoApi, overruleRefundInfoApi, agreeRefundInfoApi, rejectRefundInfoApi } from '../api'
+import { searchAllOrdersInfoApi, replyRemindInfoApi, updateOrderInfoApi, printOderInfoApi, cancelOrderInfoApi, getOrderInfoByIdInfoApi, handleOrderInfoApi, notifyCollectInfoApi, noticeStoreOrderInfoApi, assignOrderInfoApi, resetAssignOrderInfoApi, finishSendOrderInfoApi, arbitratingOrderInfoApi, overruleRefundInfoApi, agreeRefundInfoApi, rejectRefundInfoApi, exportOrderInfoApi } from '../api'
 
 /**
  * 获取所有订单信息
@@ -102,3 +102,12 @@ export const agreeRefundInfo = async (refundId: number) => await platformAxios.p
  * @returns 
  */
 export const rejectRefundInfo = async (refundId: number, note: string) => await platformAxios.post(`${rejectRefundInfoApi}`, { refundId, note })
+
+
+/**
+ * 导出订单
+ * @returns
+ */
+export const exportOrderInfo = async (params: { sid: number; statDayStart?: number; statDayEnd?: number, chainid?: number }) => await platformAxios.get(`${exportOrderInfoApi}?${qs.stringify(params)}`, {
+    responseType: 'blob',
+})
