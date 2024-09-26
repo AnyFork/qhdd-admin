@@ -10,6 +10,7 @@ export const useStoreOrderLog = () => {
     const message = useMessage()
     const loading = ref(false)
     const { storeInfo } = useStoreInfo()
+    const range = ref<[number, number] | undefined>()
 
     /**
      * 当前店铺id
@@ -42,12 +43,11 @@ export const useStoreOrderLog = () => {
     /**
      * 查询条件
      */
-    const searchForm = reactive<Partial<order.orderInfo & { activityType?: string } & { range?: [number, number] }>>({
+    const searchForm = reactive<Partial<order.orderInfo & { activityType?: string }>>({
         sid: sid.value,
         isPay: 1,
-        range: undefined,
-        addtimeStart: undefined,
-        addtimeEnd: undefined,
+        statDayStart: undefined,
+        statDayEnd: undefined,
         statusStart: 5
     })
 
@@ -142,14 +142,13 @@ export const useStoreOrderLog = () => {
     const getAllList = async () => {
         try {
             loading.value = true
-            if (searchForm.range && searchForm.range.length > 0) {
-                searchForm.addtimeStart = Math.round(searchForm.range[0] / 1000)
-                searchForm.addtimeEnd = Math.round(searchForm.range[1] / 1000)
+            if (range.value && range.value?.length > 0) {
+                searchForm.statDayStart = Number(transformTimestampsToDateString(Math.round(range.value[0] / 1000), "YYYYMMDD"))
+                searchForm.statDayEnd = Number(transformTimestampsToDateString(Math.round(range.value[1] / 1000), "YYYYMMDD"))
             } else {
-                searchForm.addtimeStart = undefined
-                searchForm.addtimeEnd = undefined
+                searchForm.statDayStart = undefined
+                searchForm.statDayEnd = undefined
             }
-            searchForm.range = undefined
             const { data } = await searchAllStoreOrdersInfo({ pageNo: pagination.page, pageSize: pagination.pageSize, ...searchForm })
             loading.value = false
             if (data.code == 200) {
@@ -181,18 +180,16 @@ export const useStoreOrderLog = () => {
         let fileName = ''
         try {
             loading.value = true
-            console.log(searchForm.range)
-            if (searchForm.range && searchForm.range.length > 0) {
-                searchForm.addtimeStart = Number(transformTimestampsToDateString(Math.round(searchForm.range[0] / 1000), "YYYYMMDD"))
-                searchForm.addtimeEnd = Number(transformTimestampsToDateString(Math.round(searchForm.range[1] / 1000), "YYYYMMDD"))
-                fileName = `${storeInfo.value.title}${searchForm.addtimeStart}-${searchForm.addtimeEnd}订单详情.xlsx`
+            if (range.value && range.value.length > 0) {
+                searchForm.statDayStart = Number(transformTimestampsToDateString(Math.round(range.value[0] / 1000), "YYYYMMDD"))
+                searchForm.statDayEnd = Number(transformTimestampsToDateString(Math.round(range.value[1] / 1000), "YYYYMMDD"))
+                fileName = `${storeInfo.value.title}${searchForm.statDayStart}-${searchForm.statDayEnd}订单详情.xlsx`
             } else {
-                searchForm.addtimeStart = undefined
-                searchForm.addtimeEnd = undefined
+                searchForm.statDayStart = undefined
+                searchForm.statDayEnd = undefined
                 fileName = `${storeInfo.value.title}${transformTimestampsToDateString(Math.round(Date.now() / 1000), "YYYYMMDD")}订单详情.xlsx`
             }
-            const { data } = await exportOrderInfo({ sid: searchForm.sid!, statDayStart: searchForm.addtimeStart, statDayEnd: searchForm.addtimeEnd })
-            console.log(data)
+            const { data } = await exportOrderInfo({ sid: searchForm.sid!, statDayStart: searchForm.statDayStart, statDayEnd: searchForm.statDayEnd })
             // 创建一个临时的URL指向Blob对象
             const blobUrl = window.URL.createObjectURL(new Blob([data]));
             // 创建一个a标签用于下载
@@ -213,6 +210,6 @@ export const useStoreOrderLog = () => {
         }
     }
 
-    return { getAllList, pagination, tableData, loading, columns, message, searchForm, exportOrder }
+    return { getAllList, pagination, tableData, loading, columns, message, searchForm, exportOrder, range }
 }
 

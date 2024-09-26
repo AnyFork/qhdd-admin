@@ -10,6 +10,7 @@ export const usePlatformOrderLog = () => {
     const message = useMessage()
     const loading = ref(false)
     const { chainSelectList, chainOptions } = useChain()
+    const range = ref<[number, number] | undefined>()
 
     /**
      * 表格分页配置
@@ -37,12 +38,11 @@ export const usePlatformOrderLog = () => {
     /**
      * 查询条件
      */
-    const searchForm = reactive<Partial<order.orderInfo & { activityType?: string } & { range?: [number, number] } & { chainid?: number }>>({
+    const searchForm = reactive<Partial<order.orderInfo & { activityType?: string } & { chainid?: number }>>({
         sid: undefined,
         isPay: 1,
-        range: undefined,
-        addtimeStart: undefined,
-        addtimeEnd: undefined,
+        statDayStart: undefined,
+        statDayEnd: undefined,
         statusStart: 5,
         chainid: undefined,
     })
@@ -157,14 +157,13 @@ export const usePlatformOrderLog = () => {
     const getAllList = async () => {
         try {
             loading.value = true
-            if (searchForm.range && searchForm.range.length > 0) {
-                searchForm.addtimeStart = Math.round(searchForm.range[0] / 1000)
-                searchForm.addtimeEnd = Math.round(searchForm.range[1] / 1000)
+            if (range.value && range.value?.length > 0) {
+                searchForm.statDayStart = Number(transformTimestampsToDateString(Math.round(range.value[0] / 1000), "YYYYMMDD"))
+                searchForm.statDayEnd = Number(transformTimestampsToDateString(Math.round(range.value[1] / 1000), "YYYYMMDD"))
             } else {
-                searchForm.addtimeStart = undefined
-                searchForm.addtimeEnd = undefined
+                searchForm.statDayStart = undefined
+                searchForm.statDayEnd = undefined
             }
-            searchForm.range = undefined
             const { data } = await searchAllOrdersInfo({ pageNo: pagination.page, pageSize: pagination.pageSize, ...searchForm })
             loading.value = false
             if (data.code == 200) {
@@ -196,16 +195,16 @@ export const usePlatformOrderLog = () => {
         let fileName = ''
         try {
             loading.value = true
-            if (searchForm.range && searchForm.range.length > 0) {
-                searchForm.addtimeStart = Number(transformTimestampsToDateString(Math.round(searchForm.range[0] / 1000), "YYYYMMDD"))
-                searchForm.addtimeEnd = Number(transformTimestampsToDateString(Math.round(searchForm.range[1] / 1000), "YYYYMMDD"))
-                fileName = storeTitle ? `${storeTitle}${searchForm.addtimeStart}-${searchForm.addtimeEnd}订单详情.xlsx` : `${searchForm.addtimeStart}-${searchForm.addtimeEnd}订单详情.xlsx`
+            if (range.value && range.value?.length > 0) {
+                searchForm.statDayStart = Number(transformTimestampsToDateString(Math.round(range.value[0] / 1000), "YYYYMMDD"))
+                searchForm.statDayEnd = Number(transformTimestampsToDateString(Math.round(range.value[1] / 1000), "YYYYMMDD"))
+                fileName = storeTitle ? `${storeTitle}${searchForm.statDayStart}-${searchForm.statDayEnd}订单详情.xlsx` : `${searchForm.statDayStart}-${searchForm.statDayEnd}订单详情.xlsx`
             } else {
-                searchForm.addtimeStart = undefined
-                searchForm.addtimeEnd = undefined
+                searchForm.statDayStart = undefined
+                searchForm.statDayEnd = undefined
                 fileName = storeTitle ? `${storeTitle}${transformTimestampsToDateString(Math.round(Date.now() / 1000), "YYYYMMDD")}订单详情.xlsx` : `${transformTimestampsToDateString(Math.round(Date.now() / 1000), "YYYYMMDD")}订单详情.xlsx`
             }
-            const { data } = await exportOrderInfo({ sid: searchForm.sid!, statDayStart: searchForm.addtimeStart, statDayEnd: searchForm.addtimeEnd, chainid: searchForm.chainid })
+            const { data } = await exportOrderInfo({ sid: searchForm.sid!, statDayStart: searchForm.statDayStart, statDayEnd: searchForm.statDayEnd, chainid: searchForm.chainid })
             // 创建一个临时的URL指向Blob对象
             const blobUrl = window.URL.createObjectURL(new Blob([data]));
             // 创建一个a标签用于下载
@@ -226,6 +225,6 @@ export const usePlatformOrderLog = () => {
         }
     }
 
-    return { getAllList, pagination, tableData, loading, columns, message, searchForm, exportOrder, chainSelectList, chainOptions }
+    return { getAllList, pagination, tableData, loading, columns, message, searchForm, exportOrder, chainSelectList, chainOptions, range }
 }
 

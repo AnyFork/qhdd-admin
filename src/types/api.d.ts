@@ -2371,6 +2371,14 @@ declare namespace order {
          * 连锁店
          */
         chainid: number
+        /**
+         * 下单开始时间
+         */
+        statDayStart: number
+        /**
+         * 下单结束时间
+         */
+        statDayEnd: number
     }
 
     /**

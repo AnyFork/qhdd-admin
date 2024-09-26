@@ -188,7 +188,8 @@ export const usePlatformStore = () => {
             width: 120,
             align: 'center',
             fixed: 'left',
-            key: 'logo',
+            key: 'logos',
+            className: "flex-row-center h-full",
             render: (rowData, _index: number) => {
                 const node = rowData.categoryList?.find((item: { type: string }) => item?.type == "TY_store_label")
                 return h(StoreLogo, { src: previewUrl + rowData.logo, tag: node ? { color: node.textColor, text: node.title, bgColor: node.color } : undefined, business: rowData.businessStatus == 2 }, {})

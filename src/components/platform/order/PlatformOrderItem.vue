@@ -109,7 +109,7 @@
                         <div class="flex items-center gap-2">
                             <div class="font-700 text-16px mr-4">商品信息</div>
                             <div class="text-14px text-#ff6700">
-                                <span class="pr-1"> {{ order.orderCart.orderCartDataList.length }} 种商品</span>
+                                <span class="pr-1"> {{ order.orderCart?.orderCartDataList.length }} 种商品</span>
                                 <span class="pr-1"> 共{{ order.orderCart.num }}件 </span>
                                 <span class="pr-1"> 商品费用: ¥{{ order.orderCart.price }} </span>
                                 <span class="pr-1"> 餐盒费: ¥{{ order.boxPrice }} </span>
@@ -131,13 +131,13 @@
                         </div>
                     </template>
                     <div>
-                        <div class="py-2 border-t border-t-solid border-t-#e4e7ed flex items-center justify-between" v-for="(item, index) in order.orderCart.orderCartDataList" :key="'good' + index">
+                        <div class="py-2 border-t border-t-solid border-t-#e4e7ed flex items-center justify-between" v-for="(item, index) in order?.orderCart?.orderCartDataList" :key="'good' + index">
                             <div class="flex items-center justify-between w-900px">
                                 <div class="flex items-center gap-2 w-400px">
                                     <n-image :src="previewUrl + item.thumb" lazy :width="50" class="rounded" />
                                     <div>
                                         <span>{{ item.title }} </span>
-                                        <span>({{ item.titleDetail }})</span>
+                                        <span v-if="item.titleDetail">({{ item.titleDetail }})</span>
                                     </div>
                                 </div>
                                 <span>单价: ¥{{ new Decimal(item.price).dividedBy(new Decimal(item.num)) }}</span>

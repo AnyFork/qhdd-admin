@@ -23,7 +23,7 @@
         <TableHeaderOperation v-model:columns="columns" v-model:size="size" v-model:striped="striped" :loading="loading" @refresh="storeListData"></TableHeaderOperation>
     </n-space>
     <!--数据表格 -->
-    <n-data-table :single-line="false" :striped="striped" remote :scroll-x="2800" :size="size" :columns="columns" :data="tableData" :pagination="pagination" :row-key="(rowData:store.storeData) => `${rowData.id}`" :loading="loading" :max-height="tableHeight" @update:checked-row-keys="handleCheck" />
+    <n-data-table :single-line="false" :striped="striped" remote :scroll-x="3200" :size="size" :columns="columns" :data="tableData" :pagination="pagination" :row-key="(rowData:store.storeData) => `${rowData.id}`" :loading="loading" :max-height="tableHeight" @update:checked-row-keys="handleCheck" />
     <!-- 增加商户 -->
     <CreateStoreDrawer v-model:active="CreateShow" :shopOption="shopOption!" :serviceOption="serviceOption" :deliveryOption="deliveryOption" :shopCategoryOption="shopCategoryOption" :shopAreaOption="shopAreaOption" :chainOptions="chainOptions" @refresh="storeListData"></CreateStoreDrawer>
 </template>

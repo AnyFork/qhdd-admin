@@ -8,7 +8,7 @@
                 <n-select v-model:value="searchForm.sid" :options="allStore" placeholder="请选择店铺" clearable class="w-160px" :on-update:value="onUpDateValue" />
             </n-form-item>
             <n-form-item label="下单时间" label-placement="left" :show-feedback="false" :size="size">
-                <n-date-picker v-model:value="searchForm.range" type="daterange" clearable class="w-260px" />
+                <n-date-picker v-model:value="range" type="daterange" clearable class="w-260px" />
             </n-form-item>
             <div style="display: flex; justify-content: flex-end">
                 <n-button round type="primary" :size="size" class="w-100px" @click="getAllList">
@@ -35,7 +35,7 @@ import { Icon } from '@iconify/vue'
 import { SelectBaseOption } from 'naive-ui/es/select/src/interface'
 const size = ref<'small' | 'medium' | 'large'>('medium')
 const striped = ref(true)
-const { getAllList, pagination, tableData, loading, columns, exportOrder, searchForm, chainSelectList, chainOptions } = usePlatformOrderLog()
+const { getAllList, pagination, tableData, loading, columns, exportOrder, searchForm, chainSelectList, chainOptions, range } = usePlatformOrderLog()
 const { storeSelectList, allStore } = usePlatformStore()
 const storeTitle = ref()
 

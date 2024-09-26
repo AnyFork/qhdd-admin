@@ -126,7 +126,7 @@
                                     <n-image :src="previewUrl + item.thumb" lazy :width="50" class="rounded" />
                                     <div>
                                         <span>{{ item.title }} </span>
-                                        <span>({{ item.titleDetail }})</span>
+                                        <span v-if="item.titleDetail">({{ item.titleDetail }})</span>
                                     </div>
                                 </div>
                                 <span>单价: ¥{{ new Decimal(item.price).dividedBy(new Decimal(item.num)) }}</span>

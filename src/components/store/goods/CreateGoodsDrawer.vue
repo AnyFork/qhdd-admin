@@ -138,7 +138,7 @@
                             <Icon icon="material-symbols:delete" class="text-primary absolute right-0 top-0px" @click="moduleValue.goodsOptionsList!.splice(index, 1)" />
                             <GoodsOptions v-model="moduleValue.goodsOptionsList![index]"></GoodsOptions>
                         </div>
-                        <n-button type="primary" @click="addGoodsOption">添加规则</n-button>
+                        <n-button type="primary" @click="addGoodsOption">添加规格</n-button>
                     </div>
                 </n-form-item>
                 <n-form-item label="商品加料">

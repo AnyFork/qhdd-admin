@@ -13,7 +13,7 @@
             <n-select v-model:value="searchForm.type" :options="goodsType" placeholder="请选商品类型" clearable class="!w-180px" />
         </n-form-item>
         <div style="display: flex; justify-content: flex-end">
-            <n-button round type="primary" :size="size" @click="goodsListData">查询</n-button>
+            <n-button round type="primary" :size="size" @click="searchData">查询</n-button>
         </div>
     </n-flex>
     <n-space align="center" justify="space-between" class="my-2">
@@ -89,6 +89,14 @@ const handleUpdateValue = (value: number, option: CascaderOption) => {
             searchForm.childId = option.id as number
         }
     }
+}
+
+/**
+ * 点击查询按钮,分页默认为1
+ */
+const searchData = () => {
+    pagination.page = 1
+    goodsListData()
 }
 
 onMounted(async () => {
