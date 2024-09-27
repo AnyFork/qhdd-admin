@@ -104,7 +104,7 @@ export const useNotice = () => {
             }
         },
         {
-            title: '公告名称',
+            title: '公告标题',
             align: 'center',
             key: 'title'
         },

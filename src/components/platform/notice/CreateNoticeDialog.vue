@@ -5,9 +5,9 @@
                 <n-form-item show-require-mark label="公告标题" path="title">
                     <n-input v-model:value="moduleValue.title" clearable placeholder="请输入公告名称" maxlength="50" show-count />
                 </n-form-item>
-                <n-form-item show-require-mark label="公告详情" path="content">
+                <!-- <n-form-item show-require-mark label="公告详情" path="content">
                     <DefaultEditor v-model="moduleValue.content"></DefaultEditor>
-                </n-form-item>
+                </n-form-item> -->
                 <n-form-item label="上架状态">
                     <n-switch v-model:value="moduleValue.status" :checkedValue="1" :uncheckedValue="0">
                         <template #checked> 上架 </template>
