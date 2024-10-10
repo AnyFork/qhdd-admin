@@ -12,9 +12,6 @@
         <n-form-item label="所属区域" label-placement="left" :show-feedback="false" :size="size">
             <n-select v-model:value="searchForm.cateParentid2" :options="shopAreaOption" placeholder="请选择所属片区" clearable class="!w-180px" />
         </n-form-item>
-        <n-form-item label="连锁店" label-placement="left" :show-feedback="false" :size="size">
-            <n-select v-model:value="searchForm.chainid" :options="chainOptions" placeholder="请选择所连锁店" clearable class="!w-180px" />
-        </n-form-item>
         <n-form-item label="是否显示" label-placement="left" :show-feedback="false" :size="size">
             <n-select v-model:value="searchForm.status" :options="status" placeholder="请选择门店状态" clearable class="!w-180px" />
         </n-form-item>
@@ -24,10 +21,10 @@
             <div>标签筛选</div>
         </n-dropdown>
         <n-select v-model:value="searchForm.serviceLabel" :options="tagRef" placeholder="请选择标签" clearable class="!w-180px" />
-        <n-form-item label="门店类型" label-placement="left" :show-feedback="false" :size="size" class="ml-5">
+        <n-form-item label="门店类型" label-placement="left" :show-feedback="false" :size="size" class="ml-21">
             <n-select v-model:value="searchForm.isWaimai" :options="types" placeholder="请选择门店类型" clearable class="!w-180px" />
         </n-form-item>
-        <div class="flex justify-end">
+        <div style="display: flex; justify-content: flex-end">
             <n-button round type="primary" :size="size" @click="searchData">查询</n-button>
         </div>
     </n-flex>
@@ -36,9 +33,6 @@
             <n-button type="primary" @click="CreateShow = true" :disabled="!isAdmin">创建商户</n-button>
             <n-dropdown trigger="hover" :options="options">
                 <n-button type="error" :disabled="!isAdmin">批量处理店铺状态</n-button>
-            </n-dropdown>
-            <n-dropdown trigger="hover" :options="chain">
-                <n-button type="warning" :disabled="!isAdmin">批量处理连锁店</n-button>
             </n-dropdown>
             <div class="text-14px text-primary">页面排序规则：优先展示营业中店铺，然后按照排序值从大到小规则进行展示，与顾客端小程序展示效果一致。</div>
         </div>
@@ -61,7 +55,7 @@
         @update:checked-row-keys="handleCheck"
     />
     <!-- 增加商户 -->
-    <CreateStoreDrawer
+    <CreateChainStoreDrawer
         v-if="CreateShow"
         v-model:active="CreateShow"
         :shopOption="shopOption!"
@@ -71,9 +65,9 @@
         :shopAreaOption="shopAreaOption"
         :chainOptions="chainOptions"
         @refresh="storeListData"
-    ></CreateStoreDrawer>
+    ></CreateChainStoreDrawer>
     <!-- 设置服务费 -->
-    <SettingServiceFee v-if="feeModal && rowNode" v-model:open="feeModal" v-model="rowNode"></SettingServiceFee>
+    <SettingChainServiceFee v-if="feeModal && rowNode" v-model:open="feeModal" v-model="rowNode"></SettingChainServiceFee>
 </template>
 <script setup lang="ts">
 const size = ref<'small' | 'medium' | 'large'>('medium')
@@ -90,7 +84,7 @@ const tagRef = ref<
         value: number
     }[]
 >()
-const { storeListData, pagination, tableData, updateStoreStatusBatch, loading, columns, message, CreateShow, searchForm, handleCheck, checkedRowKeysRef, shopOption, deliveryOption, serviceOption, categoryPageList, rowNode, feeModal } = usePlatformStore()
+const { storeListData, pagination, tableData, updateStoreStatusBatch, loading, columns, CreateShow, searchForm, handleCheck, checkedRowKeysRef, shopOption, deliveryOption, serviceOption, categoryPageList, rowNode, feeModal } = useChainStore()
 const { storeCategoryList } = usePlatformCategory()
 const { chainSelectList, chainOptions } = useChain()
 const { height } = useWindowSize()
@@ -199,46 +193,6 @@ const options = [
         }
     }
 ]
-/**
- * 连锁店
- */
-const chain = computed(() => {
-    if (chainOptions.value) {
-        const temp = chainOptions.value.map((element: any) => {
-            return {
-                label: element.label,
-                key: element.value,
-                props: {
-                    onClick: () => {
-                        if (checkedRowKeysRef.value && checkedRowKeysRef.value.length > 0) {
-                            updateStoreStatusBatch({ ids: checkedRowKeysRef.value.join(','), chainid: element.value })
-                            checkedRowKeysRef.value = []
-                        } else {
-                            message.error('请先选择一项')
-                        }
-                    }
-                }
-            }
-        })
-        temp?.unshift({
-            label: '不关联连锁店',
-            key: 'remove',
-            props: {
-                onClick: () => {
-                    if (checkedRowKeysRef.value && checkedRowKeysRef.value.length > 0) {
-                        updateStoreStatusBatch({ ids: checkedRowKeysRef.value.join(','), chainid: 0 })
-                        checkedRowKeysRef.value = []
-                    } else {
-                        message.error('请先选择一项')
-                    }
-                }
-            }
-        })
-        return temp
-    } else {
-        return []
-    }
-})
 const selectTags = [
     {
         label: '商户标签',

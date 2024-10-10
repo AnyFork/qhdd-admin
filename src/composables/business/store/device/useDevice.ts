@@ -132,7 +132,7 @@ export const useStoreDevice = () => {
             align: 'center',
             key: 'type',
             render(_rowData, _rowIndex) {
-                return h(NTag, { type: "warning" }, { default: () => "商鹏云打印机" })
+                return h(NTag, { type: "warning" }, { default: () => _rowData.type == 'spyun' ? "商鹏云打印机" : "飞鹅云打印机" })
             },
         },
         {

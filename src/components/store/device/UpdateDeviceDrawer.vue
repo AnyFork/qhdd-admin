@@ -24,6 +24,7 @@
                     <n-radio-group v-model:value="moduleValue.type">
                         <n-space>
                             <n-radio key="spyun" value="spyun">商鹏云打印机 </n-radio>
+                            <n-radio key="feie" value="feie">飞鹅云打印机 </n-radio>
                         </n-space>
                     </n-radio-group>
                 </n-form-item>
@@ -39,16 +40,16 @@
                         <p class="py-1 text-#999 text-14px">打印机底部标签信息中获取</p>
                     </div>
                 </n-form-item>
-                <n-form-item show-require-mark label="appId" path="memberCode">
+                <n-form-item show-require-mark :label="moduleValue.type == 'spyun' ? 'appId' : 'USER'" path="memberCode">
                     <div class="w-full">
-                        <n-input v-model:value="moduleValue.memberCode" clearable placeholder="请输入appId" />
-                        <p class="py-1 text-#999 text-14px">注册商鹏云 开发者账号, 得到appid和appSecret.</p>
+                        <n-input v-model:value="moduleValue.memberCode" clearable :placeholder="moduleValue.type == 'spyun' ? '请输入打印机appId' : '请输入飞蛾USER'" />
+                        <p class="py-1 text-#999 text-14px">{{ moduleValue.type == 'spyun' ? '注册商鹏云 开发者账号, 得到appid和appSecret.' : "如果你的打印机是飞鹅打印机, 需要到'飞鹅云官网'注册账号获取" }}</p>
                     </div>
                 </n-form-item>
-                <n-form-item show-require-mark label="appSecret" path="apiKey">
+                <n-form-item show-require-mark :label="moduleValue.type == 'spyun' ? 'appSecret' : 'UKEY'" path="apiKey">
                     <div class="w-full">
-                        <n-input v-model:value="moduleValue.apiKey" clearable placeholder="请输入打印机appSecret" />
-                        <p class="py-1 text-#999 text-14px">注册商鹏云 开发者账号, 得到appid和appSecret.</p>
+                        <n-input v-model:value="moduleValue.apiKey" clearable :placeholder="moduleValue.type == 'spyun' ? '请输入打印机appSecret' : '请输入飞蛾USERKEY'" />
+                        <p class="py-1 text-#999 text-14px">{{ moduleValue.type == 'spyun' ? '注册商鹏云 开发者账号, 得到appid和appSecret.' : " 如果你的打印机是飞鹅打印机, 需要到'飞鹅云官网'注册账号获取" }}</p>
                     </div>
                 </n-form-item>
                 <n-form-item label="打印联数">

@@ -39,7 +39,16 @@ const excludeKeys = computed(() => {
  * 获取token
  */
 const getToken = () => {
-    const token = storeInfoFrom.value == 1 ? getPlatformToken() : getStoreToken()
+    let token = undefined
+    if (storeInfoFrom.value == 1) {
+        token = getPlatformToken()
+    }
+    if (storeInfoFrom.value == 2) {
+        token = getStoreToken()
+    }
+    if (storeInfoFrom.value == 3) {
+        token = getChainToken()
+    }
     if (token) {
         const tokenObj = JSON.parse(token)
         return tokenObj.tokenValue

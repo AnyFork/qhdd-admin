@@ -50,7 +50,16 @@ const finish = ({ event }: { event?: ProgressEvent }) => {
     }
 }
 onMounted(() => {
-    const tokenInfo = storeInfoFrom.value == 1 ? getPlatformToken() : getStoreToken()
+    let tokenInfo = undefined
+    if (storeInfoFrom.value == 1) {
+        tokenInfo = getPlatformToken()
+    }
+    if (storeInfoFrom.value == 2) {
+        tokenInfo = getStoreToken()
+    }
+    if (storeInfoFrom.value == 3) {
+        tokenInfo = getChainToken()
+    }
     token.value = tokenInfo ? JSON.parse(tokenInfo) : undefined
 })
 </script>

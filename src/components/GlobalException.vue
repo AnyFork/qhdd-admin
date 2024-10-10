@@ -16,5 +16,5 @@
 defineProps<{
     type: '403' | '404' | '500'
 }>()
-const {rootPath} = useLoginType()
+const { rootPath } = useLoginType()
 </script>

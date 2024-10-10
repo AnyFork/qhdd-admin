@@ -18,6 +18,10 @@ export enum EnumStorageKey {
    */
   'platform-token' = '__PLATFORM-TOKEN__',
   /**
+   * 连锁店token
+   */
+  'chain-token' = '__CHAIN-TOKEN__',
+  /**
    * 商户token
    */
   'store-token' = '__STORE-TOKEN__',
@@ -25,6 +29,10 @@ export enum EnumStorageKey {
    * 平台用户信息
    */
   'platform-user-info' = '__PLATFORM_USER_INFO__',
+  /**
+   * 连锁店用户信息
+   */
+  'chain-user-info' = '__CHAIN_USER_INFO__',
   /** 
    * 商户信息
    */

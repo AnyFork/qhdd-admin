@@ -12,7 +12,10 @@ export const useChain = () => {
     const chainOptions = ref()
     const message = useMessage()
     const loading = ref(false)
+    const { routerPush } = useRouterPush()
     const { isAdmin } = useLoginUser()
+    const { storeInfoFrom } = useStoreInfo()
+    const { chainInfo, chainInfoFrom } = useChainInfo()
     const pagination = reactive({
         page: 1,
         pageSize: 10,
@@ -137,7 +140,7 @@ export const useChain = () => {
             align: 'center',
             key: 'realname',
             render: (_rowData, _index: number) => {
-                return "缺少参数"
+                return _rowData?.chainer?.realname
             }
         },
         {
@@ -145,7 +148,7 @@ export const useChain = () => {
             align: 'center',
             key: 'mobile',
             render: (_rowData, _index: number) => {
-                return "缺少参数"
+                return _rowData?.chainer?.mobile
             }
         },
         {
@@ -295,6 +298,23 @@ export const useChain = () => {
                                     }
                                 },
                                 { default: () => '修改' }
+                            ),
+                            h(
+                                NButton,
+                                {
+                                    size: 'small',
+                                    type: 'success',
+                                    style: {
+                                        marginLeft: '10px'
+                                    },
+                                    onClick: () => {
+                                        storeInfoFrom.value = undefined
+                                        chainInfo.value = rowData
+                                        chainInfoFrom.value = 1
+                                        routerPush('/chain/store/list', true)
+                                    }
+                                },
+                                { default: () => '管理' }
                             )
                         ]
                     }

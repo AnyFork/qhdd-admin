@@ -8,6 +8,14 @@ export const getPlatformUserInfo = () => {
 }
 
 /**
+ * 获取连锁店用户信息
+ * @returns 用户信息
+ */
+export const getChainUserInfo = () => {
+    return getLocal<chain.chainAdmin>(EnumStorageKey["chain-user-info"])
+}
+
+/**
  * 获取商户用户信息
  * @returns 用户信息
  */
@@ -23,6 +31,13 @@ export function setPlatformUserInfo(userInfo: system.adminInfo) {
 }
 
 /**
+ * 设置连锁店用户信息
+ */
+export function setChainUserInfo(userInfo: chain.chainAdmin) {
+    setLocal(EnumStorageKey["chain-user-info"], userInfo)
+}
+
+/**
  * 设置商户用户信息
  */
 export function setStoreUserInfo(userInfo: any) {
@@ -35,6 +50,13 @@ export function setStoreUserInfo(userInfo: any) {
  */
 export function removePlatformUserInfo() {
     removeLocal(EnumStorageKey["platform-user-info"])
+}
+
+/**
+ * 清除连锁店用户信息
+ */
+export function removeChainUserInfo() {
+    removeLocal(EnumStorageKey["chain-user-info"])
 }
 
 /**
@@ -59,4 +81,12 @@ export function clearPlatformAuthStorage() {
 export function clearStoreAuthStorage() {
     removeStoreToken()
     removeStoreUserInfo()
+}
+
+/**
+ * 清除连锁店相关缓存
+ */
+export function clearChainAuthStorage() {
+    removeChainToken()
+    removeChainUserInfo()
 }

@@ -24,6 +24,14 @@ export const constantRoutes: RouteRecordRaw[] = [
                 meta: {
                     title: '平台商户登录'
                 }
+            },
+            {
+                name: 'login-chain',
+                path: '/login/chain',
+                component: () => import('@/pages/system/loginModule/chain.vue'),
+                meta: {
+                    title: '连锁店管理员登录'
+                }
             }
         ],
         meta: {

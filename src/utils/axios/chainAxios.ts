@@ -1,6 +1,6 @@
 import axios from 'axios';
-//创建一个新的axios实例,此实例用于商户用户发送请求
-const storeAxios = axios.create({
+//创建一个新的axios实例,此实例用于连锁店用户发送请求
+const chainAxios = axios.create({
     headers: {
         //get请求头
         'get': {
@@ -22,19 +22,10 @@ const storeAxios = axios.create({
 /**
  * 添加请求拦截器
  */
-storeAxios.interceptors.request.use(function (config) {
-    const { storeInfoFrom } = useStoreInfo()
+chainAxios.interceptors.request.use(function (config) {
+    const { chainInfoFrom } = useChainInfo()
     // 添加请求头部token
-    let token = undefined
-    if (storeInfoFrom.value == 1) {
-        token = getPlatformToken()
-    }
-    if (storeInfoFrom.value == 2) {
-        token = getStoreToken()
-    }
-    if (storeInfoFrom.value == 3) {
-        token = getChainToken()
-    }
+    const token = chainInfoFrom.value == 1 ? getPlatformToken() : getChainToken()
     if (token && config.headers) {
         const tokenObj = JSON.parse(token)
         config.headers[tokenObj.tokenName] = tokenObj.tokenValue
@@ -48,7 +39,7 @@ storeAxios.interceptors.request.use(function (config) {
 /**
  * 添加响应拦截器
  */
-storeAxios.interceptors.response.use(function (response) {
+chainAxios.interceptors.response.use(function (response) {
     if (response.status == 200) {
         return Promise.resolve(response)
     } else {
@@ -59,4 +50,4 @@ storeAxios.interceptors.response.use(function (response) {
     return Promise.reject(error);
 });
 
-export { storeAxios }
+export { chainAxios }

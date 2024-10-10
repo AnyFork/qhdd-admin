@@ -16,6 +16,8 @@ export const useLoginType = () => {
             return import.meta.env.VITE_PLATFORM_ROUTE_HOME_PATH
         } else if (loginUserType.value == 2) {
             return import.meta.env.VITE_STORE_ROUTE_HOME_PATH
+        }else if (loginUserType.value == 3) {
+            return import.meta.env.VITE_CHAIN_ROUTE_HOME_PATH
         }
     })
 

@@ -324,9 +324,9 @@ declare namespace system {
 declare namespace store {
 
     /**
-     * 店铺信息来源，主要用户非平台情况下接口请求token采用方案，1 平台 2 商户
+     * 店铺信息来源，主要用户非平台情况下接口请求token采用方案，1 平台 2 商户 3 连锁店
      */
-    type storeFrom = 1 | 2
+    type storeFrom = 1 | 2 | 3
 
     /**
      * 商户属性
@@ -947,6 +947,10 @@ declare namespace store {
          * 餐盒价格
          */
         boxPrice: number
+        /**
+         * 包装费
+         */
+        boxCost: number
         /**
          * 是否添加商品规格(1=是,0=否) 
          */
@@ -3429,6 +3433,11 @@ interface agreement {
 declare namespace chain {
 
     /**
+     * 连锁店信息来源，主要用户非平台情况下接口请求token采用方案，1 平台 2 连锁店
+     */
+    type chainFrom = 1 | 2
+
+    /**
      * 连锁店id
      */
     interface chainInfo {
@@ -3464,6 +3473,10 @@ declare namespace chain {
          * 连锁店logo
          */
         logo: string
+        /**
+         * 连锁店管理员信息
+         */
+        chainer?: chainAdmin
     }
 
     /**
@@ -3498,7 +3511,6 @@ declare namespace chain {
          * 0未删除 1已删除 
          */
         isDelete: 0 | 1
-
     }
 
 }

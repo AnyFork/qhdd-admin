@@ -21,9 +21,9 @@ declare namespace Common {
 declare const PROJECT_BUILD_TIME: string
 
 /**
- * 当前登录用户类型 1 平台用户  2 商户
+ * 当前登录用户类型 1 平台用户  2 商户 3 连锁店
  */
-type loginType = 1 | 2
+type loginType = 1 | 2 | 3
 
 /**
  * 富文本编辑器组件参数类型

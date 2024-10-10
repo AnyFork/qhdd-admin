@@ -16,17 +16,31 @@ export const useLoginUser = () => {
     const { storeInfo, storeInfoFrom } = useStoreInfo()
 
     /**
+     * 当前连锁店信息
+     */
+    const { chainInfo, chainInfoFrom } = useChainInfo()
+
+    /**
      * 当前登录用户
      */
     const userInfo = computed(() => {
         if (route.path.startsWith("/platform")) {
             return getPlatformUserInfo()
         } else if (route.path.startsWith("/store")) {
-            return storeInfoFrom.value == 1 ? getPlatformUserInfo() : getStoreUserInfo()
-        } else {
-            return null
+            if (storeInfoFrom.value == 1) {
+                return getPlatformUserInfo()
+            }
+            if (storeInfoFrom.value == 2) {
+                return getStoreUserInfo()
+            }
+            if (storeInfoFrom.value == 3) {
+                return getChainUserInfo()
+            }
+        } else if (route.path.startsWith('/chain')) {
+            return chainInfoFrom.value == 1 ? getPlatformUserInfo() : getChainUserInfo()
         }
     })
+
     /**
      * 判断当前用户是否是管理员
      */
@@ -36,25 +50,62 @@ export const useLoginUser = () => {
             return info.roleName == "系统管理员"
         } else if (route.path.startsWith("/store")) {
             const info = userInfo.value as any
-            return storeInfoFrom.value == 1 ? info.roleName == "系统管理员" : (info?.storeClerk?.role == "manager" || info?.roleName == "系统管理员")
-        } else {
-            return false
+            if (storeInfoFrom.value == 1) {
+                return info.roleName == "系统管理员"
+            }
+            if (storeInfoFrom.value == 2) {
+                return info?.storeClerk?.role == "manager" || info?.roleName == "系统管理员"
+            }
+            if (storeInfoFrom.value == 3) {
+                return true
+            }
+        } else if (route.path.startsWith("/chain")) {
+            return true
         }
     })
+
     /**
      * 用户名称
      */
-    const userName = computed(() => (userInfo.value as system.adminInfo)?.name || (userInfo.value as store.clerk)?.title)
+    const userName = computed(() => (userInfo.value as system.adminInfo)?.name || (userInfo.value as store.clerk)?.title || (userInfo.value as chain.chainAdmin)?.realname)
 
     /**
      * 用户图像
      */
-    const userAvatar = computed(() => userInfo.value?.avatar ?? userImg)
+    const userAvatar = computed(() => {
+        if (route.path.startsWith("/platform")) {
+            return (userInfo.value as system.adminInfo)?.avatar || userImg
+        } else if (route.path.startsWith("/store")) {
+            return (userInfo.value as store.clerk)?.avatar || userImg
+        } else if (route.path.startsWith('/chain')) {
+            return userImg
+        }
+    })
 
     /**
      * 商户名称
      */
-    const storeName = computed(() => (userInfo.value as store.clerk)?.store?.title || storeInfo.value?.title)
+    const storeName = computed(() => {
+        console.log(chainInfo.value)
+        if (storeInfoFrom.value == 1) {
+            if (route.path.startsWith("/store")) {
+                return storeInfo.value?.title
+            } else if (route.path.startsWith('/chain')) {
+                return chainInfo.value?.title
+            }
+        }
+        if (storeInfoFrom.value == 2) {
+            return (userInfo.value as store.clerk)?.store?.title
+        }
+        if (storeInfoFrom.value == 3) {
+            if (route.path.startsWith("/store")) {
+                return storeInfo.value?.title
+            } else if (route.path.startsWith('/chain')) {
+                return chainInfo.value?.title
+            }
+        }
+        return chainInfo.value?.title
+    })
 
     /**
      * 当前系统登录用户
@@ -64,8 +115,8 @@ export const useLoginUser = () => {
             return "platform"
         } else if (route.path.startsWith("/store")) {
             return "store"
-        } else {
-            return
+        } else if (route.path.startsWith("/chain")) {
+            return "chain"
         }
     })
 
@@ -89,6 +140,8 @@ export const useLoginUser = () => {
             return usePlatformLogOut().logOut
         } else if (route.path.startsWith("/store")) {
             return useStoreLogOut().logOut
+        } else if (route.path.startsWith("/chain")) {
+            return useChainLogOut().logOut
         }
     })
 
