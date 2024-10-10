@@ -1,9 +1,9 @@
-import { historyStatInfo, todayStatInfo } from "@/service/chain/order"
+import { historyStatInfo, todayStatInfo } from "@/service/platform/order"
 
 /**
  * 连锁店订单统计
  */
-export const useChainStatOrder = () => {
+export const useStatOrder = () => {
     const message = useMessage()
     const loading = ref(false)
 
@@ -20,10 +20,10 @@ export const useChainStatOrder = () => {
     /**
      * 连锁店名下所有店铺今日订单数据,当传sid查询具体店铺数据
      */
-    const todayStat = async (sid?: number, chainid?: number) => {
+    const todayStat = async (sid?: number) => {
         try {
             loading.value = true
-            const { data } = await todayStatInfo(sid, chainid)
+            const { data } = await todayStatInfo(sid)
             loading.value = false
             if (data.code == 200) {
                 todayStatData.value = data.data
@@ -40,10 +40,10 @@ export const useChainStatOrder = () => {
     /**
     * 连锁店名下所有店铺历史订单数据，当传sid查询具体店铺数据
     */
-    const historyStat = async (statDayStart?: number, statDayEnd?: number, sid?: number, chainid?: number) => {
+    const historyStat = async (statDayStart?: number, statDayEnd?: number, sid?: number,) => {
         try {
             loading.value = true
-            const { data } = await historyStatInfo(sid, statDayStart, statDayEnd, chainid)
+            const { data } = await historyStatInfo(sid, statDayStart, statDayEnd)
             loading.value = false
             if (data.code == 200) {
                 historyStatData.value = data.data

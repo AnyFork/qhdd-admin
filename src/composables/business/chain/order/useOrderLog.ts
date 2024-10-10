@@ -10,7 +10,7 @@ export const useChainOrderLog = () => {
     const message = useMessage()
     const loading = ref(false)
     const range = ref<[number, number] | undefined>()
-    const { chainInfo } = useChainInfo()
+    const { chainInfo, chainInfoFrom } = useChainInfo()
 
     /**
      * 表格分页配置
@@ -44,7 +44,7 @@ export const useChainOrderLog = () => {
         statDayStart: undefined,
         statDayEnd: undefined,
         statusStart: 5,
-        chainid: undefined,
+        chainid: chainInfoFrom.value == 1 ? chainInfo.value.id : undefined,
     })
 
     /**
@@ -224,7 +224,6 @@ export const useChainOrderLog = () => {
             message.error(e.message as string)
         }
     }
-
     return { getAllList, pagination, tableData, loading, columns, message, searchForm, exportOrder, chainInfo, range }
 }
 

@@ -151,9 +151,8 @@
 
 <script setup lang="ts">
 import { Icon } from '@iconify/vue'
-const { todayStat, todayStatData, historyStat, historyStatData, loading } = useChainStatOrder()
+const { todayStat, todayStatData, historyStat, historyStatData, loading } = useStatOrder()
 const { storeSelectList, allStore } = usePlatformStore()
-const { chainInfo, chainInfoFrom } = useChainInfo()
 const sid = ref()
 const statDayStart = ref()
 const statDayEnd = ref()
@@ -236,14 +235,8 @@ const searchAllList = () => {
 }
 
 onMounted(() => {
-    if (chainInfoFrom.value == 1) {
-        todayStat(undefined, chainInfo.value.id)
-        historyStat(undefined, undefined, undefined, chainInfo.value.id)
-        storeSelectList({ chainid: chainInfo.value.id, status: 1 })
-    } else {
-        todayStat()
-        historyStat()
-        storeSelectList({ chainid: chainInfo.value.id, status: 1 })
-    }
+    todayStat()
+    historyStat()
+    storeSelectList()
 })
 </script>

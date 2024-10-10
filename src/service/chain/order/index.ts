@@ -21,12 +21,12 @@ export const exportOrderInfo = async (params: { sid: number; statDayStart?: numb
  * 今日订单数据统计
  * @returns 
  */
-export const todayStatInfo = async (sid?: number) => await chainAxios.get(`${todayStatInfoApi}?${qs.stringify({ sid })}`)
+export const todayStatInfo = async (sid?: number, chainid?: number) => await chainAxios.get(`${todayStatInfoApi}?${qs.stringify({ sid, chainid })}`)
 
 
 /**
  * 历史数据统计
  * @returns 
  */
-export const historyStatInfo = async (sid?: number, statDayStart?: number, statDayEnd?: number) => await chainAxios.get(`${historyStatInfoApi}?${qs.stringify({ statDayStart, statDayEnd, sid })}`)
+export const historyStatInfo = async (sid?: number, statDayStart?: number, statDayEnd?: number, chainid?: number) => await chainAxios.get(`${historyStatInfoApi}?${qs.stringify({ statDayStart, statDayEnd, sid, chainid })}`)
 

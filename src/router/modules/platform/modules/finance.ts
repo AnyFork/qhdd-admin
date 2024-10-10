@@ -13,6 +13,14 @@ const finance: AuthRoute.Route[] = [{
             title: '交易记录',
             icon: 'carbon:list'
         }
+    }, {
+        name: "platform-finance-stat",
+        path: "/platform/finance/stat",
+        component: () => import('@/pages/platform/finance/stat.vue'),
+        meta: {
+            title: '营收统计',
+            icon: 'lets-icons:stat'
+        }
     }],
     meta: {
         title: '财务信息管理',
