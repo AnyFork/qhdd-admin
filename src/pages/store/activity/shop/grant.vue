@@ -34,7 +34,7 @@
                     </div>
                     <div class="py-2">
                         <n-button v-if="model.grant && model.grant.length < 4" type="primary" @click="addItem">添加规则</n-button>
-                        <span class="ml-2 text-14px text-#999">最多创建4条优惠规则</span>
+                        <span class="ml-2 pr-4 text-14px text-#999">最多创建4条优惠规则</span>
                     </div>
                 </div>
             </n-form-item>
@@ -98,11 +98,12 @@ const submitActivity = () => {
     model.endtime = Math.round(range.value[1] / 1000)
     model.sid = storeInfo.value.id
     model.data = JSON.stringify(model.grant)
-    delete model.grant
+    const newModel = JSON.parse(JSON.stringify(model))
+    delete newModel.grant
     if (isEdit.value) {
-        updateActivityInfo(model)
+        updateActivityInfo(newModel)
     } else {
-        addStoreActivityInfo(model)
+        addStoreActivityInfo(newModel)
     }
 }
 

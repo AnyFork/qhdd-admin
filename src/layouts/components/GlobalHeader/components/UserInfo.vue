@@ -11,12 +11,18 @@
                 <span class="text-10px w-30px">{{ roleName }}</span>
             </template>
         </n-badge>
-        <ModifyPersonDialog v-if="modifyShow" v-model:open="modifyShow" :rowNode="(userInfo as system.adminInfo)"></ModifyPersonDialog>
+        <!--平台用户修改密码-->
+        <ModifyPersonDialog v-if="modifyShow && showPlatformComputed" v-model:open="modifyShow" :rowNode="(userInfo as system.adminInfo)"></ModifyPersonDialog>
+        <!--连锁店用户修改密码 -->
+        <ModifyChainAdminDialog v-if="modifyShow && showChainComputed" v-model:open="modifyShow" :rowNode="(userInfo as chain.chainAdmin)"></ModifyChainAdminDialog>
     </n-space>
 </template>
 <script setup lang="ts">
 const { userInfo, userName, userAvatar, storeName, roleName, openPageUserType } = useLoginUser()
+console.log(userInfo.value)
 const modifyShow = ref(false)
+const { chainInfoFrom } = useChainInfo()
+const { storeInfoFrom } = useStoreInfo()
 const options = [
     {
         label: '修改信息',
@@ -28,4 +34,6 @@ const options = [
         }
     }
 ]
+const showPlatformComputed = computed(() => chainInfoFrom.value == 1 || storeInfoFrom.value == 1)
+const showChainComputed = computed(() => chainInfoFrom.value == 2 || storeInfoFrom.value == 3)
 </script>

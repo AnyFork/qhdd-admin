@@ -27,7 +27,7 @@
                         </div>
                         <div class="flex-row-center">
                             <div class="w-60px">平台承担</div>
-                            <n-input-number v-model:value="item!.plateform_charge" :min="0" clearable placeholder="门店新客立减">
+                            <n-input-number v-model:value="item!.plateform_charge" :min="0" :disabled="storeInfoFrom == 2" clearable placeholder="门店新客立减">
                                 <template #suffix> 元 </template>
                             </n-input-number>
                             <n-button type="error" @click="model.discount!.splice(index, 1)">
@@ -40,7 +40,7 @@
                     </div>
                     <div class="py-2">
                         <n-button v-if="model.discount && model.discount.length < 4" type="primary" @click="addItem">添加规则</n-button>
-                        <span class="ml-2 text-14px text-#999">最多创建4条优惠规则</span>
+                        <span class="ml-2 pr-4 text-14px text-#999">最多创建4条优惠规则</span>
                     </div>
                 </div>
             </n-form-item>
@@ -56,7 +56,7 @@
 import { Icon } from '@iconify/vue'
 const { getStoreActivityListInfo, loading, activity, addStoreActivityInfo, message, updateActivityInfo, deleteActivityInfo } = useStoreActivity()
 const range = ref<[number, number]>()
-const { storeInfo } = useStoreInfo()
+const { storeInfo, storeInfoFrom } = useStoreInfo()
 const isEdit = ref(false)
 const dialog = useDialog()
 const { isAdmin } = useLoginUser()
@@ -110,11 +110,12 @@ const submitActivity = () => {
     model.endtime = Math.round(range.value[1] / 1000)
     model.sid = storeInfo.value.id
     model.data = JSON.stringify(model.discount)
-    delete model.discount
+    const newModel = JSON.parse(JSON.stringify(model))
+    delete newModel.discount
     if (isEdit.value) {
-        updateActivityInfo(model)
+        updateActivityInfo(newModel)
     } else {
-        addStoreActivityInfo(model)
+        addStoreActivityInfo(newModel)
     }
 }
 

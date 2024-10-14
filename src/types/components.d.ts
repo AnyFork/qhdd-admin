@@ -84,6 +84,7 @@ declare module 'vue' {
     MixMenuDrawer: typeof import('./../layouts/components/GlobalSider/components/VerticalMixSider/components/MixMenuDrawer.vue')['default']
     ModifyAdminDialog: typeof import('./../components/platform/admin/ModifyAdminDialog.vue')['default']
     ModifyCategoryDialog: typeof import('./../components/platform/category/ModifyCategoryDialog.vue')['default']
+    ModifyChainAdminDialog: typeof import('./../components/chain/admin/ModifyChainAdminDialog.vue')['default']
     ModifyGroup: typeof import('./../components/platform/picture/ModifyGroup.vue')['default']
     ModifyPersonDialog: typeof import('./../components/platform/admin/ModifyPersonDialog.vue')['default']
     ModifyPicture: typeof import('./../components/platform/picture/ModifyPicture.vue')['default']

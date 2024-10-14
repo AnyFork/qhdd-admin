@@ -20,7 +20,7 @@
                     </div>
                     <div class="flex-row-center">
                         <div class="w-100px">平台承担</div>
-                        <n-input-number v-model:value="model.mallNewMember!.plateform_charge" :min="0" clearable placeholder="门店新客立减">
+                        <n-input-number v-model:value="model.mallNewMember!.plateform_charge" :min="0" :disabled="storeInfoFrom == 2" clearable placeholder="门店新客立减">
                             <template #suffix> 元 </template>
                         </n-input-number>
                         <n-button type="error">
@@ -44,7 +44,7 @@
 import { Icon } from '@iconify/vue'
 const { getStoreActivityListInfo, loading, activity, addStoreActivityInfo, message, updateActivityInfo, deleteActivityInfo } = useStoreActivity()
 const range = ref<[number, number]>()
-const { storeInfo } = useStoreInfo()
+const { storeInfo, storeInfoFrom } = useStoreInfo()
 const isEdit = ref(false)
 const dialog = useDialog()
 const { isAdmin } = useLoginUser()
@@ -96,11 +96,12 @@ const submitActivity = () => {
     model.endtime = Math.round(range.value[1] / 1000)
     model.sid = storeInfo.value.id
     model.data = JSON.stringify(model.mallNewMember)
-    delete model.mallNewMember
+    const newModel = JSON.parse(JSON.stringify(model))
+    delete newModel.mallNewMember
     if (isEdit.value) {
-        updateActivityInfo(model)
+        updateActivityInfo(newModel)
     } else {
-        addStoreActivityInfo(model)
+        addStoreActivityInfo(newModel)
     }
 }
 

@@ -1,5 +1,5 @@
 import { FormInst, useMessage, FormRules } from "naive-ui";
-import { loginChain } from "@/service/chain/system/login";
+import { loginChain, updateChainInfo } from "@/service/chain/system/login";
 
 /**
  * 连锁店管理员登录系统
@@ -86,6 +86,24 @@ export const useChainLogin = () => {
             })
         }
     };
+
+    /**
+     * 更新连锁店管理员信息
+     */
+    const updateChain = async (chainAdmin: Partial<chain.chainAdmin>) => {
+        try {
+            const { data } = await updateChainInfo(chainAdmin)
+            if (data) {
+                if (data.code == 200) {
+                    message.success("密码修改成功，下次登录生效!")
+                } else {
+                    message.error(data.msg)
+                }
+            }
+        } catch (err: any) {
+            message.error(err.message)
+        }
+    };
     /**
      * 绑定回车事件
      */
@@ -108,5 +126,5 @@ export const useChainLogin = () => {
         //页面卸载时清除键盘事件
         document.onkeydown = null
     })
-    return { userInfo, handleValidateButtonClick, loading, formRef, formRules }
+    return { userInfo, handleValidateButtonClick, loading, formRef, formRules, updateChain, message }
 }

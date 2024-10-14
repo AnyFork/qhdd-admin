@@ -1,4 +1,4 @@
-import { chainAdminLogInApi, chainAdminLogOutApi } from '../api'
+import { chainAdminLogInApi, chainAdminLogOutApi, updateChainInfoApi } from '../api'
 /**
  * 连锁店管理员登录
  * @param key 账号
@@ -12,3 +12,12 @@ export const loginChain = async (mobile: string, password: string) => await chai
  * @returns 
  */
 export const logOutChain = async () => await chainAxios.get(chainAdminLogOutApi)
+
+
+/**
+ * 修改连锁店管理员信息
+ * @param key 账号
+ * @param password 密码
+ * @returns 
+ */
+export const updateChainInfo = async (chainAdmin: Partial<chain.chainAdmin>) => await chainAxios.post(updateChainInfoApi, chainAdmin)
