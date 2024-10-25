@@ -86,7 +86,6 @@ export const useLoginUser = () => {
      * 商户名称
      */
     const storeName = computed(() => {
-        console.log(chainInfo.value)
         if (storeInfoFrom.value == 1) {
             if (route.path.startsWith("/store")) {
                 return storeInfo.value?.title
@@ -139,7 +138,15 @@ export const useLoginUser = () => {
         if (route.path.startsWith("/platform")) {
             return usePlatformLogOut().logOut
         } else if (route.path.startsWith("/store")) {
-            return useStoreLogOut().logOut
+            if (storeInfoFrom.value == 1) {
+                return usePlatformLogOut().logOut
+            } else if (storeInfoFrom.value == 2) {
+                return useStoreLogOut().logOut
+            } else if (storeInfoFrom.value == 3) {
+                return useChainLogOut().logOut
+            } else {
+                return useStoreLogOut().logOut
+            }
         } else if (route.path.startsWith("/chain")) {
             return useChainLogOut().logOut
         }

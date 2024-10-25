@@ -366,6 +366,7 @@ declare global {
   const usePlatformAdmin: typeof import('../composables/business/platform/admin/useAdmin')['usePlatformAdmin']
   const usePlatformCategory: typeof import('../composables/business/platform/categoty/useCategory')['usePlatformCategory']
   const usePlatformClerk: typeof import('../composables/business/platform/clerk/useClerk')['usePlatformClerk']
+  const usePlatformGoods: typeof import('../composables/business/platform/goods/useGoodsList')['usePlatformGoods']
   const usePlatformLogOut: typeof import('../composables/business/platform/admin/loginOut')['usePlatformLogOut']
   const usePlatformLogin: typeof import('../composables/business/platform/admin/loginIn')['usePlatformLogin']
   const usePlatformOrder: typeof import('../composables/business/platform/order/useOrder')['usePlatformOrder']

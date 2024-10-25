@@ -118,6 +118,15 @@ const platform: AuthRoute.Route[] = [{
             title: '商户设置',
             icon: 'iconamoon:store-light'
         }
+    },
+    {
+        name: "platform-info-hot",
+        path: "/platform/info/hot",
+        component: () => import('@/pages/platform/hot/index.vue'),
+        meta: {
+            title: '爆品设置',
+            icon: 'mdi:hot'
+        }
     }],
     meta: {
         title: '平台信息管理',

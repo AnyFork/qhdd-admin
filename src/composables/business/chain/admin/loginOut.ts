@@ -22,7 +22,8 @@ export const useChainLogOut = () => {
                     clearChainAuthStorage()
                     sessionStorage.clear()
                     route.isInitAuthRoute = false
-                    router.replace('/login/chain')
+                    await router.replace('/login/chain')
+                    window.location.reload()
                 } catch (err: any) {
                     //@ts-ignore
                     window.$message.error(err.message)

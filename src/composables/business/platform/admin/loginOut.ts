@@ -20,7 +20,8 @@ export const usePlatformLogOut = () => {
                     //清除本地localStorage中的数据
                     clearPlatformAuthStorage()
                     sessionStorage.clear()
-                    router.replace('/login/platform')
+                    await router.replace('/login/platform')
+                    window.location.reload()
                 } catch (err: any) {
                     //@ts-ignore
                     window.$message.error(err.message)

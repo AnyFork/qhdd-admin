@@ -23,7 +23,8 @@ export const useStoreLogOut = () => {
                     clearStoreAuthStorage()
                     sessionStorage.clear()
                     route.isInitAuthRoute = false
-                    router.replace('/login/store')
+                    await router.replace('/login/store')
+                    window.location.reload()
                 } catch (err: any) {
                     //@ts-ignore
                     window.$message.error(err.message)

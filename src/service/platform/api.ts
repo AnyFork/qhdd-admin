@@ -322,3 +322,13 @@ export const updateChainApi = "/chain/update"
  * 商户导出订单
  */
 export const exportOrderInfoApi = "/stat/store/orderExport"
+
+/**
+ * 爆品列表
+ */
+export const hotGoodsInfoApi = "/goods/getList"
+
+/**
+ * 更新商品
+ */
+export const updateGoodsApi = "/goods/update"
