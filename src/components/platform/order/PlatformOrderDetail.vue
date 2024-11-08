@@ -241,8 +241,8 @@
                 <div class="flex items-center text-16px p-2 my-2 h-40px bg-#eee before:content-[''] before:w-5px before:h-20px before:bg-primary before:inline-flex before:mr-2">
                     <span class="w-100px">退款信息</span>
                     <div class="flex-1 text-14px text-#ff6700 text-right">
-                        <span>{{ order.status == 5 ? '部分退款' : '整单退款' }}</span>
-                        <span v-if="order.refundFee" class="pr-1"> 退款金额: ¥{{ order.refundFee }} </span>
+                        <span v-if="order.refundFee > 0">{{ Number(order.refundFee) < Number(order.finalFee) ? '部分退款' : '整单退款' }}</span>
+                        <span v-if="order.refundFee > 0" class="pr-1"> 退款金额: ¥{{ order.refundFee }} </span>
                     </div>
                 </div>
                 <div class="p-2">
@@ -255,7 +255,10 @@
                             <n-step v-for="(log, ix) in refund.orderRefundLogList" :key="'log' + ix">
                                 <template #title>
                                     <div class="flex-row-between text-#515a6e w-700px">
-                                        <span>{{ log.title }}</span>
+                                        <div>
+                                            <span>{{ log.title }}</span>
+                                            <span v-if="log.type == 'agree'" class="ml-4">操作人：{{ log.roleCn }}</span>
+                                        </div>
                                         <span>{{ transformTimestampsToDateString(log.addtime) }}</span>
                                     </div>
                                 </template>

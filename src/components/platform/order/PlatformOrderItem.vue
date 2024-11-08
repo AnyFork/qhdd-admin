@@ -16,7 +16,7 @@
                 </div>
             </div>
             <!--订单费用状态-->
-            <div class="absolute right-180">
+            <div class="absolute right-80">
                 <img v-if="order.isPay == 1 && order.refundStatus == 0" src="/images/pay.png" />
                 <img v-if="order.isPay == 0" src="/images/notPay.png" />
                 <!--退款中-->
@@ -27,7 +27,7 @@
                 <img v-if="order.refundStatus == 3" src="/images/refundOk.png" />
             </div>
             <!--订单结算状态-->
-            <div v-if="order.status == 5 || order.status == 6" class="absolute right-120">
+            <div v-if="order.status == 5 || order.status == 6" class="absolute right-50">
                 <img v-if="order.profitSharing == 0" src="/images/profitSharing.png" />
                 <img v-if="order.profitSharing == 1" src="/images/profitSharinged.png" />
             </div>
@@ -240,7 +240,7 @@
                         <div class="flex items-center gap-2">
                             <div class="font-bold text-16px mr-4">退款信息</div>
                             <div class="text-14px text-#ff6700">
-                                <span v-if="order.refundFee > 0">{{ order.status == 5 ? '部分退款' : '整单退款' }}</span>
+                                <span v-if="order.refundFee > 0">{{ Number(order.refundFee) < Number(order.finalFee) ? '部分退款' : '整单退款' }}</span>
                                 <span v-if="order.refundFee > 0" class="pr-1"> 退款金额: ¥{{ order.refundFee }} </span>
                             </div>
                         </div>
@@ -261,7 +261,10 @@
                             <n-step v-for="(log, ix) in refund.orderRefundLogList" :key="'log' + ix" :style="{ '--n-indicator-color': dynamicColor, '--n-indicator-border-color': dynamicColor, '--n-indicator-text-color': '#fff', '--n-splitor-color': dynamicColor }">
                                 <template #title>
                                     <div class="flex-row-between w-900px text-#515a6e">
-                                        <span>{{ log.title }}</span>
+                                        <div>
+                                            <span>{{ log.title }}</span>
+                                            <span v-if="log.type == 'agree'" class="ml-4">操作人：{{ log.roleCn }}</span>
+                                        </div>
                                         <span>{{ transformTimestampsToDateString(log.addtime) }}</span>
                                     </div>
                                 </template>

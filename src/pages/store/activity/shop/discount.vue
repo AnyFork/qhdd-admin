@@ -45,7 +45,7 @@
                 </div>
             </n-form-item>
             <div class="my-20 px-100px flex gap-6">
-                <n-button type="primary" class="w-200px" :loading="loading" :disabled="!isAdmin" @click="submitActivity">{{ isEdit ? '编辑活动' : '创建活动' }}</n-button>
+                <n-button v-if="checkPlatformFee()" type="primary" class="w-200px" :loading="loading" :disabled="!isAdmin" @click="submitActivity">{{ isEdit ? '编辑活动' : '创建活动' }}</n-button>
                 <n-button v-if="isEdit" type="error" class="w-200px" :loading="loading" :disabled="!isAdmin" @click="deleteActivity">删除活动</n-button>
             </div>
         </n-form>
@@ -139,6 +139,13 @@ const deleteActivity = () => {
  */
 const addItem = () => {
     model.discount!.push({ condition: undefined, back: undefined, plateform_charge: 0, store_charge: 0, agent_charge: 0 })
+}
+
+/**
+ * 判断是否存在平台承担费用
+ */
+const checkPlatformFee = () => {
+    return model.discount?.find((item) => item.plateform_charge && item.plateform_charge > 0) ? false : true
 }
 
 onMounted(async () => {

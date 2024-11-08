@@ -43,7 +43,8 @@ export const usePlatformGoods = () => {
         title: undefined,
         storeTitle: undefined,
         storeStatus: 1,
-        sortType: 15
+        sortType: 15,
+        status: 1
     })
 
     /**
