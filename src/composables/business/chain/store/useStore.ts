@@ -193,7 +193,7 @@ export const useChainStore = () => {
             className: "flex-row-center h-full",
             render: (rowData, _index: number) => {
                 const node = rowData.categoryList?.find((item: { type: string }) => item?.type == "TY_store_label")
-                return h(StoreLogo, { src: previewUrl + rowData.logo, tag: node ? { color: node.textColor, text: node.title, bgColor: node.color } : undefined, business: rowData.businessStatus == 2 }, {})
+                return h(StoreLogo, { src: previewUrl + rowData.logo, tag: node ? { color: node.textColor, text: node.title, bgColor: node.color } : undefined, business: rowData.businessStatus }, {})
 
             }
         },
@@ -263,15 +263,15 @@ export const useChainStore = () => {
                             }
                         },
                         {
-                            default: () => (rowData.businessStatus == 2 ? '您确定歇业吗,歇业后将无法在小程序展示' : '您确定营业吗,营业后将正常显示在小程序'),
-                            trigger: () => h(NSwitch, { checkedValue: 2, uncheckedValue: 0, value: rowData.businessStatus }, {
+                            default: () => (rowData.businessStatus == 2 || rowData.businessStatus == 1 ? '您确定歇业吗,歇业后将无法售卖商品' : '您确定营业吗,营业后将正常售卖商品'),
+                            trigger: () => h(NSwitch, { checkedValue: true, uncheckedValue: false, value: rowData.businessStatus != 0 }, {
                                 checked: () => "营业中",
                                 unchecked: () => "歇业中"
                             })
                         }
                     )
                 } else {
-                    return h(NPopover, {}, { default: () => '非系统管理员禁止操作', trigger: () => h(NSwitch, { checkedValue: 2, uncheckedValue: 0, value: rowData.businessStatus, disabled: true }, {}) })
+                    return h(NPopover, {}, { default: () => '非系统管理员禁止操作', trigger: () => h(NSwitch, { checkedValue: true, uncheckedValue: false, value: rowData.businessStatus != 0, disabled: true }, {}) })
                 }
             }
         },

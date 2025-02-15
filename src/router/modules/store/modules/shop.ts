@@ -6,18 +6,9 @@ const shop: AuthRoute.Route[] = [{
     component: basicLayout,
     redirect: "/store/shop/settings",
     children: [{
-        name: "store-shop-settings",
-        path: "/store/shop/settings",
-        redirect: "/store/shop/settings/list",
-        children: [{
-            name: "store-shop-settings-list",
-            path: "/store/shop/settings/list",
-            component: () => import('@/pages/store/shop/setting/list/index.vue'),
-            meta: {
-                title: '商户设置',
-                icon: 'solar:shop-2-outline'
-            }
-        }],
+        name: "store-shop-settings-list",
+        path: "/store/shop/settings/list",
+        component: () => import('@/pages/store/shop/setting/list/index.vue'),
         meta: {
             title: '门店设置',
             icon: 'material-symbols-light:settings-outline'

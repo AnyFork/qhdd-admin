@@ -63,3 +63,13 @@ export enum EnumDataType {
   map = '[object Map]',
   file = '[object File]'
 }
+
+/**
+ * 分账状态 0=不分账,1=待分账,2=分账中,3=已分账
+ */
+export const profitSharing = {
+  0: '不分账',
+  1: '待分账',
+  2: '分账中',
+  3: '已分账'
+}

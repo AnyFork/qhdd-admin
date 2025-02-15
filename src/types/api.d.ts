@@ -315,6 +315,10 @@ declare namespace system {
          * 排序
          */
         sortType: number
+        /**
+         * 广告内容
+         */
+        content: string
     }
 }
 
@@ -381,9 +385,9 @@ declare namespace store {
          */
         click: number
         /**
-         * 外卖营业状态(0=休息中,2=营业)
+         * 外卖营业状态(0=歇业中,1=休息中，2=营业中)，0和2为数据库中店铺实际状态，1为运行时状态，营业时间段外，商户未手动更改的状态为1时的状态视为休息中
          */
-        businessStatus: 0 | 2
+        businessStatus: 0 | 1 | 2
         /**
          * 连锁店名称
          */
@@ -1322,9 +1326,9 @@ declare namespace store {
          */
         apiKey: string
         /**
-         * 设备类型(printer=打印机,voiceBox=音箱) 
+         * 设备类型(printer=打印机,label_printer=标签机) 
          */
-        deviceType: "printer" | "voiceBox"
+        deviceType: "printer" | "label_printer"
         /**
          * id
          */
@@ -1845,7 +1849,10 @@ declare namespace goodCar {
              */
             discountDeliveryFee: number
         }
-
+        /**
+         * 用户可使用红包数目
+        */
+        usedRedpacketList: activity.redPacketAll[]
     }
     interface storeCarGoodsAttr {
         /**
@@ -2082,7 +2089,13 @@ declare namespace order {
             /**
              * 购物车id
              */
-            id: number
+            id: number,
+            /**
+            * 使用的红包信息
+            */
+            usedRedpacketList: {
+                id: number
+            }[]
         },
         memberAddress: {
             /**
@@ -2336,9 +2349,9 @@ declare namespace order {
          */
         plateformServeFee: number
         /**
-         * 分账状态
+         * {Integer}   profitSharing     分账状态(0=不分账,1=待分账,2=分账中,3=已分账)
          */
-        profitSharing: 0 | 1
+        profitSharing: 0 | 1 | 2 | 3
         /**
          * 最终退费
          */
@@ -2958,6 +2971,10 @@ declare namespace userInfo {
      */
     interface user {
         /**
+         * 用户id
+         */
+        id: number
+        /**
          * 顾客id
          */
         uid: number
@@ -2989,6 +3006,47 @@ declare namespace userInfo {
          * 最近下单成功时间
          */
         successLastTime: number
+        /**
+         * 会员等级
+         */
+        level: number
+        /**
+         * 是否可分享社群红包活动页面（1=可分享，0=不可分享）
+         */
+        isSpread: 0 | 1
+        /**
+         * 红包信息
+         */
+        redpacketStat: {
+            /**
+             * 已获取等级红包总数量 
+             */
+            getLevelRedpacketCountTotal: number
+            /**
+             * 可获取等级红包总数量
+             */
+            levelRedpacketCountTotal: number
+            /**
+             * 红包总数量
+             */
+            redpacketCount: number
+            /**
+             * 未使用-红包总数量
+             */
+            notUsedRedpacketCount: number
+            /**
+             * 已使用红包总数量
+             */
+            usedRedpacketCount: number
+            /**
+             * 已过期红包总数量
+             */
+            expiredRedpacketCount: number
+        }
+        /**
+         * 用户累计消费金额
+         */
+        successPrice: number
     }
 
     /**
@@ -3564,5 +3622,416 @@ declare namespace stat {
          * 已取消单数
          */
         cancleCount: number
+    }
+}
+
+/**
+ * 会员模块
+ */
+declare namespace member {
+    /**
+     * 会员等级
+     */
+    interface level {
+        /**
+         * 权益数量
+         */
+        benefitsCount: number
+        /**
+         * 权益描述
+         */
+        benefitsDesp: string
+        /**
+         * 条件描述
+         */
+        conditionDesp: string
+        /**
+         * 条件类型(1=消费金额,2=消费次数)
+         */
+        conditionType: 1 | 2
+        /**
+         * 条件值
+         */
+        conditionValue: number
+        /**
+         * 创建时间
+         */
+        createTime: number
+        /**
+         * 会员id
+         */
+        id: number
+        /**
+         * 会员等级
+         */
+        level: number
+        /**
+         * 会员等级名称
+         */
+        levelName: string
+        /**
+         * 可领取红包金额
+         */
+        redpacketAmount: number
+        /**
+         * 可领取红包次数
+         */
+        redpacketCount: number
+        /**
+         * 领取红包有效期天数 
+         */
+        redpacketDayLimit: number
+        /**
+         * 更新时间
+         */
+        updateTime: number
+        /**
+         * 领取红包使用金额限制
+         */
+        redpacketUseAmountLimit: number
+    }
+    /**
+     * 会员红包
+     */
+    interface redPacket {
+        /**
+         * 红包id
+         */
+        id: number
+        /**
+         * 用户id
+         */
+        uid: number
+        /**
+         * 红包名称
+         */
+        name: string
+        /**
+         * 红包金额
+         */
+        amount: number
+        /**
+         * 红包类型(member_level=会员尊享,group=社群红包,store=商家红包,score_mall=商城红包,slow=慢必赔,common=通用红包)
+         */
+        type: "member_level" | "group" | "store" | "score_mall" | "slow" | "common"
+        /**
+         * 领取红包时的会员等级(会员尊享红包有值) 
+         */
+        memberLevel: number
+        /**
+         * 红包状态(1=未使用,2=已使用,3=已失效) 
+         */
+        status: 1 | 2 | 3
+        /**
+         * 使用金额限制/满X元可使用 
+         */
+        useAmountLimit: number
+        /**
+         * 用户昵称
+         */
+        nickname: string
+        /**
+         * 用户真实名称
+         */
+        realname: string
+        /**
+         * 用户手机号码
+         */
+        mobile: string
+        /**
+         * 备注
+         */
+        remark: string
+        /**
+         * 创建时间
+         */
+        startTime: number
+        /**
+         * 过期时间
+         */
+        endTime: number
+        /**
+         * 领取时间
+         */
+        useTime: number,
+        /**
+         * 红包过期天数
+         */
+        limitDay: number
+    }
+}
+
+/**
+ * 活动模块
+ */
+declare namespace activity {
+    /**
+     * 红包活动
+     */
+    interface redPacket {
+        /**
+         * 活动id
+         */
+        id: number
+        /**
+         * 红包类型(group=社群红包,store=商户红包) 
+         */
+        type: "group" | "store"
+        /**
+         * 商户id
+         */
+        sid?: number
+        /**
+         * 商户名称(类型为商户红包时需要填写) 
+         */
+        storeTitle: string
+        /**
+         * 红包名称
+         */
+        title: string
+        /**
+         * 红包金额
+         */
+        amount?: number
+        /**
+         * 商户承担金额类型为商户红包时需要填写) 
+         */
+        storeAmount?: number
+        /**
+         * 红包使用金额限制 
+         */
+        useAmountLimit: number
+        /**
+         * 红包期限天数 
+         */
+        dayLimit: number
+        /**
+         * 状态(1=上架,2=下架) 
+         */
+        status: 1 | 2
+        /**
+         * 创建日期
+         */
+        createTime: number
+        /**
+         * 库存
+         */
+        total: number
+        /**
+         * 剩余数量
+         */
+        remainCount: number
+        /**
+         * 备注信息
+         */
+        remark: string
+        /**
+         * 排序 排序方式 (0 = 默认, 1 = ID, 2 = 红包类型(group=社群红包,store=商户红包), 3 = 商户id(类型为商户红包时需要填写), 4 = 商户名称(类型为商户红包时需要填写), 5 = 红包名称, 6 = 红包金额, 7 = 商户承担金额类型为商户红包时需要填写), 8 = 红包使用金额限制, 9 = 红包期限天数, 10 = 状态(1=上架,2=下架), 11 = 创建日期, 12 = 库存, 13 = 剩余数量, 14 = 备注)
+         */
+        sortType: number
+    }
+
+    /**
+    * 所有红包活动
+    */
+    interface redPacketAll {
+        /**
+         * 红包id
+         */
+        id: number
+        /**
+         * 用户id
+         */
+        uid: number
+        /**
+         * 红包名称
+         */
+        name: string
+        /**
+         * 红包金额
+         */
+        amount: number
+        /**
+         * 红包类型(member_level=会员尊享,group=社群红包,store=商家红包,score_mall=商城红包,slow=慢必赔,common=通用红包)
+         */
+        type: "member_level" | "group" | "store" | "score_mall" | "slow" | "common"
+        /**
+         * 领取红包时的会员等级(会员尊享红包有值) 
+         */
+        memberLevel: number
+        /**
+         * 红包状态(1=未使用,2=已使用,3=已失效) 
+         */
+        status: 1 | 2 | 3
+        /**
+         * 使用金额限制/满X元可使用 
+         */
+        useAmountLimit: number
+        /**
+         * 用户昵称
+         */
+        nickname: string
+        /**
+         * 用户真实名称
+         */
+        realname: string
+        /**
+         * 用户手机号码
+         */
+        mobile: string
+        /**
+         * 备注
+         */
+        remark: string
+        /**
+         * 创建时间
+         */
+        startTime: number
+        /**
+         * 过期时间
+         */
+        endTime: number
+        /**
+         * 领取时间
+         */
+        useTime: number,
+        /**
+         * 红包过期天数
+         */
+        limitDay: number
+    }
+
+    /**
+     * 商城活动
+     */
+    interface mall {
+        /**
+         * 活动id
+         */
+        id: number
+        /**
+         * 商品类型(redpacket=红包,real=实物) 
+         */
+        type: "redpacket" | "real"
+        /**
+         * 名称
+         */
+        title: string
+        /**
+         * 实物缩略图
+         */
+        thumb: string
+        /**
+         * 兑换积分
+         */
+        score: number
+        /**
+         * 状态(1=上架,2=下架)
+         */
+        status: 1 | 2
+        /**
+         * 红包金额(类型为红包时需要填写) 
+         */
+        amount?: number
+        /**
+         * 红包使用金额限制(类型为红包时需要填写) 
+         */
+        useAmountLimit: number
+        /**
+         * 红包期限天数(类型为红包时需要填写) 
+         */
+        dayLimit: number
+        /**
+         * 创建日期 
+         */
+        createTime: number
+        /**
+         * 库存
+         */
+        total: number
+        /**
+         * 已兑换数量
+         */
+        exchangeCount: number
+        /**
+         * 备注信息
+         */
+        remark: string
+        /**
+         * 排序方式 (0 = 默认, 1 = ID, 2 = 商品类型(redpacket=红包,real=实物), 3 = 商品名称, 4 = 缩略图, 5 = 兑换积分, 6 = 状态(1=上架,2=下架), 7 = 红包金额(类型为红包时需要填写), 8 = 红包使用金额限制(类型为红包时需要填写), 9 = 红包期限天数(类型为红包时需要填写), 10 = 创建日期, 11 = 库存, 12 = 已兑换数量, 13 = 备注)
+         */
+        sortType: number
+    }
+
+    /**
+     * 签到规则
+     */
+    interface signinRule {
+        /**
+         * 规则id
+         */
+        id?: number
+        /**
+         * 单日签到积分(按序逗号分隔) 
+         */
+        dayScoreSplits?: string
+        /**
+         * 持续签到积分 
+         */
+        continueScore?: number
+        /**
+         * 规则描述
+         */
+        desp?: string
+        /**
+         * 创建时间
+         */
+        createTime?: number
+    }
+
+    /**
+     * 签到记录
+     */
+    interface signRecord {
+        /**
+         * 签到记录id
+         */
+        id: number
+        /**
+         * 用户id
+         */
+        uid: number
+        /**
+         * 签到状态
+         */
+        signStatus: string
+        /**
+         * 起始签到日期 
+         */
+        signStartTime: number
+        /**
+         * 结束签到日期 
+         */
+        signLastTime: number
+        /**
+         * 年与周 
+         */
+        yearWeek: number
+        /**
+         * 签到次数
+         */
+        signTimes: number
+        /**
+         * 备注
+         */
+        remark: string
+        /**
+         * 连续签到天数
+         */
+        continueSignDays: number
+        /**
+         * 签到后是否升级(1=升级,0=未升级)
+         */
+        isUpgradeLevel: 0 | 1
     }
 }

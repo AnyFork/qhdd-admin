@@ -21,6 +21,14 @@ const customer: AuthRoute.Route[] = [{
             title: '地址列表',
             icon: 'mdi:address-marker-outline'
         }
+    }, {
+        name: "platform-customer-member",
+        path: "/platform/customer/member",
+        component: () => import('@/pages/platform/customer/member/level.vue'),
+        meta: {
+            title: '会员等级',
+            icon: 'lsicon:vip-outline'
+        }
     }],
     meta: {
         title: '顾客信息管理',

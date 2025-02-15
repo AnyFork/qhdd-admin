@@ -2,6 +2,26 @@
     <n-spin :show="loading" description="loading">
         <div class="flex items-center text-16px p-2 my-2 h-40px bg-#eee before:content-[''] before:w-5px before:h-20px before:bg-primary before:inline-flex before:mr-2">外卖设置</div>
         <n-form ref="formRef" :label-width="200" :model="moduleValue" size="medium" label-placement="left" style="margin-top: 20px">
+            <n-form-item label="起送费">
+                <div>
+                    <n-input-number v-model:value="moduleValue.sendPrice" :min="0" :disabled="!isAdmin" clearable placeholder="门店起送费" class="!w-280px">
+                        <template #suffix>
+                            <span class="text-14px text-#999">元</span>
+                        </template>
+                    </n-input-number>
+                    <p class="py-2 text-14px text-#999">门店起送费，门店未设置起送费时，以平台起送费为准</p>
+                </div>
+            </n-form-item>
+            <n-form-item label="配送费">
+                <div>
+                    <n-input-number v-model:value="moduleValue.deliveryPrice" :min="0" :disabled="!isAdmin" clearable placeholder="门店配送费" class="!w-280px">
+                        <template #suffix>
+                            <span class="text-14px text-#999">天</span>
+                        </template>
+                    </n-input-number>
+                    <p class="py-2 text-14px text-#999">门店配送费,门店未设置配送费，以平台配送费为准</p>
+                </div>
+            </n-form-item>
             <n-form-item label="可提前几天点外卖">
                 <div>
                     <n-input-number v-model:value="moduleValue.deliveryWithinDays" :min="0" :max="6" clearable placeholder="" class="!w-280px">
@@ -160,8 +180,8 @@ const submitCallback = (e: MouseEvent) => {
                     }
                 }
             }
-            const { id, deliveryReserveDays, deliveryWithinDays, restCanOrder, dataObj } = moduleValue
-            await updateStoreInfo({ id, deliveryReserveDays, deliveryWithinDays, restCanOrder, data: JSON.stringify(dataObj) })
+            const { id, deliveryReserveDays, deliveryWithinDays, restCanOrder, dataObj, sendPrice, deliveryPrice } = moduleValue
+            await updateStoreInfo({ id, deliveryReserveDays, deliveryWithinDays, restCanOrder, data: JSON.stringify(dataObj), sendPrice, deliveryPrice })
             getStoreDetailInfoBySid()
             // 清空表单校验
             formRef.value?.restoreValidation()

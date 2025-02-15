@@ -38,7 +38,9 @@ export const useAddress = () => {
     const searchForm = reactive<Partial<userInfo.address>>({
         realname: undefined,
         mobile: undefined,
-        address: undefined
+        address: undefined,
+        uid: undefined
+
     })
 
     /**

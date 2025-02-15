@@ -1,5 +1,5 @@
 <template>
-    <n-drawer v-model:show="open" :width="502" placement="right" :mask-closable="false" :close-on-esc="false">
+    <n-drawer v-model:show="open" :width="700" placement="right" :mask-closable="false" :close-on-esc="false">
         <n-drawer-content title="创建广告" closable>
             <n-form ref="formRef" :label-width="100" :model="moduleValue" :rules="rules" size="medium" label-placement="left" style="margin-top: 20px">
                 <n-form-item show-require-mark label="广告名称" path="title">
@@ -22,6 +22,9 @@
                 </n-form-item>
                 <n-form-item label="排序">
                     <n-input-number v-model:value="moduleValue.displayorder" clearable :min="0" :max="9999" placeholder="请输入排序" />
+                </n-form-item>
+                <n-form-item show-require-mark label="广告内容">
+                    <DefaultEditor v-model="moduleValue.content"></DefaultEditor>
                 </n-form-item>
             </n-form>
             <template #footer>

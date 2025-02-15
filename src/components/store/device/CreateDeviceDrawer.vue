@@ -17,6 +17,7 @@
                     <n-radio-group v-model:value="moduleValue.deviceType">
                         <n-space>
                             <n-radio key="printer" value="printer"> 打印机 </n-radio>
+                            <n-radio key="label_printer" value="label_printer"> 标签机 </n-radio>
                         </n-space>
                     </n-radio-group>
                 </n-form-item>
@@ -63,7 +64,7 @@
                         </n-space>
                     </n-radio-group>
                 </n-form-item>
-                <n-form-item label="头部自定义信息">
+                <!-- <n-form-item label="头部自定义信息">
                     <div class="w-full">
                         <n-input v-model:value="moduleValue.printHeader" clearable placeholder="请输入打印机头部自定义信息" :count="20" show-count />
                         <p class="py-1 text-#999 text-14px">建议：少于20字</p>
@@ -84,7 +85,7 @@
                 </n-form-item>
                 <n-form-item label="二维码链接地址">
                     <n-input v-model:value="moduleValue.qrcodeLink" clearable placeholder="请输入打印机二维码链接地址" />
-                </n-form-item>
+                </n-form-item> -->
             </n-form>
             <template #footer>
                 <n-button type="info" @click="submitCallback" :loading="loading">保存</n-button>

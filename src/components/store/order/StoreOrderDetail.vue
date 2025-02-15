@@ -55,7 +55,7 @@
                     </n-flex>
                     <n-flex class="py-1">
                         <span class="w-120px text-right">分账状态：</span>
-                        <n-tag :type="order.profitSharing == 1 ? 'success' : 'primary'">{{ order.profitSharing == 1 ? '已分账' : '未分账' }}</n-tag>
+                        <n-tag :type="order.profitSharing == 1 ? 'success' : 'primary'">{{ profitSharing[order.profitSharing] }}</n-tag>
                     </n-flex>
                 </div>
             </div>
@@ -162,6 +162,10 @@
                             <span>¥{{ order?.orderCart?.usedActivityMap?.discountDeliveryFee }}</span>
                             <span class="text-#999 text-14px">({{ `商户承担¥${order?.orderCart?.usedActivityMap?.deliveryFeeDiscount.store_charge}, 平台承担¥${order?.orderCart?.usedActivityMap?.deliveryFeeDiscount?.plateform_charge}` }})</span>
                         </div>
+                    </n-flex>
+                    <n-flex v-if="calcRedPacketFee" class="py-1">
+                        <span class="w-120px text-right">{{ calcRedPacketFee?.text }}</span>
+                        <span>-¥{{ calcRedPacketFee?.amount }}</span>
                     </n-flex>
                     <n-flex v-if="order?.refundFee" class="py-1">
                         <span class="w-120px text-right">订单退款：</span>
@@ -334,8 +338,20 @@
 <script setup lang="ts">
 import { transformTimestampsToDateString } from '@/utils/tools/date'
 import { orderStatus } from '@/utils/enum/system'
+import { profitSharing } from '@/utils/enum/common'
 import { previewUrl } from '@/utils/table/renderTools'
 import Decimal from 'decimal.js'
 const active = defineModel<boolean>('show')
 const { order } = defineProps<{ order: order.orderInfo }>()
+/**
+ * 计算红包
+ */
+const calcRedPacketFee = computed(() => {
+    if (order?.orderCart?.usedRedpacketList?.length > 0) {
+        return {
+            text: order?.orderCart?.usedRedpacketList[0].type == 'score_mall' ? '优惠券' : '红包',
+            amount: order?.orderCart?.usedRedpacketList[0].amount
+        }
+    }
+})
 </script>

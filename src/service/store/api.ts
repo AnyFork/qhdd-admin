@@ -146,3 +146,13 @@ export const todayStatInfoApi = "/stat/store/todayDatas"
  * 历史数据统计
  */
 export const historyStatInfoApi = "/stat/store/histDatas"
+
+/**
+ * 商家商品销量列表
+ */
+export const sailedListInfoApi = "/goods/store/getSailedList"
+
+/**
+ * 商品销量导出
+ */
+export const sailedExportInfoApi = "/goods/store/sailedExport"

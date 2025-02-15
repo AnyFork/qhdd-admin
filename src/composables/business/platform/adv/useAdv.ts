@@ -62,6 +62,7 @@ export const useAdv = () => {
         img: undefined,
         link: undefined,
         title: undefined,
+        content: undefined,
         status: 1,
         displayorder: 0
     })

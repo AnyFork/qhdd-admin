@@ -146,6 +146,12 @@
                                 <span>小计: ¥{{ order.deliveryFee }}</span>
                             </div>
                         </div>
+                        <div v-if="calcRedPacketFee" class="py-2 border-t border-t-solid border-t-#e4e7ed justify-between">
+                            <div class="flex items-center justify-between w-900px">
+                                <span>{{ calcRedPacketFee?.text }}</span>
+                                <span class="text-#ff3333 font-bold">-¥{{ calcRedPacketFee?.amount }}</span>
+                            </div>
+                        </div>
                         <div v-if="order?.orderCart?.usedActivityMap?.discount?.back" class="py-2 border-t border-t-solid border-t-#e4e7ed">
                             <div class="flex items-center justify-between w-900px">
                                 <div>
@@ -381,6 +387,18 @@ const serialSn = computed(() => {
             return order.serialSn + '退款'
         } else {
             return order.serialSn
+        }
+    }
+})
+
+/**
+ * 计算红包
+ */
+const calcRedPacketFee = computed(() => {
+    if (order?.orderCart?.usedRedpacketList?.length > 0) {
+        return {
+            text: order?.orderCart?.usedRedpacketList[0].type == 'score_mall' ? '优惠券' : '红包',
+            amount: order?.orderCart?.usedRedpacketList[0].amount
         }
     }
 })

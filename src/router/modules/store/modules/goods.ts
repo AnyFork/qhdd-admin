@@ -22,6 +22,15 @@ const goods: AuthRoute.Route[] = [{
             title: '商品列表',
             icon: 'ic:baseline-list'
         }
+    },
+    {
+        name: "store-goods-sailed",
+        path: "/store/goods/sailed",
+        component: () => import('@/pages/store/goods/sailed/index.vue'),
+        meta: {
+            title: '商品销量',
+            icon: 'solar:chart-outline'
+        }
     }],
     meta: {
         title: '商品管理',

@@ -136,6 +136,15 @@ export const useStoreDevice = () => {
             },
         },
         {
+            title: '设备类型',
+            width: 200,
+            align: 'center',
+            key: 'deviceType',
+            render(_rowData, _rowIndex) {
+                return h(NTag, { type: "success" }, { default: () => _rowData.deviceType == 'printer' ? "打印机" : "标签机" })
+            },
+        },
+        {
             title: '设备名称',
             align: 'center',
             key: 'name'

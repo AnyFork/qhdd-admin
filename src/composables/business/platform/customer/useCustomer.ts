@@ -1,5 +1,5 @@
-import { DataTableColumns, NAvatar } from 'naive-ui'
-import { getCustomerList } from '@/service/platform/customer';
+import { getCustomerList, updateMemberInfo } from '@/service/platform/customer';
+import { DataTableColumns, NButton, NPopover, NAvatar, NPopconfirm, NSwitch } from 'naive-ui'
 /**
  * 顾客模块
  * @returns 
@@ -8,6 +8,23 @@ export const useCustomer = () => {
     const tableData = ref<userInfo.user[]>([])
     const message = useMessage()
     const loading = ref(false)
+    const { isAdmin } = useLoginUser()
+
+    /**
+     * 发红包modal状态
+     */
+    const distributeShow = ref(false)
+
+    /**
+     * 用户信息
+     */
+    const rowNode = ref<userInfo.user>()
+
+
+    /**
+     * 查看详情drawer状态
+     */
+    const showDetail = ref(false)
 
     /**
      * 表格分页配置
@@ -35,9 +52,10 @@ export const useCustomer = () => {
     /**
      * 查询条件
      */
-    const searchForm = reactive<Partial<userInfo.user>>({
+    const searchForm = reactive({
         nickname: undefined,
-        mobile: undefined,
+        id: undefined,
+        addressMobile: undefined
     })
 
     /**
@@ -55,13 +73,16 @@ export const useCustomer = () => {
         },
         {
             title: 'UID',
+            width: 100,
             align: 'center',
-            key: 'uid'
+            key: 'id'
         },
         {
             title: '微信图像',
             align: 'center',
+            width: 100,
             key: 'avatar',
+            fixed: 'left',
             render: (_rowData, _index: number) => {
                 return h(NAvatar, { src: _rowData.avatar, round: true, fallbackSrc: getAssetsImages('empty-user.png') }, {})
             }
@@ -72,25 +93,86 @@ export const useCustomer = () => {
             key: 'nickname'
         },
         {
-            title: '手机号码',
+            title: '会员等级',
+            width: 100,
             align: 'center',
-            key: 'mobile'
-        },
-        {
-            title: '首次下单',
-            align: 'center',
-            key: 'successFirstTime',
+            key: 'level',
             render(rowData, _rowIndex) {
-                return rowData.successFirstTime ? transformTimestampsToDateString(rowData.successFirstTime) : '-'
+                return rowData.level + '级'
             },
         },
         {
-            title: '最近下单',
+            title: '累计消费金额(元)',
+            width: 140,
             align: 'center',
-            key: 'successLastTime',
+            key: 'successPrice'
+        },
+        {
+            title: '红包总数量',
+            width: 100,
+            align: 'center',
+            key: 'redpacketCount',
             render(rowData, _rowIndex) {
-                return rowData.successLastTime ? transformTimestampsToDateString(rowData.successLastTime) : '-'
+                return rowData.redpacketStat.redpacketCount
             },
+        },
+        {
+            title: '(已使用/未使用)红包总数量',
+            width: 200,
+            align: 'center',
+            key: 'num1',
+            render(rowData, _rowIndex) {
+                return rowData.redpacketStat.usedRedpacketCount + "/" + rowData.redpacketStat.notUsedRedpacketCount
+            },
+        },
+        {
+            title: '(已获取/未获取)等级红包总数量',
+            width: 230,
+            align: 'center',
+            key: 'num2',
+            render(rowData, _rowIndex) {
+                return rowData.redpacketStat.getLevelRedpacketCountTotal + "/" + rowData.redpacketStat.levelRedpacketCountTotal
+            },
+        },
+        {
+            title: '已过期红包总数量',
+            width: 150,
+            align: 'center',
+            key: 'expiredRedpacketCount',
+            render(rowData, _rowIndex) {
+                return rowData.redpacketStat.expiredRedpacketCount
+            },
+        },
+        {
+            title: '社群分享权限',
+            width: 120,
+            align: 'center',
+            key: 'isSpread',
+            render(rowData, _rowIndex) {
+                if (isAdmin.value) {
+                    return h(
+                        NPopconfirm,
+                        {
+                            onPositiveClick: () => {
+                                if (rowData.isSpread == 0) {
+                                    updateMember({ id: rowData.id, isSpread: 1 })
+                                } else {
+                                    updateMember({ id: rowData.id, isSpread: 0 })
+                                }
+                            }
+                        },
+                        {
+                            default: () => (rowData.isSpread == 1 ? '关闭后用户无权分享社群红包' : '您确定开启吗,开启后用户有权限分享社群红包'),
+                            trigger: () => h(NSwitch, { checkedValue: 1, uncheckedValue: 0, value: rowData.isSpread }, {
+                                checked: () => "有权限",
+                                unchecked: () => "无权限"
+                            })
+                        }
+                    )
+                } else {
+                    return h(NPopover, {}, { default: () => '非系统管理员禁止操作', trigger: () => h(NSwitch, { checkedValue: 1, uncheckedValue: 0, value: rowData.isSpread, disabled: true }, {}) })
+                }
+            }
         },
         {
             title: '加入日期',
@@ -99,6 +181,77 @@ export const useCustomer = () => {
             render(rowData, _rowIndex) {
                 return rowData.addtime ? transformTimestampsToDateString(rowData.addtime) : "-"
             },
+        },
+        {
+            title: '操作',
+            key: 'actions',
+            align: 'center',
+            fixed: 'right',
+            render(rowData) {
+                if (isAdmin.value) {
+                    return [h(
+                        NButton,
+                        {
+                            size: 'small',
+                            type: 'error',
+                            onClick: () => {
+                                rowNode.value = rowData
+                                distributeShow.value = true
+                            }
+                        },
+                        { default: () => '发红包' }
+                    ), h(
+                        NButton,
+                        {
+                            size: 'small',
+                            type: 'success',
+                            style: {
+                                marginLeft: '10px'
+                            },
+                            onClick: () => {
+                                rowNode.value = rowData
+                                showDetail.value = true
+                            }
+                        },
+                        { default: () => '红包详情' }
+                    )]
+                } else {
+                    return [h(
+                        NPopover,
+                        {},
+                        {
+                            default: () => '非管理员账号禁止发红包',
+                            trigger: () =>
+                                h(
+                                    NButton,
+                                    {
+                                        size: 'small',
+                                        type: 'error',
+                                        style: {
+                                            cursor: 'not-allowed',
+                                            opacity: 0.5
+                                        }
+                                    },
+                                    { default: () => '发红包' }
+                                )
+                        }
+                    ), h(
+                        NButton,
+                        {
+                            size: 'small',
+                            type: 'success',
+                            style: {
+                                marginLeft: '10px'
+                            },
+                            onClick: () => {
+                                rowNode.value = rowData
+                                showDetail.value = true
+                            }
+                        },
+                        { default: () => '红包详情' }
+                    )]
+                }
+            }
         }
     ])
 
@@ -123,5 +276,26 @@ export const useCustomer = () => {
         }
     }
 
-    return { getCustomerListInfo, pagination, tableData, loading, columns, message, searchForm }
+    /**
+     * 修改用户信息
+     */
+    const updateMember = async (params: Partial<userInfo.user>) => {
+        try {
+            loading.value = true
+            const { data } = await updateMemberInfo(params)
+            loading.value = false
+            if (data.code == 200) {
+                message.success('修改成功')
+                getCustomerListInfo()
+            } else {
+                message.error(data.msg)
+            }
+        } catch (e: any) {
+            loading.value = false
+            message.error(e.message as string)
+            console.log(e)
+        }
+    }
+
+    return { getCustomerListInfo, pagination, tableData, loading, columns, message, searchForm, distributeShow, rowNode, showDetail }
 }

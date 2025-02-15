@@ -38,9 +38,9 @@
         </div>
         <!--订单退单原因以及操作人 -->
         <div v-if="order.status == 6" class="py-2 px-20px text-#fff my-2" :style="{ backgroundColor: dynamicColor }">
-            <span>取消原因：{{ order?.orderRefundList[0]?.reason || '--' }}</span>
-            <span v-if="order?.orderRefundList[0]?.refundData && order?.orderRefundList[0]?.refundData?.refundInfo">，{{ order?.orderRefundList[0]?.refundData?.refundInfo?.reason }}</span>
-            <span class="pl-4">操作人：{{ order?.orderRefundList[0]?.orderRefundLogList[0]?.roleCn || '--' }}</span>
+            <span>取消原因：{{ order?.orderRefundList && order?.orderRefundList.length > 0 ? order?.orderRefundList[0]?.reason : '--' }}</span>
+            <span v-if="order?.orderRefundList && order?.orderRefundList.length > 0">{{ order?.orderRefundList[0]?.refundData?.refundInfo?.reason }}</span>
+            <span class="pl-4">操作人：{{ order?.orderRefundList && order?.orderRefundList.length > 0 ? order?.orderRefundList[0]?.orderRefundLogList[0]?.roleCn : '--' }}</span>
         </div>
         <div class="py-10px px-20px border-b border-b-solid border-b-#e4e7ed">
             <n-grid x-gap="12" :cols="3">
@@ -157,13 +157,19 @@
                                 <span>小计: ¥{{ order.deliveryFee }}</span>
                             </div>
                         </div>
+                        <div v-if="calcRedPacketFee" class="py-2 border-t border-t-solid border-t-#e4e7ed justify-between">
+                            <div class="flex items-center justify-between w-900px">
+                                <span>{{ calcRedPacketFee?.text }}</span>
+                                <span class="text-#ff3333 font-bold">-¥{{ calcRedPacketFee?.amount }}</span>
+                            </div>
+                        </div>
                         <div v-if="order?.orderCart?.usedActivityMap?.discount?.back" class="py-2 border-t border-t-solid border-t-#e4e7ed">
                             <div class="flex items-center justify-between w-900px">
                                 <div>
                                     <span class="bg-#ff3333 text-#fff rounded py-2px px-4px mr-2px">减</span>
                                     <span>满减优惠</span>
                                 </div>
-                                <div class="span-#ff3333 font-bold">-¥{{ order?.orderCart?.usedActivityMap?.discount?.back }}</div>
+                                <div class="text-#ff3333 font-bold">-¥{{ order?.orderCart?.usedActivityMap?.discount?.back }}</div>
                             </div>
                         </div>
                         <div v-if="order?.orderCart?.usedActivityMap?.grant?.back" class="py-2 border-t border-t-solid border-t-#e4e7ed">
@@ -172,7 +178,7 @@
                                     <span class="bg-primary text-#fff rounded py-2px px-4px mr-2px">赠</span>
                                     <span>满赠优惠</span>
                                 </div>
-                                <div class="span-#ff3333 font-bold">{{ order?.orderCart?.usedActivityMap?.grant?.back }}</div>
+                                <div class="text-#ff3333 font-bold">{{ order?.orderCart?.usedActivityMap?.grant?.back }}</div>
                             </div>
                         </div>
                         <div v-if="order?.orderCart?.usedActivityMap?.newMember?.back" class="py-2 border-t border-t-solid border-t-#e4e7ed">
@@ -181,7 +187,7 @@
                                     <span class="bg-#ff3333 text-#fff rounded py-2px px-4px mr-2px">新</span>
                                     <span>门店新客</span>
                                 </div>
-                                <div class="span-#ff3333 font-bold">-¥{{ order?.orderCart?.usedActivityMap?.newMember?.back }}</div>
+                                <div class="text-#ff3333 font-bold">-¥{{ order?.orderCart?.usedActivityMap?.newMember?.back }}</div>
                             </div>
                         </div>
                         <div v-if="order?.orderCart?.usedActivityMap?.mallNewMember?.back" class="py-2 border-t border-t-solid border-t-#e4e7ed">
@@ -190,7 +196,7 @@
                                     <span class="bg-#ff3333 text-#fff rounded py-2px px-4px mr-2px">新</span>
                                     <span>平台新客</span>
                                 </div>
-                                <div class="span-#ff3333 font-bold">-¥{{ order?.orderCart?.usedActivityMap?.mallNewMember?.back }}</div>
+                                <div class="text-#ff3333 font-bold">-¥{{ order?.orderCart?.usedActivityMap?.mallNewMember?.back }}</div>
                             </div>
                         </div>
                         <div v-if="order?.orderCart?.usedActivityMap?.deliveryFeeDiscount?.back" class="py-2 border-t border-t-solid border-t-#e4e7ed">
@@ -199,7 +205,7 @@
                                     <span class="bg-#FEBE57 text-#fff rounded py-2px px-4px mr-2px">配</span>
                                     <span>满减配送费</span>
                                 </div>
-                                <div class="span-#ff3333 font-bold">-¥{{ order?.orderCart?.usedActivityMap?.deliveryFeeDiscount?.back }}</div>
+                                <div class="text-#ff3333 font-bold">-¥{{ order?.orderCart?.usedActivityMap?.deliveryFeeDiscount?.back }}</div>
                             </div>
                         </div>
                         <div class="py-2 border-t border-t-solid border-t-#e4e7ed">
@@ -388,6 +394,7 @@ const dynamicColor = computed(() => {
         }
     }
 })
+
 /**
  * 计算单号
  */
@@ -403,6 +410,18 @@ const serialSn = computed(() => {
             } else {
                 return order.serialSn
             }
+        }
+    }
+})
+
+/**
+ * 计算红包
+ */
+const calcRedPacketFee = computed(() => {
+    if (order?.orderCart?.usedRedpacketList?.length > 0) {
+        return {
+            text: order?.orderCart?.usedRedpacketList[0].type == 'score_mall' ? '优惠券' : '红包',
+            amount: order?.orderCart?.usedRedpacketList[0].amount
         }
     }
 })

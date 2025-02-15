@@ -1,6 +1,9 @@
 <template>
     <n-space align="center" justify="space-between" class="mb-2">
         <n-form :show-feedback="false" :size="size" inline :model="searchForm" label-placement="left" class="justify-end">
+            <n-form-item label="收货人UID">
+                <n-input v-model:value="(searchForm.uid as unknown as string | undefined)" placeholder="请输入收货人UID" clearable class="w-180px" />
+            </n-form-item>
             <n-form-item label="收货人姓名">
                 <n-input v-model:value="searchForm.realname" placeholder="请输入收货人姓名" clearable class="w-180px" />
             </n-form-item>

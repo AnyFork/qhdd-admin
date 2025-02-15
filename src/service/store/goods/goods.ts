@@ -1,5 +1,5 @@
 import qs from 'qs'
-import { goodsListApi, addGoodsApi, removeGoodsApi, updateGoodsApi } from '../api'
+import { goodsListApi, addGoodsApi, removeGoodsApi, updateGoodsApi, sailedListInfoApi, sailedExportInfoApi } from '../api'
 /**
  * 商品列表
  * @returns 
@@ -23,4 +23,17 @@ export const updateGoods = async (params: Partial<store.goods>) => await storeAx
  * @returns
  */
 export const removeGoods = async (id: number) => await storeAxios.get(`${removeGoodsApi}?${qs.stringify({ id })}`)
+
+/**
+ * 商品销量列表
+ * @returns 
+ */
+export const sailedListInfo = async (params: Record<string, any>) => await storeAxios.get(`${sailedListInfoApi}?${qs.stringify(params)}`)
+
+/**
+ * 商品销量导出
+ */
+export const sailedExportInfo = async (params: Record<string, any>) => await platformAxios.get(`${sailedExportInfoApi}?${qs.stringify(params)}`, {
+    responseType: 'blob',
+})
 

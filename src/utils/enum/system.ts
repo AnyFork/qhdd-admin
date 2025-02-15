@@ -87,6 +87,7 @@ export const orderRefundStatus = {
 */
 export const storeStatus = {
   0: "歇业中",
+  1: "休息中",
   2: "营业中",
 }
 

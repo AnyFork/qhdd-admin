@@ -96,11 +96,11 @@ const tableHeight = computed(() => height.value - 417)
  */
 const businessStatus = [
     {
-        label: '歇业',
+        label: '歇业中',
         value: 0
     },
     {
-        label: '营业',
+        label: '营业中',
         value: 2
     }
 ]

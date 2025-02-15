@@ -114,7 +114,9 @@ export const useStore = () => {
         deliveryWithinDays: 0,
         deliveryReserveDays: 0,
         restCanOrder: 1,
-        subMchId: ""
+        subMchId: "",
+        sendPrice: undefined,
+        deliveryPrice: undefined
     })
     /**
      * 表单校验规则
@@ -162,17 +164,21 @@ export const useStore = () => {
             const { data: dataList } = await getStoreInfoBySid(sid.value!)
             loading.value = false
             if (dataList.code == 200) {
-                const { id, title, logo, subMchId, notice, displayorder, chainid, tips, businessStatus, cateParentid1, cateParentid2, description, telephone, businessHours, thumbs, address, locationX, locationY, categoryList, qualification, licenseEndtime, foodcertEndtime, data } = dataList.data
+                const { id, title, logo, subMchId, notice, displayorder, chainid, tips, businessStatus, cateParentid1, cateParentid2, description, telephone, businessHours, thumbs, address, locationX, locationY, categoryList, qualification, licenseEndtime, foodcertEndtime, data, sendPrice, deliveryPrice } = dataList.data
                 moduleValue.id = id
                 moduleValue.tips = tips
                 moduleValue.title = title
                 moduleValue.logo = logo
                 moduleValue.notice = notice
                 moduleValue.displayorder = displayorder
+                moduleValue.sendPrice = sendPrice
+                if (deliveryPrice) {
+                    moduleValue.deliveryPrice = Number(deliveryPrice)
+                }
                 // 处理连锁店id为0时，不展示
                 moduleValue.chainid = chainid == 0 ? undefined : chainid
                 moduleValue.subMchId = subMchId
-                moduleValue.businessStatus = businessStatus
+                moduleValue.businessStatus = businessStatus == 0 ? 0 : 2
                 if (businessHours) {
                     try {
                         moduleValue.businessHours = JSON.parse(businessHours)

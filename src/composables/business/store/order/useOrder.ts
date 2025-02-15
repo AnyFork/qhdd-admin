@@ -63,7 +63,7 @@ export const useStoreOrder = () => {
         isReserve: undefined,
         ordersn: undefined,
         mutiQuery: undefined,
-        range: undefined,
+        range: transformCurrentTimestampsToRange(),
         addtimeStart: undefined,
         addtimeEnd: undefined,
         deliveryerId: undefined,

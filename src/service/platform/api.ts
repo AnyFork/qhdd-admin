@@ -332,3 +332,118 @@ export const hotGoodsInfoApi = "/goods/getList"
  * 更新商品
  */
 export const updateGoodsApi = "/goods/update"
+
+/**
+ * 会员规则列表
+ */
+export const getMemberListApi = "/memberLevel/getList"
+
+/**
+ * 增加会员等级规则
+ */
+export const addMemberApi = "/memberLevel/add"
+
+/**
+ * 修改会员等级规则
+ */
+export const updateMemberApi = "/memberLevel/update"
+
+/**
+ * 删除会员等级规则
+ */
+export const deleteMemberApi = "/memberLevel/delete"
+
+/**
+ * 红包记录列表
+ */
+export const packetListApi = "/memberRedpacket/getList"
+
+/**
+ * 删除会员红包
+ */
+export const deletePacketApi = "/memberRedpacket/delete"
+
+/**
+ * 给用户发红包
+ */
+export const sendPacketApi = "/memberRedpacket/add"
+
+/**
+ * 修改发给用户的红包信息
+ */
+export const updatePacketApi = "/memberRedpacket/update"
+
+/**
+ * 红包活动列表
+ */
+export const redPacketActivityListApi = "/activityRedpacket/getList"
+
+/**
+ * 删除红包活动
+ */
+export const deletePacketActivityListApi = "/activityRedpacket/delete"
+
+/**
+ * 创建红包活动
+ */
+export const addPacketActivityApi = "/activityRedpacket/add"
+
+/**
+ * 编辑红包活动
+ */
+export const updatePacketActivityApi = "/activityRedpacket/update"
+
+/**
+ * 商城活动列表
+ */
+export const mallActivityListApi = "/scoreMallGoods/getList"
+
+/**
+ * 删除商城活动
+ */
+export const deleteMallActivityApi = "/scoreMallGoods/delete"
+
+/**
+ * 创建商城活动
+ */
+export const addMallActivityApi = "/scoreMallGoods/add"
+
+/**
+ * 更新商城活动
+ */
+export const updateMallActivityApi = "/scoreMallGoods/update"
+
+/**
+ * 签到活动规则
+ */
+export const addSignRuleApi = "/activitySigninRule/add"
+
+/**
+ * 签到活动规则
+ */
+export const signRuleListApi = "/activitySigninRule/getList"
+
+/**
+ * 编辑签到规则
+ */
+export const updateSigninRuleApi = "/activitySigninRule/update"
+
+/**
+ * 删除签到规则
+ */
+export const deleteSigninRuleApi = "/activitySigninRule/delete"
+
+/**
+ * 获取用户签到记录
+ */
+export const getMemberSignLogsApi = "/memberSigninRecord/getList"
+
+/**
+ * 修改顾客信息
+ */
+export const updateMemberInfoApi = "/members/update"
+
+/**
+ * 平台红包记录导出
+ */
+export const exportRedPacketInfoApi = "/memberRedpacket/export"
