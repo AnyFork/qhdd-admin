@@ -45,7 +45,9 @@ const addTag = () => {
         color: '',
         textColor: '',
         type: 'TY_delivery_label',
-        displayorder: 0
+        displayorder: 0,
+        alias: '',
+        score: 14
     })
 }
 

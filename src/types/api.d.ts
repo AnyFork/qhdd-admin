@@ -717,6 +717,14 @@ declare namespace store {
          * 排序
          */
         displayorder: number
+        /**
+         * 边框颜色
+         */
+        alias: string
+        /**
+         * 圆角值
+         */
+        score: number
     }
 
     /**

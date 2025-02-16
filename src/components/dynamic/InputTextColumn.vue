@@ -1,7 +1,7 @@
 <template>
     <div class="min-h-22px flex-row-center" @click="handleOnClick">
         <n-input v-if="isEdit" v-model:value="inputValue" ref="inputRef" :on-blur="changeValue" :on-change="changeValue" :placeholder="placeholder" />
-        <n-tag v-else round :color="{ color: bgColor, textColor: textColor, borderColor: bgColor }" class="w-100px flex-row-center cursor-pointer">{{ value }}</n-tag>
+        <n-tag v-else :color="{ color: bgColor, textColor: textColor, borderColor: borderColor }" class="w-100px flex-row-center cursor-pointer" :style="{ borderRadius: radius + 'px' }">{{ value }}</n-tag>
     </div>
 </template>
 
@@ -12,6 +12,8 @@ const props = defineProps<{
     textColor: string
     editable: boolean
     placeholder: string
+    borderColor: string
+    radius: number
     onUpdateValue: (value: string) => void
 }>()
 const isEdit = ref(props.editable)

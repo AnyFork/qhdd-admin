@@ -25,6 +25,7 @@
                     <n-image :src="node?.url ?? getAssetsImages('nopic.jpg')" :preview-disabled="!node?.url" width="100" height="100" class="my-1 border border-solid border-#f5f5f5"></n-image>
                 </div>
             </n-form-item>
+            {{ shopAreaOption }}
             <n-form-item label="所属片区">
                 <n-select v-model:value="moduleValue.cateParentid2" :options="shopAreaOption" placeholder="请选择商户标签" clearable class="w-680px" />
             </n-form-item>

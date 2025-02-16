@@ -2,7 +2,7 @@
     <div @click="show" class="flex-row-center">
         <n-select v-if="isEdit" ref="selectRef" v-model:value="selectValue" :options="option" clearable laceholder="请选择标签" :on-update:value="changeValue" :on-blur="() => (isEdit = false)" />
         <div v-else>
-            <n-tag v-if="label" round :color="{ color: bgColor, textColor: textColor, borderColor: bgColor }" class="w-100px flex-row-center cursor-pointer">{{ label }}</n-tag>
+            <n-tag v-if="label" :color="{ color: bgColor, textColor: textColor, borderColor: borderColor }" class="w-100px flex-row-center cursor-pointer" :style="{ borderRadius: radius + 'px' }">{{ label }}</n-tag>
             <span v-else>无</span>
         </div>
     </div>
@@ -14,6 +14,8 @@ const props = defineProps<{
     editable: boolean
     bgColor?: string
     textColor?: string
+    borderColor?: string
+    radius?: number
     option: { label: string; value: number }[]
     onUpdateValue: (value: number | null) => void
 }>()

@@ -54,6 +54,8 @@ export const usePlatformTag = () => {
                     value: rowData.title,
                     bgColor: rowData.color,
                     textColor: rowData.textColor,
+                    borderColor: rowData.alias,
+                    radius: rowData.score,
                     placeholder: "请输入分类名称",
                     editable: rowData.id == undefined,
                     onUpdateValue: (value: string) => {
@@ -111,6 +113,38 @@ export const usePlatformTag = () => {
         },
         {
             title() {
+                return renderEditableTitle("边框颜色", "可编辑列")
+            },
+            align: 'center',
+            key: 'alias',
+            render: (rowData, _index: number) => {
+                return h(SelectColorColumn, {
+                    value: rowData.alias,
+                    onUpdateValue: (value: string) => {
+                        rowData.alias = value
+                    }
+                })
+            }
+        },
+        {
+            title() {
+                return renderEditableTitle("圆角值", "可编辑列")
+            },
+            width: 150,
+            key: 'score',
+            align: 'center',
+            render: (rowData, _index: number) => {
+                return h(InputNumberColumn, {
+                    value: rowData.score,
+                    editable: rowData.id == undefined,
+                    onUpdateValue: (value: number) => {
+                        rowData.score = value
+                    }
+                })
+            }
+        },
+        {
+            title() {
                 return renderEditableTitle("标签类型", "可编辑列")
             },
             width: 200,
@@ -119,7 +153,7 @@ export const usePlatformTag = () => {
             render: (rowData, _index: number) => {
                 return h(SelectOptionColumn, {
                     value: rowData.type,
-                    bgColor: rowData.type === "TY_delivery_label" ? "#1890ff" : rowData.type === "TY_service_label" ? "#f5222d" : "#ffa60b",
+                    bgColor: rowData.type === "TY_delivery_label" ? "#1890ff" : rowData.type === "TY_service_label" ? "#f5222d" : "#18a058",
                     textColor: "#FFFFFF",
                     editable: rowData.id == undefined,
                     onUpdateValue: (value: store.category['type']) => {
@@ -275,8 +309,8 @@ export const usePlatformTag = () => {
     const modifyCategoryInfo = async (rowData: store.category) => {
         try {
             loading.value = true
-            const { id, title, color, textColor, displayorder, type } = rowData
-            const { data } = await modifyCategoryPlatform({ id, title, color, textColor, displayorder, type })
+            const { id, title, color, textColor, displayorder, type, alias, score } = rowData
+            const { data } = await modifyCategoryPlatform({ id, title, color, textColor, displayorder, type, alias, score })
             loading.value = false
             if (data.code == 200) {
                 message.success('修改成功!', {
@@ -325,8 +359,8 @@ export const usePlatformTag = () => {
     const createCategoryInfo = async (rowData: store.category) => {
         try {
             loading.value = true
-            const { title, color, textColor, displayorder, type } = rowData
-            const { data } = await createCategoryPlatform({ title, color, textColor, displayorder, type })
+            const { title, color, textColor, displayorder, type, alias, score } = rowData
+            const { data } = await createCategoryPlatform({ title, color, textColor, displayorder, type, alias, score })
             loading.value = false
             if (data.code == 200) {
                 message.success('操作成功!', {

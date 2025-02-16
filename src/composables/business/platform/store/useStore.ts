@@ -218,7 +218,7 @@ export const usePlatformStore = () => {
             align: 'center',
             key: 'category',
             render: (rowData, _index: number) => {
-                const tag = rowData.storeCategoryList?.find((item: { type: number; parentid: number }) => item && item?.type == 0 && item?.parentid == 1)
+                const tag = rowData.storeCategoryList?.find((item) => item?.id == rowData.cateParentid1)
                 return tag ? tag.title : ""
             }
         },
@@ -228,7 +228,7 @@ export const usePlatformStore = () => {
             align: 'center',
             key: 'area',
             render: (rowData, _index: number) => {
-                const tag = rowData.storeCategoryList?.find((item: { type: number; parentid: number }) => item && item?.type == 1 && item?.parentid == 2)
+                const tag = rowData.storeCategoryList?.find((item) => item?.id == rowData.cateParentid2)
                 return tag ? tag.title : ""
             }
         },
@@ -475,6 +475,8 @@ export const usePlatformStore = () => {
                     option: shopOption.value,
                     bgColor: tag?.color,
                     textColor: tag?.textColor,
+                    borderColor: tag?.alias,
+                    radius: tag?.score,
                     editable: false,
                     onUpdateValue: (value: number | null) => {
                         dialog.warning({
@@ -524,6 +526,8 @@ export const usePlatformStore = () => {
                     option: deliveryOption.value,
                     bgColor: tag?.color,
                     textColor: tag?.textColor,
+                    borderColor: tag?.alias,
+                    radius: tag?.score,
                     editable: false,
                     onUpdateValue: (value: number | null) => {
                         dialog.warning({
@@ -573,6 +577,8 @@ export const usePlatformStore = () => {
                     option: serviceOption.value,
                     bgColor: tag?.color,
                     textColor: tag?.textColor,
+                    borderColor: tag?.alias,
+                    radius: tag?.score,
                     editable: false,
                     onUpdateValue: (value: number | null) => {
                         dialog.warning({
