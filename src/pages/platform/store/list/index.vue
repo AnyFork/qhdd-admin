@@ -27,6 +27,9 @@
         <n-form-item label="门店类型" label-placement="left" :show-feedback="false" :size="size" class="ml-5">
             <n-select v-model:value="searchForm.isWaimai" :options="types" placeholder="请选择门店类型" clearable class="!w-180px" />
         </n-form-item>
+        <n-form-item label="就餐方式" label-placement="left" :show-feedback="false" :size="size" class="ml-5">
+            <n-select v-model:value="searchForm.isMeal" :options="mds" placeholder="请选择就餐方式" clearable class="!w-180px" />
+        </n-form-item>
         <div class="flex justify-end">
             <n-button round type="primary" :size="size" @click="searchData">查询</n-button>
         </div>
@@ -49,7 +52,7 @@
         :single-line="false"
         :striped="striped"
         remote
-        :scroll-x="3200"
+        :scroll-x="3300"
         :size="size"
         :columns="columns"
         :data="tableData"
@@ -136,6 +139,24 @@ const types = [
     {
         label: '商超',
         value: 2
+    }
+]
+
+/**
+ * 就餐方式
+ */
+const mds = [
+    {
+        label: '外卖',
+        value: 1
+    },
+    {
+        label: '外卖+堂食',
+        value: 2
+    },
+    {
+        label: '堂食',
+        value: 3
     }
 ]
 

@@ -8,8 +8,17 @@
             <n-form-item show-require-mark label="门店类型">
                 <n-radio-group v-model:value="moduleValue.isWaimai">
                     <n-space>
-                        <n-radio :value="1">外卖</n-radio>
+                        <n-radio :value="1">餐饮</n-radio>
                         <n-radio :value="2">商超</n-radio>
+                    </n-space>
+                </n-radio-group>
+            </n-form-item>
+            <n-form-item show-require-mark label="就餐方式">
+                <n-radio-group v-model:value="moduleValue.isMeal">
+                    <n-space>
+                        <n-radio :value="1">外卖</n-radio>
+                        <n-radio :value="2">外卖+堂食</n-radio>
+                        <n-radio :value="3">堂食</n-radio>
                     </n-space>
                 </n-radio-group>
             </n-form-item>
@@ -25,7 +34,6 @@
                     <n-image :src="node?.url ?? getAssetsImages('nopic.jpg')" :preview-disabled="!node?.url" width="100" height="100" class="my-1 border border-solid border-#f5f5f5"></n-image>
                 </div>
             </n-form-item>
-            {{ shopAreaOption }}
             <n-form-item label="所属片区">
                 <n-select v-model:value="moduleValue.cateParentid2" :options="shopAreaOption" placeholder="请选择商户标签" clearable class="w-680px" />
             </n-form-item>
@@ -184,7 +192,7 @@ const submitCallback = (e: MouseEvent) => {
     formRef.value?.validate(async (errors) => {
         if (!errors) {
             const array = []
-            const { id, title, logo, chainid, businessStatus, cateParentid1, cateParentid2, description, telephone, businessHours, thumbs, address, locationX, locationY, shopCategory, serviceCategory, deliveryCategory, isWaimai, dataObj } = moduleValue
+            const { id, title, logo, chainid, businessStatus, cateParentid1, cateParentid2, description, telephone, businessHours, thumbs, address, locationX, locationY, shopCategory, serviceCategory, deliveryCategory, isWaimai, dataObj, isMeal } = moduleValue
             const time = businessHours && businessHours.length > 0 ? JSON.stringify(businessHours) : undefined
             if (shopCategory) {
                 array.push(shopCategory)
@@ -195,7 +203,7 @@ const submitCallback = (e: MouseEvent) => {
             if (serviceCategory) {
                 array.push(serviceCategory)
             }
-            await updateStoreInfo({ id, title, logo, chainid: chainid ?? 0, businessStatus, isWaimai, cateParentid1, cateParentid2, description, telephone, businessHours: time, thumbs, address, locationX, locationY, serviceLabel: array.join(','), data: JSON.stringify(dataObj) })
+            await updateStoreInfo({ id, title, logo, chainid: chainid ?? 0, businessStatus, isWaimai, isMeal, cateParentid1, cateParentid2, description, telephone, businessHours: time, thumbs, address, locationX, locationY, serviceLabel: array.join(','), data: JSON.stringify(dataObj) })
             getStoreDetailInfoBySid()
             // 清空表单校验
             formRef.value?.restoreValidation()

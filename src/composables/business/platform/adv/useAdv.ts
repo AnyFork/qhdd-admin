@@ -60,11 +60,12 @@ export const useAdv = () => {
     const moduleValue = ref<Partial<system.adv>>({
         positionKey: undefined,
         img: undefined,
-        link: undefined,
+        link: '1',
         title: undefined,
         content: undefined,
         status: 1,
-        displayorder: 0
+        displayorder: 0,
+        data: ''
     })
 
     /**
@@ -103,7 +104,18 @@ export const useAdv = () => {
                 },
                 trigger: ['input', 'blur']
             }
-        ]
+        ],
+        link: [
+            {
+                validator(_rule: FormItemRule, value: string) {
+                    if (!value) {
+                        return new Error('请选择广告类型')
+                    }
+                    return true
+                },
+                trigger: ['input', 'blur']
+            }
+        ],
     }
 
     /**
@@ -130,11 +142,19 @@ export const useAdv = () => {
             key: 'positionKey'
         },
         {
-            title: '广告',
+            title: '广告图',
             align: 'center',
             key: 'img',
             render: (row: system.adv, _index: number) => {
                 return h(NImage, { src: row.img, width: 150, height: 50 })
+            }
+        },
+        {
+            title: '广告类型',
+            align: 'center',
+            key: 'link',
+            render: (row: system.adv, _index: number) => {
+                return row.link == "2" ? '弹框广告' : '普通广告'
             }
         },
         {
@@ -216,6 +236,9 @@ export const useAdv = () => {
                                         },
                                         onClick: () => {
                                             editModal.value = true
+                                            if (rowData.data) {
+                                                rowData.dataObject = JSON.parse(rowData.data)
+                                            }
                                             moduleValue.value = rowData
                                         }
                                     },

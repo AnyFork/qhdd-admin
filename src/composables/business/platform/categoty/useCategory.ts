@@ -59,6 +59,11 @@ export const usePlatformCategory = () => {
      */
     const columns = ref<DataTableColumns<system.rowData>>([
         {
+            title: 'ID',
+            key: 'id',
+            align: 'center'
+        },
+        {
             title: '图标',
             align: 'center',
             key: 'thumb',

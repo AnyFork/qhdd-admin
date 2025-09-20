@@ -99,7 +99,8 @@ export const usePlatformStore = () => {
         status: undefined,
         serviceLabel: undefined,
         isWaimai: undefined,
-        sortType: 5
+        sortType: 5,
+        isMeal: undefined
     })
     /**
      * 新增dialog状态
@@ -123,7 +124,8 @@ export const usePlatformStore = () => {
         deliveryCategory: undefined,
         serviceCategory: undefined,
         chainid: undefined,
-        isWaimai: 1
+        isWaimai: 1,
+        isMeal: 1
     })
     /**
      * 表单校验规则
@@ -189,11 +191,14 @@ export const usePlatformStore = () => {
             align: 'center',
             fixed: 'left',
             key: 'logos',
-            className: "flex-row-center h-full",
+            className: "mx-auto",
             render: (rowData, _index: number) => {
                 const node = rowData.categoryList?.find((item: { type: string }) => item?.type == "TY_store_label")
-                return h(StoreLogo, { src: previewUrl + rowData.logo, tag: node ? { color: node.textColor, text: node.title, bgColor: node.color } : undefined, business: rowData.businessStatus }, {})
-
+                return h('div', {
+                    class: 'w-full h-full flex-row-center'
+                },
+                    h(StoreLogo, { src: previewUrl + rowData.logo, tag: node ? { color: node.textColor, text: node.title, bgColor: node.color } : undefined, business: rowData.businessStatus }, {})
+                )
             }
         },
         {
@@ -210,6 +215,25 @@ export const usePlatformStore = () => {
             key: 'isWaimai',
             render: (rowData, _index: number) => {
                 return h(NTag, { type: rowData.isWaimai == 1 ? "primary" : "warning" }, { default: () => rowData.isWaimai == 1 ? "外卖" : "商超" })
+            }
+        },
+        {
+            title: '就餐方式',
+            width: 100,
+            align: 'center',
+            key: 'isMeal',
+            render: (rowData, _index: number) => {
+                let type: "default" | "error" | "primary" | "warning" | "info" | "success" | undefined = "primary"
+                let text = "外卖"
+                if (rowData.isMeal == 2) {
+                    type = "success"
+                    text = "外卖+堂食"
+                }
+                if (rowData.isMeal == 3) {
+                    type = "warning"
+                    text = "堂食"
+                }
+                return h(NTag, { type: type }, { default: () => text })
             }
         },
         {
@@ -1028,7 +1052,7 @@ export const usePlatformStore = () => {
         try {
             loading.value = true
             const array = []
-            const { title, cateParentid1, cateParentid2, logo, displayorder, shopCategory, deliveryCategory, serviceCategory, chainid, isWaimai } = moduleValue
+            const { title, cateParentid1, cateParentid2, logo, displayorder, shopCategory, deliveryCategory, serviceCategory, chainid, isWaimai, isMeal } = moduleValue
             if (shopCategory) {
                 array.push(shopCategory)
             }
@@ -1038,7 +1062,7 @@ export const usePlatformStore = () => {
             if (serviceCategory) {
                 array.push(serviceCategory)
             }
-            const { data } = await addStorePlatform({ title, cateParentid1, cateParentid2, logo, displayorder, chainid, isWaimai, serviceLabel: array.join(",") })
+            const { data } = await addStorePlatform({ title, cateParentid1, cateParentid2, logo, displayorder, chainid, isWaimai, isMeal, serviceLabel: array.join(",") })
             loading.value = false
             if (data.code == 200) {
                 message.success('操作成功!')

@@ -17,8 +17,17 @@
                 <n-form-item show-require-mark label="门店类型">
                     <n-radio-group v-model:value="moduleValue.isWaimai">
                         <n-space>
-                            <n-radio :value="1">外卖</n-radio>
+                            <n-radio :value="1">餐饮</n-radio>
                             <n-radio :value="2">商超</n-radio>
+                        </n-space>
+                    </n-radio-group>
+                </n-form-item>
+                <n-form-item show-require-mark label="就餐方式">
+                    <n-radio-group v-model:value="moduleValue.isMeal">
+                        <n-space>
+                            <n-radio :value="1">外卖</n-radio>
+                            <n-radio :value="2">外卖+堂食</n-radio>
+                            <n-radio :value="3">堂食</n-radio>
                         </n-space>
                     </n-radio-group>
                 </n-form-item>
@@ -98,6 +107,7 @@ const submitCallback = (e: MouseEvent) => {
             moduleValue.cateParentid1 = undefined
             moduleValue.cateParentid2 = undefined
             moduleValue.displayorder = undefined
+            moduleValue.isMeal = 1
             // 清空表单校验
             formRef.value?.restoreValidation()
         } else {

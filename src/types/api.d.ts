@@ -292,9 +292,9 @@ declare namespace system {
          */
         img: string
         /**
-         * 广告地址
+         * 广告类型 1 普通广告 2 弹框广告
          */
-        link: string
+        link: "1" | "2"
         /**
          * 广告标题
          */
@@ -319,6 +319,19 @@ declare namespace system {
          * 广告内容
          */
         content: string
+        /**
+         * 广告属性值
+         */
+        data: string
+        /**
+         * 广告属性对象
+         */
+        dataObject: {
+            width: number,
+            height: number,
+            link: string,
+            params?: string
+        }
     }
 }
 
@@ -688,6 +701,10 @@ declare namespace store {
          * 子商户号
          */
         subMchId: string
+        /**
+         * 就餐方式 1 外卖 2 外卖+堂食 3 堂食
+         */
+        isMeal: 1 | 2 | 3
     }
     /**
      * 商户标签

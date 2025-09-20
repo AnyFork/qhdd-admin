@@ -116,7 +116,8 @@ export const useStore = () => {
         restCanOrder: 1,
         subMchId: "",
         sendPrice: undefined,
-        deliveryPrice: undefined
+        deliveryPrice: undefined,
+        isMeal: undefined
     })
     /**
      * 表单校验规则
@@ -164,7 +165,7 @@ export const useStore = () => {
             const { data: dataList } = await getStoreInfoBySid(sid.value!)
             loading.value = false
             if (dataList.code == 200) {
-                const { id, title, logo, subMchId, notice, displayorder, chainid, tips, businessStatus, cateParentid1, cateParentid2, description, telephone, businessHours, thumbs, address, locationX, locationY, categoryList, qualification, licenseEndtime, foodcertEndtime, data, sendPrice, deliveryPrice } = dataList.data
+                const { id, title, logo, subMchId, notice, displayorder, chainid, tips, businessStatus, cateParentid1, cateParentid2, description, telephone, businessHours, thumbs, address, locationX, locationY, categoryList, qualification, licenseEndtime, foodcertEndtime, data, sendPrice, deliveryPrice, isMeal } = dataList.data
                 moduleValue.id = id
                 moduleValue.tips = tips
                 moduleValue.title = title
@@ -172,6 +173,7 @@ export const useStore = () => {
                 moduleValue.notice = notice
                 moduleValue.displayorder = displayorder
                 moduleValue.sendPrice = sendPrice
+                moduleValue.isMeal = isMeal
                 if (deliveryPrice) {
                     moduleValue.deliveryPrice = Number(deliveryPrice)
                 }
