@@ -6,6 +6,10 @@
                 <div class="flex items-center text-16px p-2 my-2 h-40px bg-#eee before:content-[''] before:w-5px before:h-20px before:bg-primary before:inline-flex before:mr-2">订单信息</div>
                 <div>
                     <n-flex class="py-1">
+                        <span class="w-120px text-right">订单类型：</span>
+                        <span class="text-primary">{{ order?.deliveryType == 0 ? '堂食订单' : order?.deliveryType == 1 ? '自提订单' : '外卖订单' }}</span>
+                    </n-flex>
+                    <n-flex class="py-1">
                         <span class="w-120px text-right">下单商户：</span>
                         <span>{{ order?.store?.title }}</span>
                     </n-flex>
@@ -61,48 +65,48 @@
             </div>
             <!--配送信息-->
             <div>
-                <div class="flex items-center text-16px p-2 my-2 h-40px bg-#eee before:content-[''] before:w-5px before:h-20px before:bg-primary before:inline-flex before:mr-2">配送信息</div>
+                <div class="flex items-center text-16px p-2 my-2 h-40px bg-#eee before:content-[''] before:w-5px before:h-20px before:bg-primary before:inline-flex before:mr-2">{{ order.deliveryType == 0 ? '就餐信息' : order.deliveryType == 1 ? '取餐信息' : '配送信息' }}</div>
                 <div>
                     <n-flex class="py-1">
-                        <span class="w-120px text-right">配送时间：</span>
+                        <span class="w-120px text-right">{{ order.deliveryType == 0 ? '就餐时间：' : order.deliveryType == 1 ? '取餐时间：' : '送餐时间：' }}</span>
                         <div>
                             <span>{{ transformTimestampsToDateString(order!.deliverytime, 'YYYY-MM-DD') }}</span>
                             <span>{{ order?.deliveryTime }}</span>
                         </div>
                     </n-flex>
                     <n-flex class="py-1">
-                        <span class="w-120px text-right">收货人名称：</span>
+                        <span class="w-120px text-right">{{ order.deliveryType == 0 ? '就餐人名称：' : order.deliveryType == 1 ? '取餐人名称：' : '收货人名称：' }}</span>
                         <span>{{ order?.username }}</span>
                     </n-flex>
                     <n-flex class="py-1">
-                        <span class="w-120px text-right">收货人电话：</span>
+                        <span class="w-120px text-right">{{ order.deliveryType == 0 ? '就餐人电话：' : order.deliveryType == 1 ? '取餐人电话：' : '收货人电话：' }}</span>
                         <span>{{ order?.mobile }}</span>
                     </n-flex>
-                    <n-flex class="py-1">
+                    <n-flex v-if="order.deliveryType == 2" class="py-1">
                         <span class="w-120px text-right">收货地址：</span>
                         <span>{{ order?.address + order?.number }}</span>
                     </n-flex>
-                    <n-flex v-if="order?.deliveryer" class="py-1">
+                    <n-flex v-if="order?.deliveryer && order.deliveryType == 2" class="py-1">
                         <span class="w-120px text-right">配送员名称：</span>
                         <span>{{ order?.deliveryer.title + order?.deliveryer?.nickname }}</span>
                     </n-flex>
-                    <n-flex v-if="order?.deliveryer" class="py-1">
+                    <n-flex v-if="order?.deliveryer && order.deliveryType == 2" class="py-1">
                         <span class="w-120px text-right">配送员手机号：</span>
                         <span>{{ order?.deliveryer?.mobile }}</span>
                     </n-flex>
-                    <n-flex v-if="order?.deliveryer" class="py-1">
+                    <n-flex v-if="order?.deliveryer && order.deliveryType == 2" class="py-1">
                         <span class="w-120px text-right">配送员接单时间：</span>
                         <span>{{ order?.deliveryAssignTime ? transformTimestampsToDateString(order?.deliveryAssignTime) : '-' }}</span>
                     </n-flex>
-                    <n-flex v-if="order?.deliveryer" class="py-1">
+                    <n-flex v-if="order?.deliveryer && order.deliveryType == 2" class="py-1">
                         <span class="w-120px text-right">配送员进店时间：</span>
                         <span>{{ order?.deliveryInstoreTime ? transformTimestampsToDateString(order?.deliveryInstoreTime) : '-' }}</span>
                     </n-flex>
-                    <n-flex v-if="order?.deliveryer" class="py-1">
+                    <n-flex v-if="order?.deliveryer && order.deliveryType == 2" class="py-1">
                         <span class="w-120px text-right">配送员取餐时间：</span>
                         <span>{{ order?.deliveryTakegoodsTime ? transformTimestampsToDateString(order?.deliveryTakegoodsTime) : '-' }}</span>
                     </n-flex>
-                    <n-flex v-if="order?.deliveryer" class="py-1">
+                    <n-flex v-if="order?.deliveryer && order.deliveryType == 2" class="py-1">
                         <span class="w-120px text-right">配送员送达时间：</span>
                         <span>{{ order?.deliverySuccessTime ? transformTimestampsToDateString(order?.deliverySuccessTime) : '-' }}</span>
                     </n-flex>

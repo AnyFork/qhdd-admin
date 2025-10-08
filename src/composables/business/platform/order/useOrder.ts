@@ -53,7 +53,8 @@ export const usePlatformOrder = () => {
         haveRefund: undefined,
         isRemind: undefined,
         statusEnd: undefined,
-        refundStatus: undefined
+        refundStatus: undefined,
+        deliveryType: undefined
     })
 
     /**

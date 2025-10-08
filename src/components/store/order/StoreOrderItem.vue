@@ -13,6 +13,7 @@
                     <n-tag :color="{ borderColor: dynamicColor, textColor: dynamicColor }">{{ storeStatus[order.store.businessStatus] }}</n-tag>
                     <span class="pl-6" :style="{ color: dynamicColor }">{{ transformTimestampsToDateString(order.deliverytime, 'YYYY-MM-DD') }}</span>
                     <span class="pr-2" :style="{ color: dynamicColor }">{{ order.deliveryTime }}</span>
+                    <div class="px-2 ml-4 text-white rounded flex items-center justify-center" :style="{ backgroundColor: dynamicColor }">{{ order.deliveryType == 0 ? '堂食单' : order.deliveryType == 1 ? '自取单' : '外卖单' }}</div>
                 </div>
             </div>
             <!--订单费用状态-->
@@ -60,16 +61,16 @@
                         <n-tag class="inline px-6px py-4px rounded" :color="{ borderColor: dynamicColor, textColor: dynamicColor }">本店下单{{ order.memberBuyTimes }}次</n-tag>
                     </div>
                     <div class="py-1">
-                        <span class="pr-1">送餐时间：</span>
+                        <span class="pr-1">{{ order.deliveryType == 0 ? '就餐时间：' : order.deliveryType == 1 ? '取餐时间：' : '送餐时间：' }}</span>
                         <span>{{ transformTimestampsToDateString(order.deliverytime, 'YYYY-MM-DD') }} {{ order.deliveryTime }}</span>
                     </div>
-                    <div class="py-1">
+                    <div v-if="order.deliveryType == 2" class="py-1">
                         <span class="pr-1">送餐地址：</span>
                         <span v-if="order.address">{{ order.address + order.number }}</span>
                     </div>
                 </n-gi>
                 <n-gi>
-                    <div v-if="order.deliveryer">
+                    <div v-if="order.deliveryer && order.deliveryType == 2">
                         <div>
                             <span class="px-2 py-1 rounded text-#fff mr-2" :style="{ backgroundColor: dynamicColor }">配送</span>
                             <span class="font-700 text-20px pr-2">{{ order.deliveryer?.title }}</span>

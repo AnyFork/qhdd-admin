@@ -4,34 +4,37 @@
             <n-form :show-feedback="false" inline :model="searchForm" label-placement="left" class="justify-end mb-2">
                 <n-flex class="mb-2">
                     <n-form-item label="订单编号">
-                        <n-input v-model:value="searchForm.ordersn" placeholder="请输入订单编号" clearable class="!w-200px" />
+                        <n-input v-model:value="searchForm.ordersn" placeholder="请输入订单编号" clearable class="!w-160px" />
                     </n-form-item>
                     <n-form-item label="店铺名称">
-                        <n-select v-model:value="searchForm.sid" :options="allStore" filterable placeholder="请选择店铺名称" clearable class="w-200px" />
+                        <n-select v-model:value="searchForm.sid" :options="allStore" filterable placeholder="请选择店铺名称" clearable class="w-160px" />
                     </n-form-item>
                     <n-form-item label="活动类型">
-                        <n-select v-model:value="searchForm.activityType" :options="activityTypeOptions" placeholder="请选择活动类型" clearable class="w-200px" />
+                        <n-select v-model:value="searchForm.activityType" :options="activityTypeOptions" placeholder="请选择活动类型" clearable class="w-160px" />
                     </n-form-item>
                     <n-form-item label="订单状态">
-                        <n-select v-model:value="searchForm.status" :options="orderStatusOption" placeholder="请选择订单状态" clearable class="w-200px" />
+                        <n-select v-model:value="searchForm.status" :options="orderStatusOption" placeholder="请选择订单状态" clearable class="w-160px" />
                     </n-form-item>
                     <n-form-item label="支付状态">
-                        <n-select v-model:value="searchForm.isPay" :options="orderPayStatusOption" placeholder="请选择支付状态" clearable class="w-200px" />
+                        <n-select v-model:value="searchForm.isPay" :options="orderPayStatusOption" placeholder="请选择支付状态" clearable class="w-160px" />
                     </n-form-item>
                     <n-form-item label="订单类型">
-                        <n-select v-model:value="searchForm.isReserve" :options="orderTypeOption" placeholder="请选择订单类型" clearable class="w-200px" />
+                        <n-select v-model:value="searchForm.isReserve" :options="orderTypeOption" placeholder="请选择订单类型" clearable class="w-160px" />
                     </n-form-item>
-                    <n-form-item label="配送员" label-width="70px">
-                        <n-select v-model:value="searchForm.deliveryerId" :options="allRider" label-field="title" value-field="id" placeholder="请选择配送员名称" clearable class="w-200px" />
+                    <n-form-item label="就餐方式">
+                        <n-select v-model:value="searchForm.deliveryType" :options="deliveryTypeOption" placeholder="请选择就餐方式" clearable class="w-160px" />
+                    </n-form-item>
+                    <n-form-item label="配送员" label-width="68px">
+                        <n-select v-model:value="searchForm.deliveryerId" :options="allRider" label-field="title" value-field="id" placeholder="请选择配送员名称" clearable class="w-160px" />
                     </n-form-item>
                     <n-form-item label="顾客查询">
-                        <div class="flex gap-1 w-430px">
-                            <n-select v-model:value="searchType" :options="customerOption" placeholder="请选择查询的信息" clearable class="w-200px" />
+                        <div class="flex gap-1 w-418px">
+                            <n-select v-model:value="searchType" :options="customerOption" placeholder="请选择查询的信息" clearable class="w-160px" />
                             <n-input v-model:value="searchForm.mutiQuery" :placeholder="searchPlaceholder" clearable class="flex-1" />
                         </div>
                     </n-form-item>
                     <n-form-item label="下单时间">
-                        <n-date-picker v-model:value="searchForm.range" type="daterange" clearable placeholder="请选择时间区间" class="w-255px" />
+                        <n-date-picker v-model:value="searchForm.range" type="daterange" clearable placeholder="请选择时间区间" class="w-290px" />
                     </n-form-item>
                     <div style="display: flex; justify-content: flex-end">
                         <n-button round type="primary" class="w-100px" @click="getAllList">查询</n-button>
@@ -81,7 +84,7 @@
 </template>
 
 <script setup lang="ts">
-import { activityTypeOptions, orderStatusOption, orderPayStatusOption, orderTypeOption, customerOption } from '@/utils/order/index'
+import { activityTypeOptions, orderStatusOption, orderPayStatusOption, orderTypeOption, customerOption, deliveryTypeOption } from '@/utils/order/index'
 const { getAllList, tableData, loading, searchForm, pagination, getOrderInfoById, orderInfo, replyRemind, printOder, handleOrder, notifyCollect, noticeStoreOrder, message, resetAssignOrder, finishSendOrder, arbitratingOrder, overruleRefund, agreeRefund, rejectRefund } = usePlatformOrder()
 const { storeSelectList, allStore } = usePlatformStore()
 const { selectRiderList, allRider } = usePlatformRider()

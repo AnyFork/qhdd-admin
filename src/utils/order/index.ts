@@ -133,3 +133,17 @@ export const refundOption = [
         value: 9
     },
 ]
+
+/**
+ * 配送类型
+ */
+export const deliveryTypeOption = [
+    {
+        label: '堂食',
+        value: 0
+    },
+    {
+        label: '外卖',
+        value: 2
+    }
+]

@@ -2421,6 +2421,10 @@ declare namespace order {
          * 下单结束时间
          */
         statDayEnd: number
+        /**
+         * 就餐方式 0 堂食 1 自取 2 外卖
+         */
+        deliveryType: 0 | 1 | 2
     }
 
     /**
