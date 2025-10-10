@@ -326,7 +326,8 @@
             <n-space justify="end">
                 <n-button v-if="order.status == 1 && order.isPay == 1" :color="dynamicColor" @click="emit('callBack', 'handleOrder', order)"> 接受订单 </n-button>
                 <n-button v-if="order.isRemind == 1" :color="dynamicColor" @click="emit('callBack', 'replyRemind', order)"> 回复催单 </n-button>
-                <n-button v-if="order.status == 2 || order.status == 3" :color="dynamicColor" @click="emit('callBack', 'noticeOrder', order)"> 通知配送员抢单 </n-button>
+                <n-button v-if="order.status == 2 && order.deliveryType == 2" :color="dynamicColor" @click="emit('callBack', 'noticeOrder', order)"> 通知配送员抢单 </n-button>
+                <n-button v-if="order.status == 2 && order.deliveryType == 0" :color="dynamicColor" @click="emit('callBack', 'readyOk', order)"> 通知出餐 </n-button>
                 <n-button v-if="order.status != 5 && order.status != 6" :color="dynamicColor" @click="emit('callBack', 'cancelOrder', order)"> 取消订单并退款 </n-button>
                 <n-button :color="dynamicColor" @click="emit('callBack', 'printOrder', order)"> 打印({{ order?.printNums || 0 }}) </n-button>
                 <n-button :color="dynamicColor" @click="emit('callBack', 'orderInfo', order)"> 详情</n-button>

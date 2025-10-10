@@ -199,6 +199,11 @@ export const handleOrderInfoApi = "/order/store/handle"
 export const notifyCollectInfoApi = "/order/store/notifyCollect"
 
 /**
+ * 管理员确认出餐
+ */
+export const readyOkInfoApi = "/order/store/goodsReady"
+
+/**
  * 通知商户接单
  */
 export const noticeStoreOrderInfoApi = "/order/admin/notifyStoreHandle"

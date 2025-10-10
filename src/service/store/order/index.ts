@@ -1,5 +1,5 @@
 import qs from 'qs'
-import { agreeRefundInfoApi, cancelOrderInfoApi, chatWithRefundInfoApi, exportOrderInfoApi, getAllOrderInfoApi, getOrderInfoByIdInfoApi, handleOrderInfoApi, historyStatInfoApi, notifyCollectInfoApi, printOderInfoApi, rejectRefundInfoApi, replyRemindInfoApi, todayStatInfoApi } from '../api'
+import { agreeRefundInfoApi, cancelOrderInfoApi, chatWithRefundInfoApi, exportOrderInfoApi, getAllOrderInfoApi, getOrderInfoByIdInfoApi, handleOrderInfoApi, historyStatInfoApi, notifyCollectInfoApi, printOderInfoApi, rejectRefundInfoApi, replyRemindInfoApi, storeReadyOkInfoApi, todayStatInfoApi } from '../api'
 
 /**
  * 获取所有订单信息
@@ -43,6 +43,13 @@ export const storeHandleOrderInfo = async (orderId: number, sid: number) => awai
  * @returns
  */
 export const storeNotifyCollectInfo = async (orderId: number, sid: number) => await storeAxios.post(`${notifyCollectInfoApi}`, { id: orderId, sid })
+
+
+/**
+ * 商家确认已出餐
+ * @returns
+ */
+export const storeReadyOkInfo = async (orderId: number, sid: number) => await storeAxios.post(`${storeReadyOkInfoApi}`, { id: orderId, sid })
 
 
 /**

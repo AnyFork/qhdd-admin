@@ -1,4 +1,4 @@
-import { agreeRefundInfo, arbitratingOrderInfo, assignOrderInfo, cancelOrderInfo, finishSendOrderInfo, getOrderInfoByIdInfo, handleOrderInfo, noticeStoreOrderInfo, notifyCollectInfo, overruleRefundInfo, printOderInfo, rejectRefundInfo, replyRemindInfo, resetAssignOrderInfo, searchAllOrdersInfo, updateOrderInfo } from "@/service/platform/order"
+import { agreeRefundInfo, arbitratingOrderInfo, assignOrderInfo, cancelOrderInfo, finishSendOrderInfo, getOrderInfoByIdInfo, handleOrderInfo, noticeStoreOrderInfo, notifyCollectInfo, overruleRefundInfo, printOderInfo, readyOkInfo, rejectRefundInfo, replyRemindInfo, resetAssignOrderInfo, searchAllOrdersInfo, updateOrderInfo } from "@/service/platform/order"
 
 /**
  * 订单模块
@@ -241,6 +241,26 @@ export const usePlatformOrder = () => {
     }
 
     /**
+    * 平台管理员确认已出餐
+    */
+    const readyOk = async (orderId: number) => {
+        try {
+            loading.value = true
+            const { data } = await readyOkInfo(orderId)
+            loading.value = false
+            if (data.code == 200) {
+                message.success("出餐成功")
+            } else {
+                message.error(data.msg)
+            }
+        } catch (e: any) {
+            loading.value = false
+            message.error(e.message as string)
+            console.log(e)
+        }
+    }
+
+    /**
      * 平台管理员通知商户接单
      */
     const noticeStoreOrder = async (orderId: number) => {
@@ -404,7 +424,7 @@ export const usePlatformOrder = () => {
     return {
         getAllList, tableData, loading, message, searchForm, pagination, replyRemind, updateOrder,
         printOder, cancelOrder, getOrderInfoById, orderInfo, handleOrder, notifyCollect, noticeStoreOrder, assignOrder,
-        resetAssignOrder, finishSendOrder, arbitratingOrder, overruleRefund, agreeRefund, rejectRefund
+        resetAssignOrder, finishSendOrder, arbitratingOrder, overruleRefund, agreeRefund, rejectRefund, readyOk
     }
 
 }

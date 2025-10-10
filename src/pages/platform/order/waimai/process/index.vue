@@ -85,7 +85,7 @@
 
 <script setup lang="ts">
 import { activityTypeOptions, orderStatusOption, orderPayStatusOption, orderTypeOption, customerOption, deliveryTypeOption } from '@/utils/order/index'
-const { getAllList, tableData, loading, searchForm, pagination, getOrderInfoById, orderInfo, replyRemind, printOder, handleOrder, notifyCollect, noticeStoreOrder, message, resetAssignOrder, finishSendOrder, arbitratingOrder, overruleRefund, agreeRefund, rejectRefund } = usePlatformOrder()
+const { getAllList, tableData, loading, searchForm, pagination, getOrderInfoById, orderInfo, replyRemind, printOder, handleOrder, notifyCollect, readyOk, noticeStoreOrder, message, resetAssignOrder, finishSendOrder, arbitratingOrder, overruleRefund, agreeRefund, rejectRefund } = usePlatformOrder()
 const { storeSelectList, allStore } = usePlatformStore()
 const { selectRiderList, allRider } = usePlatformRider()
 const searchType = ref()
@@ -179,6 +179,16 @@ const orderCallBack = async (action: orderAction, orderInfo: order.orderInfo) =>
         modalObj.show = false
         modalObj.title = '温馨提示'
         modalObj.content = '您确定要通知配送员抢单吗?'
+        order.value = orderInfo
+        modalObj.open = true
+        return
+    }
+    // 通知出餐
+    if (action == 'readyOk') {
+        orderAction.value = action
+        modalObj.show = false
+        modalObj.title = '温馨提示'
+        modalObj.content = '您确定堂食已出餐吗?'
         order.value = orderInfo
         modalObj.open = true
         return
@@ -293,6 +303,12 @@ const submitConfirm = async () => {
     // 平台接单
     if (orderAction.value == 'handleOrder') {
         await handleOrder(order.value!.id)
+        modalObj.open = false
+    }
+
+    // 堂食已出餐
+    if (orderAction.value == 'readyOk') {
+        await readyOk(order.value!.id)
         modalObj.open = false
     }
 

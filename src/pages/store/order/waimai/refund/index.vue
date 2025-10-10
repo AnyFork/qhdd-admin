@@ -75,7 +75,7 @@
 
 <script setup lang="ts">
 import { activityTypeOptions, refundOption, orderTypeOption, customerOption, deliveryTypeOption } from '@/utils/order/index'
-const { getAllList, tableData, loading, searchForm, pagination, getOrderInfoById, orderInfo, replyRemind, printOder, handleOrder, notifyCollect, message, arbitratingOrder, agreeRefund, rejectRefund } = useStoreOrder()
+const { getAllList, tableData, loading, searchForm, pagination, getOrderInfoById, orderInfo, replyRemind, printOder, handleOrder, notifyCollect, readyOk, message, arbitratingOrder, agreeRefund, rejectRefund } = useStoreOrder()
 const { selectRiderList, allRider } = usePlatformRider()
 const searchType = ref()
 //通用modal弹框
@@ -162,6 +162,16 @@ const orderCallBack = async (action: orderAction, orderInfo: order.orderInfo) =>
         modalObj.open = true
         return
     }
+    // 通知出餐
+    if (action == 'readyOk') {
+        orderAction.value = action
+        modalObj.show = false
+        modalObj.title = '温馨提示'
+        modalObj.content = '您确定堂食已出餐吗?'
+        order.value = orderInfo
+        modalObj.open = true
+        return
+    }
 }
 /**
  * 商户退款操作回调
@@ -226,6 +236,12 @@ const submitConfirm = async () => {
     // 商户接单
     if (orderAction.value == 'handleOrder') {
         await handleOrder(order.value!.id)
+        modalObj.open = false
+    }
+
+    // 堂食已出餐
+    if (orderAction.value == 'readyOk') {
+        await readyOk(order.value!.id)
         modalObj.open = false
     }
 

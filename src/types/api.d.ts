@@ -4,7 +4,7 @@
  * arbitratingOrder=介入退单纠纷 overruleRefund=驳回申请 agreeRefund=同意退款 rejectRefund=拒绝退款
  */
 type orderAction = 'replyRemind' | 'updateOrder' | 'printOrder' | 'cancelOrder' | 'orderInfo' | 'handleOrder' | 'noticeOrder' | 'noticeStoreOrder' | 'assignOrder' | 'resetAssignOrder' | 'assignOrderAgain' | 'finishOrder'
-    | 'arbitratingOrder' | 'overruleRefund' | 'agreeRefund' | 'rejectRefund'
+    | 'arbitratingOrder' | 'overruleRefund' | 'agreeRefund' | 'rejectRefund' | 'readyOk'
 
 /** 后端返回的用户权益相关类型 */
 declare namespace ApiAuth {

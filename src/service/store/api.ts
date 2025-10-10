@@ -108,6 +108,11 @@ export const printOderInfoApi = "/order/print"
 export const notifyCollectInfoApi = "/order/store/notifyCollect"
 
 /**
+ *商家确认已出餐
+ */
+export const storeReadyOkInfoApi = "/order/store/goodsReady"
+
+/**
  * 商户与顾客退款沟通
  */
 export const chatWithRefundInfoApi = "/orderRefund/consult"

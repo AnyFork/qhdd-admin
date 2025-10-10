@@ -1,5 +1,5 @@
 import qs from 'qs'
-import { searchAllOrdersInfoApi, replyRemindInfoApi, updateOrderInfoApi, printOderInfoApi, cancelOrderInfoApi, getOrderInfoByIdInfoApi, handleOrderInfoApi, notifyCollectInfoApi, noticeStoreOrderInfoApi, assignOrderInfoApi, resetAssignOrderInfoApi, finishSendOrderInfoApi, arbitratingOrderInfoApi, overruleRefundInfoApi, agreeRefundInfoApi, rejectRefundInfoApi, exportOrderInfoApi } from '../api'
+import { searchAllOrdersInfoApi, replyRemindInfoApi, updateOrderInfoApi, printOderInfoApi, cancelOrderInfoApi, getOrderInfoByIdInfoApi, handleOrderInfoApi, notifyCollectInfoApi, noticeStoreOrderInfoApi, assignOrderInfoApi, resetAssignOrderInfoApi, finishSendOrderInfoApi, arbitratingOrderInfoApi, overruleRefundInfoApi, agreeRefundInfoApi, rejectRefundInfoApi, exportOrderInfoApi, readyOkInfoApi } from '../api'
 import { todayStatInfoApi, historyStatInfoApi } from '../../store/api'
 /**
  * 获取所有订单信息
@@ -49,6 +49,12 @@ export const handleOrderInfo = async (orderId: number) => await platformAxios.po
  * @returns 
  */
 export const notifyCollectInfo = async (orderId: number) => await platformAxios.post(`${notifyCollectInfoApi}`, { id: orderId })
+
+/**
+ * 平台确认出餐
+ * @returns 
+ */
+export const readyOkInfo = async (orderId: number) => await platformAxios.post(`${readyOkInfoApi}`, { id: orderId })
 
 
 /**

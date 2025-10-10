@@ -14,7 +14,7 @@
                     <span class="pl-6 pr-2" :style="{ color: dynamicColor }">{{ transformTimestampsToDateString(order.deliverytime, 'YYYY-MM-DD') }}</span>
                     <span class="pr-2" :style="{ color: dynamicColor }">{{ order.deliveryTime }}</span>
                     <div class="px-2 ml-4 text-white rounded flex items-center justify-center" :style="{ backgroundColor: dynamicColor }">{{ order.deliveryType == 0 ? '堂食单' : order.deliveryType == 1 ? '自取单' : '外卖单' }}</div>
-                </div> 
+                </div>
             </div>
             <!--订单费用状态-->
             <div class="absolute right-80">
@@ -81,7 +81,7 @@
                     </div>
                 </n-gi>
                 <n-gi>
-                    <div v-if="order.deliveryer&&order.deliveryType == 2">
+                    <div v-if="order.deliveryer && order.deliveryType == 2">
                         <div>
                             <span class="px-2 py-1 rounded text-#fff mr-2" :style="{ backgroundColor: dynamicColor }">配送</span>
                             <span class="font-700 text-20px pr-2">{{ order.deliveryer?.title }}</span>
@@ -339,8 +339,9 @@
                 <n-button v-if="order.status == 1 && order.isPay == 1" :color="dynamicColor" @click="emit('callBack', 'handleOrder', order)"> 接受订单 </n-button>
                 <n-button v-if="order.status == 1 && order.isPay == 1" :color="dynamicColor" @click="emit('callBack', 'noticeStoreOrder', order)"> 通知商家接单 </n-button>
                 <n-button v-if="order.isRemind == 1" :color="dynamicColor" @click="emit('callBack', 'replyRemind', order)"> 回复催单 </n-button>
-                <n-button v-if="order.status == 2" :color="dynamicColor" @click="emit('callBack', 'noticeOrder', order)"> 通知配送员抢单 </n-button>
-                <n-button v-if="order.status == 2 || order.status == 3" :color="dynamicColor" @click="emit('callBack', 'assignOrder', order)"> 调度骑手接单 </n-button>
+                <n-button v-if="order.status == 2 && order.deliveryType == 2" :color="dynamicColor" @click="emit('callBack', 'noticeOrder', order)"> 通知配送员抢单 </n-button>
+                <n-button v-if="order.status == 2 && order.deliveryType == 0" :color="dynamicColor" @click="emit('callBack', 'readyOk', order)"> 通知出餐 </n-button>
+                <n-button v-if="(order.status == 2 || order.status == 3) && order.deliveryType == 2" :color="dynamicColor" @click="emit('callBack', 'assignOrder', order)"> 调度骑手接单 </n-button>
                 <n-button v-if="(order.status == 3 || order.status == 4) && order.deliveryer" :color="dynamicColor" @click="emit('callBack', 'resetAssignOrder', order)"> 将订单重新放入待抢订单列表 </n-button>
                 <n-button v-if="(order.status == 3 || order.status == 4) && order.deliveryer" :color="dynamicColor" @click="emit('callBack', 'assignOrderAgain', order)"> 重新调度骑手 </n-button>
                 <n-button v-if="order.status == 4" :color="dynamicColor" @click="emit('callBack', 'finishOrder', order)"> 完成订单 </n-button>

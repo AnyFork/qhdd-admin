@@ -1,4 +1,4 @@
-import { chatWithRefundInfo, historyStatInfo, searchAllStoreOrdersInfo, storeAgreeRefundInfo, storeCancelOrderInfo, storeGetOrderInfoByIdInfo, storeHandleOrderInfo, storeNotifyCollectInfo, storePrintOderInfo, storeRejectRefundInfo, storeReplyRemindInfo, todayStatInfo } from "@/service/store/order"
+import { chatWithRefundInfo, historyStatInfo, searchAllStoreOrdersInfo, storeAgreeRefundInfo, storeCancelOrderInfo, storeGetOrderInfoByIdInfo, storeHandleOrderInfo, storeNotifyCollectInfo, storePrintOderInfo, storeReadyOkInfo, storeRejectRefundInfo, storeReplyRemindInfo, todayStatInfo } from "@/service/store/order"
 
 /**
  * 订单模块
@@ -238,6 +238,26 @@ export const useStoreOrder = () => {
     }
 
     /**
+     * 商户确认已出餐
+     */
+    const readyOk = async (orderId: number) => {
+        try {
+            loading.value = true
+            const { data } = await storeReadyOkInfo(orderId, sid.value!)
+            loading.value = false
+            if (data.code == 200) {
+                message.success("出餐成功!")
+            } else {
+                message.error(data.msg)
+            }
+        } catch (e: any) {
+            loading.value = false
+            message.error(e.message as string)
+            console.log(e)
+        }
+    }
+
+    /**
      * 商户顾客进行协商
      */
     const arbitratingOrder = async (refundId: number, note: string) => {
@@ -341,7 +361,7 @@ export const useStoreOrder = () => {
 
     return {
         getAllList, tableData, loading, message, searchForm, pagination, replyRemind, todayStat, todayStatData, historyStat, historyStatData,
-        printOder, cancelOrder, getOrderInfoById, orderInfo, handleOrder, notifyCollect, arbitratingOrder, agreeRefund, rejectRefund
+        printOder, cancelOrder, getOrderInfoById, orderInfo, handleOrder, notifyCollect, arbitratingOrder, agreeRefund, rejectRefund, readyOk
     }
 
 }
