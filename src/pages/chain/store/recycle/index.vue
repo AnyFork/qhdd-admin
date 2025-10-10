@@ -40,7 +40,7 @@ const tableHeight = computed(() => height.value - 417)
  */
 const types = [
     {
-        label: '外卖',
+        label: '餐饮',
         value: 1
     },
     {

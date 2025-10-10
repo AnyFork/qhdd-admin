@@ -214,7 +214,7 @@ export const usePlatformStore = () => {
             align: 'center',
             key: 'isWaimai',
             render: (rowData, _index: number) => {
-                return h(NTag, { type: rowData.isWaimai == 1 ? "primary" : "warning" }, { default: () => rowData.isWaimai == 1 ? "外卖" : "商超" })
+                return h(NTag, { type: rowData.isWaimai == 1 ? "primary" : "warning" }, { default: () => rowData.isWaimai == 1 ? "餐饮" : "商超" })
             }
         },
         {

@@ -17,7 +17,7 @@
                 <n-form-item show-require-mark label="门店类型">
                     <n-radio-group v-model:value="moduleValue.isWaimai">
                         <n-space>
-                            <n-radio :value="1">外卖</n-radio>
+                            <n-radio :value="1">餐饮</n-radio>
                             <n-radio :value="2">商超</n-radio>
                         </n-space>
                     </n-radio-group>

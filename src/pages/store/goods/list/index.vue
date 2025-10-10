@@ -9,9 +9,6 @@
         <n-form-item label="上架状态" label-placement="left" :show-feedback="false" :size="size">
             <n-select v-model:value="searchForm.status" :options="status" placeholder="请选择上架状态" clearable class="!w-180px" />
         </n-form-item>
-        <n-form-item label="商品类型" label-placement="left" :show-feedback="false" :size="size">
-            <n-select v-model:value="searchForm.type" :options="goodsType" placeholder="请选商品类型" clearable class="!w-180px" />
-        </n-form-item>
         <div style="display: flex; justify-content: flex-end">
             <n-button round type="primary" :size="size" @click="searchData">查询</n-button>
         </div>
@@ -39,24 +36,6 @@ const { goodsListData, pagination, tableData, loading, columns, CreateShow, sear
 const { height } = useWindowSize()
 // 表格高度
 const tableHeight = computed(() => height.value - 390)
-/**
- * 商品类型
- */
-const goodsType = [
-    {
-        label: '外卖',
-        value: 1
-    },
-    {
-        label: '店内',
-        value: 2
-    },
-    {
-        label: '外卖+店内',
-        value: 3
-    }
-]
-
 /**
  * 显示状态
  */

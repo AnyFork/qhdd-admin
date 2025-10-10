@@ -27,14 +27,6 @@
                         <p class="py-1 text-#999 text-14px">最多不超过14个字, 留空则不显示</p>
                     </div>
                 </n-form-item>
-                <n-form-item label="商品类型">
-                    <n-radio-group v-model:value="moduleValue.type">
-                        <n-space>
-                            <n-radio :key="1" :value="1">外卖</n-radio>
-                            <n-radio :key="2" :value="2"> 商超</n-radio>
-                        </n-space>
-                    </n-radio-group>
-                </n-form-item>
                 <div class="mb-2 flex items-center text-18px font-600 before:content-[''] before:w-5px before:h-20px before:bg-primary before:inline-flex before:mr-2">售卖信息</div>
                 <n-form-item label="外卖现价">
                     <n-input-number v-model:value="moduleValue.price" :min="0" :precision="2" clearable placeholder="请输入外卖现价">
@@ -263,7 +255,6 @@ const submitCallback = (e: MouseEvent) => {
                 cid,
                 thumb,
                 recommendReason,
-                type,
                 price,
                 oldPrice,
                 boxPrice,
@@ -306,7 +297,6 @@ const submitCallback = (e: MouseEvent) => {
                 cid,
                 thumb,
                 recommendReason,
-                type,
                 price,
                 oldPrice,
                 boxPrice,
@@ -412,7 +402,6 @@ onMounted(() => {
     moduleValue.cid = props.data.cid
     moduleValue.thumb = props.data.thumb
     moduleValue.recommendReason = props.data.recommendReason
-    moduleValue.type = props.data.type
     moduleValue.price = Number(props.data.price)
     moduleValue.oldPrice = Number(props.data.oldPrice)
     moduleValue.boxPrice = Number(props.data.boxPrice)

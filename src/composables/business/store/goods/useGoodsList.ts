@@ -1,6 +1,6 @@
 
 import { addGoods, goodsList, removeGoods, updateGoods } from '@/service/store/goods/goods'
-import { DataTableColumns, FormInst, FormItemRule, NButton, NImage, NPopover, NSwitch, NTag } from 'naive-ui'
+import { DataTableColumns, FormInst, FormItemRule, NButton, NImage, NPopover, NSwitch } from 'naive-ui'
 import InputNumberColumn from '@/components/dynamic/InputNumberColumn.vue'
 
 /**
@@ -211,23 +211,23 @@ export const useStoreGoods = () => {
             align: 'center',
             key: 'sailed'
         },
-        {
-            title: "商品类型",
-            width: 140,
-            align: 'center',
-            key: 'type',
-            render(rowData, _rowIndex) {
-                if (rowData.type === 1) {
-                    return h(NTag, { type: "primary" }, { default: () => "仅外卖" })
-                }
-                if (rowData.type === 2) {
-                    return h(NTag, { type: "primary" }, { default: () => "仅店内" })
-                }
-                if (rowData.type === 3) {
-                    return h(NTag, { type: "primary" }, { default: () => "外卖 + 店内" })
-                }
-            },
-        },
+        // {
+        //     title: "商品类型",
+        //     width: 140,
+        //     align: 'center',
+        //     key: 'type',
+        //     render(rowData, _rowIndex) {
+        //         if (rowData.type === 1) {
+        //             return h(NTag, { type: "primary" }, { default: () => "仅外卖" })
+        //         }
+        //         if (rowData.type === 2) {
+        //             return h(NTag, { type: "primary" }, { default: () => "仅店内" })
+        //         }
+        //         if (rowData.type === 3) {
+        //             return h(NTag, { type: "primary" }, { default: () => "外卖 + 店内" })
+        //         }
+        //     },
+        // },
         {
             title: "商品分类",
             width: 120,
